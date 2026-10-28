@@ -82,3 +82,12 @@ export function matchInvestors(profile: PitchProfile, investors: Investor[]): Ma
     .map((v) => scoreInvestor(profile, v))
     .sort((a, b) => b.score - a.score || a.investor.name.localeCompare(b.investor.name));
 }
+
+export type ScoreTier = "strong" | "good" | "fair" | "weak";
+
+export function scoreTier(score: number): ScoreTier {
+  if (score >= 80) return "strong";
+  if (score >= 60) return "good";
+  if (score >= 40) return "fair";
+  return "weak";
+}

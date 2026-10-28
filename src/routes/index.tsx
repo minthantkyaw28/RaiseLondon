@@ -1,18 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ChevronDown, Search, SlidersHorizontal } from "lucide-react";
+import { ChevronDown, Search, SlidersHorizontal, X } from "lucide-react";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { InvestorDetail } from "@/components/vc-map/InvestorDetail";
 import { PIPELINE, type PipelineStatus } from "@/components/vc-map/pipeline";
 import { MAP_VIEWS, type MapViewId } from "@/components/vc-map/map-styles";
 import { PitchMatcher } from "@/components/vc-map/PitchMatcher";
+import { ScoreBadge } from "@/components/vc-map/ScoreBadge";
 import { VcMap } from "@/components/vc-map/VcMap";
 import { loadDataset } from "@/data/source";
 import type { Sector, Stage } from "@/data/types";
 import { summarizeReviews } from "@/lib/ratings";
 import { SECTOR_LABEL, STAGE_LABEL } from "@/lib/labels";
+import type { Match } from "@/lib/match";
 import { cn } from "@/lib/utils";
 
 const TITLE = "Raise";
@@ -111,6 +114,7 @@ function Index() {
   const [sectors, setSectors] = useState<Sector[]>([]);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [pitchMatches, setPitchMatches] = useState<Match[] | null>(null);
   const [pipeline, setStatus] = usePipeline();
   const [view, setView] = useMapView();
 
@@ -147,97 +151,142 @@ function Index() {
         </div>
         <div className="flex items-center gap-2">
           {dataset.source === "mock" && <Badge variant="outline">Mock data</Badge>}
-          <PitchMatcher investors={investors} onSelect={setSelectedId} />
+          <PitchMatcher
+            investors={investors}
+            onSelect={setSelectedId}
+            onResults={setPitchMatches}
+          />
         </div>
       </header>
 
       <div className="relative flex min-h-0 flex-1 flex-col md:flex-row">
         <aside className="order-2 flex min-h-0 flex-1 flex-col border-t md:order-1 md:w-[380px] md:flex-none md:border-r md:border-t-0">
-          <div className="space-y-4 border-b p-4">
-            <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                placeholder="Firm, partner, portfolio company…"
-                className="pl-8"
-              />
-            </div>
-            <button
-              onClick={() => setFiltersOpen(!filtersOpen)}
-              aria-expanded={filtersOpen}
-              className="flex w-full items-center justify-between rounded-md bg-muted px-3 py-2 text-sm font-medium md:hidden"
-            >
-              <span className="flex items-center gap-2">
-                <SlidersHorizontal className="h-4 w-4" /> Filters
-                {stages.length + sectors.length > 0 && (
-                  <span className="rounded-full bg-primary px-1.5 text-xs text-primary-foreground">
-                    {stages.length + sectors.length}
-                  </span>
-                )}
-              </span>
-              <ChevronDown
-                className={cn("h-4 w-4 transition-transform", filtersOpen && "rotate-180")}
-              />
-            </button>
-            <div className={cn("space-y-4", !filtersOpen && "hidden md:block")}>
-              <FilterGroup label="Stage">
-                <ChipRow
-                  items={STAGES}
-                  labels={STAGE_LABEL}
-                  active={stages}
-                  onToggle={(s) => setStages(toggle(stages, s))}
-                />
-              </FilterGroup>
-              <FilterGroup label="Sector">
-                <ChipRow
-                  items={SECTORS}
-                  labels={SECTOR_LABEL}
-                  active={sectors}
-                  onToggle={(s) => setSectors(toggle(sectors, s))}
-                />
-              </FilterGroup>
-            </div>
-          </div>
-          <ul className="min-h-0 flex-1 overflow-y-auto">
-            {filtered.map((v) => {
-              const rating = summarizeReviews(reviewsById.get(v.id) ?? []).overall;
-              const status = pipeline[v.id];
-              return (
-                <li key={v.id}>
-                  <button
-                    onClick={() => setSelectedId(v.id)}
-                    className={cn(
-                      "w-full border-b px-4 py-3 text-left hover:bg-accent",
-                      selectedId === v.id && "bg-accent",
+          {pitchMatches ? (
+            <>
+              <div className="flex items-center justify-between gap-3 border-b p-4">
+                <div>
+                  <p className="text-sm font-semibold">Matched to your pitch</p>
+                  <p className="text-xs text-muted-foreground">
+                    Top {pitchMatches.length} of {investors.length} investors
+                  </p>
+                </div>
+                <Button size="sm" variant="outline" onClick={() => setPitchMatches(null)}>
+                  <X className="h-4 w-4" /> Clear
+                </Button>
+              </div>
+              <ol className="min-h-0 flex-1 overflow-y-auto">
+                {pitchMatches.map((m) => (
+                  <li key={m.investor.id}>
+                    <button
+                      onClick={() => setSelectedId(m.investor.id)}
+                      className={cn(
+                        "w-full border-b px-4 py-3 text-left hover:bg-accent",
+                        selectedId === m.investor.id && "bg-accent",
+                      )}
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-medium">{m.investor.name}</span>
+                        <ScoreBadge score={m.score} />
+                      </div>
+                      <p className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">
+                        {m.reasons.join(" · ") || m.misses[0]}
+                      </p>
+                    </button>
+                  </li>
+                ))}
+              </ol>
+            </>
+          ) : (
+            <>
+              <div className="space-y-4 border-b p-4">
+                <div className="relative">
+                  <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    value={q}
+                    onChange={(e) => setQ(e.target.value)}
+                    placeholder="Firm, partner, portfolio company…"
+                    className="pl-8"
+                  />
+                </div>
+                <button
+                  onClick={() => setFiltersOpen(!filtersOpen)}
+                  aria-expanded={filtersOpen}
+                  className="flex w-full items-center justify-between rounded-md bg-muted px-3 py-2 text-sm font-medium md:hidden"
+                >
+                  <span className="flex items-center gap-2">
+                    <SlidersHorizontal className="h-4 w-4" /> Filters
+                    {stages.length + sectors.length > 0 && (
+                      <span className="rounded-full bg-primary px-1.5 text-xs text-primary-foreground">
+                        {stages.length + sectors.length}
+                      </span>
                     )}
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="font-medium">{v.name}</span>
-                      {rating !== null && (
-                        <span className="text-xs tabular-nums text-muted-foreground">
-                          ★ {rating}
-                        </span>
-                      )}
-                    </div>
-                    <p className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">
-                      {v.oneLiner}
-                    </p>
-                    <div className="mt-1.5 flex flex-wrap gap-1">
-                      {status && status !== "none" && (
-                        <Badge variant="secondary">
-                          {PIPELINE.find((p) => p.key === status)?.label}
-                        </Badge>
-                      )}
-                    </div>
-                  </button>
-                </li>
-              );
-            })}
-            {filtered.length === 0 && (
-              <li className="p-6 text-center text-sm text-muted-foreground">No investors match.</li>
-            )}
-          </ul>
+                  </span>
+                  <ChevronDown
+                    className={cn("h-4 w-4 transition-transform", filtersOpen && "rotate-180")}
+                  />
+                </button>
+                <div className={cn("space-y-4", !filtersOpen && "hidden md:block")}>
+                  <FilterGroup label="Stage">
+                    <ChipRow
+                      items={STAGES}
+                      labels={STAGE_LABEL}
+                      active={stages}
+                      onToggle={(s) => setStages(toggle(stages, s))}
+                    />
+                  </FilterGroup>
+                  <FilterGroup label="Sector">
+                    <ChipRow
+                      items={SECTORS}
+                      labels={SECTOR_LABEL}
+                      active={sectors}
+                      onToggle={(s) => setSectors(toggle(sectors, s))}
+                    />
+                  </FilterGroup>
+                </div>
+              </div>
+              <ul className="min-h-0 flex-1 overflow-y-auto">
+                {filtered.map((v) => {
+                  const rating = summarizeReviews(reviewsById.get(v.id) ?? []).overall;
+                  const status = pipeline[v.id];
+                  return (
+                    <li key={v.id}>
+                      <button
+                        onClick={() => setSelectedId(v.id)}
+                        className={cn(
+                          "w-full border-b px-4 py-3 text-left hover:bg-accent",
+                          selectedId === v.id && "bg-accent",
+                        )}
+                      >
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="font-medium">{v.name}</span>
+                          {rating !== null && (
+                            <span className="text-xs tabular-nums text-muted-foreground">
+                              ★ {rating}
+                            </span>
+                          )}
+                        </div>
+                        <p className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">
+                          {v.oneLiner}
+                        </p>
+                        <div className="mt-1.5 flex flex-wrap gap-1">
+                          {status && status !== "none" && (
+                            <Badge variant="secondary">
+                              {PIPELINE.find((p) => p.key === status)?.label}
+                            </Badge>
+                          )}
+                        </div>
+                      </button>
+                    </li>
+                  );
+                })}
+                {filtered.length === 0 && (
+                  <li className="p-6 text-center text-sm text-muted-foreground">
+                    No investors match.
+                  </li>
+                )}
+              </ul>
+            </>
+          )}
         </aside>
 
         <main className="relative order-1 h-[42vh] md:order-2 md:h-auto md:flex-1">
@@ -263,7 +312,7 @@ function Index() {
           </div>
           <VcMap
             view={view}
-            investors={filtered}
+            investors={pitchMatches ? pitchMatches.map((m) => m.investor) : filtered}
             selectedId={selectedId}
             onSelect={setSelectedId}
           />

@@ -29,6 +29,8 @@ import {
 } from "@/lib/recording";
 import { transcribePitch } from "@/lib/transcribe.functions";
 
+import { ScoreBadge } from "./ScoreBadge";
+
 const TOP_N = 8;
 
 type Phase = "idle" | "recording" | "transcribing";
@@ -36,9 +38,10 @@ type Phase = "idle" | "recording" | "transcribing";
 interface Props {
   investors: Investor[];
   onSelect: (id: string) => void;
+  onResults: (matches: Match[]) => void;
 }
 
-export function PitchMatcher({ investors, onSelect }: Props) {
+export function PitchMatcher({ investors, onSelect, onResults }: Props) {
   const [open, setOpen] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [phase, setPhase] = useState<Phase>("idle");
@@ -158,7 +161,9 @@ export function PitchMatcher({ investors, onSelect }: Props) {
 
   const findMatches = () => {
     const profile = extractProfile(transcript);
-    setResult({ profile, matches: matchInvestors(profile, investors).slice(0, TOP_N) });
+    const matches = matchInvestors(profile, investors).slice(0, TOP_N);
+    setResult({ profile, matches });
+    onResults(matches);
   };
 
   const handleOpenChange = (next: boolean) => {
@@ -218,10 +223,7 @@ export function PitchMatcher({ investors, onSelect }: Props) {
             placeholder="We're two technical co-founders building AI agents for payments teams. 300 users on the waitlist, raising £750k pre-seed."
             className="min-h-[120px]"
           />
-          <div className="flex items-center justify-between gap-3">
-            <p className="text-xs text-muted-foreground">
-              Raise doesn't store your pitch. Recordings are transcribed by ElevenLabs and not kept.
-            </p>
+          <div className="flex justify-end">
             <Button size="sm" onClick={findMatches} disabled={!transcript.trim()}>
               Find my VCs
             </Button>
@@ -242,7 +244,7 @@ export function PitchMatcher({ investors, onSelect }: Props) {
                       <span className="flex items-center gap-1.5 font-medium">
                         {m.investor.name}
                       </span>
-                      <span className="font-pixel text-sm tabular-nums">{m.score}</span>
+                      <ScoreBadge score={m.score} />
                     </div>
                     <ul className="mt-1.5 space-y-0.5 text-xs">
                       {m.reasons.map((r) => (
