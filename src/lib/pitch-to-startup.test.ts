@@ -8,6 +8,7 @@ import { matchInvestors } from "./match";
 import { extractProfile, type PitchProfile } from "./pitch-profile";
 import {
   DEALROOM_TERMS,
+  GENERALIST_POINTS,
   parseRevenue,
   pitchToStartup,
   rankPitch,
@@ -180,6 +181,42 @@ describe("rankPitch", () => {
 
   it("returns every investor once", () => {
     expect(rankPitch(pitch, "", [insurer, saas, neither])).toHaveLength(3);
+  });
+});
+
+describe("generalists", () => {
+  const generalist = investor({ uuid: "gen", name: "Any Sector Fund", sectors: [] });
+  const specialist = investor({ uuid: "ins", name: "Insurer", sectors: ["Insurance"] });
+  const pitch = { ...empty, sectors: ["fintech"] as Sector[] };
+
+  it("gives a generalist Min's partial sector credit in place of the miss", () => {
+    const plain = rankPitch(pitch, "", [generalist]);
+    const credited = rankPitch(pitch, "", [generalist], new Set(["gen"]));
+    expect(GENERALIST_POINTS).toBe(18);
+    expect(credited[0]!.score - plain[0]!.score).toBe(GENERALIST_POINTS);
+    expect(credited[0]!.reasons).toContain("Generalist investor.");
+    expect(credited[0]!.reasons.some((r) => r.startsWith("No sector overlap"))).toBe(false);
+  });
+
+  it("leaves a generalist that already overlaps on sector, and a pitch with no sector, alone", () => {
+    const tagged = investor({ uuid: "gen", name: "Any Sector Fund", sectors: ["Fintech"] });
+    expect(rankPitch(pitch, "", [tagged], new Set(["gen"]))).toEqual(
+      rankPitch(pitch, "", [tagged]),
+    );
+    expect(rankPitch(empty, "", [generalist], new Set(["gen"]))).toEqual(
+      rankPitch(empty, "", [generalist]),
+    );
+  });
+
+  it("flags generalists from our investors in matchInvestors, ranking below a full overlap", () => {
+    const matches = matchInvestors(
+      pitch,
+      [{ ...ours("gen", "Any Sector Fund"), generalist: true }, ours("ins", "Insurer")],
+      [generalist, specialist],
+    );
+    expect(matches.map((m) => m.investor.id)).toEqual(["ins", "gen"]);
+    expect(matches[1]!.reasons).toContain("Generalist investor.");
+    expect(matches[0]!.score - matches[1]!.score).toBe(40 - GENERALIST_POINTS);
   });
 });
 

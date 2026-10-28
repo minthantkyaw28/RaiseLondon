@@ -22,6 +22,14 @@ describe("home page dataset", () => {
     expect(ds.debriefs).toEqual([]);
   });
 
+  it("shows no corrupt Dealroom cheque, on the map or to the matcher", () => {
+    for (const v of ds.investors) {
+      expect(v.checkSizeGbp.max).toBeLessThanOrEqual(500_000_000);
+      expect(v.checkSizeGbp.max).toBeGreaterThanOrEqual(1_000);
+    }
+    expect((ds.scoring ?? []).filter((r) => (r.chequeMax ?? 0) > 500_000_000)).toEqual([]);
+  });
+
   it("puts every pin inside Greater London", () => {
     for (const v of ds.investors) {
       expect(v.lat).toBeGreaterThan(51.28);
