@@ -178,7 +178,17 @@ function roadLayers(look: Look): LayerSpecification[] {
   ];
 }
 
-export function buildStyle(view: MapView): StyleSpecification {
+export type StylePart = "base" | "labels";
+
+// The base can be drawn at low resolution for the pixel look; labels sit on a full-resolution
+// map stacked on top so text stays sharp.
+export function buildStyle(view: MapView, part: StylePart): StyleSpecification {
+  const style = buildFullStyle(view);
+  const isLabel = (l: LayerSpecification) => l.type === "symbol";
+  return { ...style, layers: style.layers.filter((l) => (part === "labels") === isLabel(l)) };
+}
+
+function buildFullStyle(view: MapView): StyleSpecification {
   const { look } = view;
   return {
     version: 8,

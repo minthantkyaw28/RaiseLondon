@@ -4,6 +4,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?url";
 
 import type { Investor } from "@/data/types";
+import { cn } from "@/lib/utils";
 import { buildStyle, type MapView } from "./map-styles";
 
 const LONDON: [number, number] = [-0.11, 51.515];
@@ -93,7 +94,9 @@ function addInvestorLayers(m: MapLibreMap, data: ReturnType<typeof toGeoJSON>, v
 
 // maplibre touches `window` on import, so it is loaded inside the effect to keep SSR happy.
 export function VcMap({ investors, selectedId, warmIds, view, onSelect }: Props) {
+  const baseContainer = useRef<HTMLDivElement>(null);
   const container = useRef<HTMLDivElement>(null);
+  const baseMap = useRef<MapLibreMap | null>(null);
   const map = useRef<MapLibreMap | null>(null);
   const onSelectRef = useRef(onSelect);
   onSelectRef.current = onSelect;
@@ -104,21 +107,35 @@ export function VcMap({ investors, selectedId, warmIds, view, onSelect }: Props)
   useEffect(() => {
     let cancelled = false;
     import("maplibre-gl").then((maplibregl) => {
-      if (cancelled || !container.current) return;
+      if (cancelled || !container.current || !baseContainer.current) return;
       // Vite's dep pre-bundling moves maplibre away from its worker file, so point at it explicitly.
       maplibregl.setWorkerUrl(workerUrl);
-      const m = new maplibregl.Map({
-        container: container.current,
-        style: buildStyle(viewRef.current),
-        center: LONDON,
-        zoom: 13.2,
-        pitch: 55,
-        bearing: -30,
-        maxPitch: 60,
+      const camera = { center: LONDON, zoom: 13.2, pitch: 55, bearing: -30, maxPitch: 60 };
+      const base = new maplibregl.Map({
+        ...camera,
+        container: baseContainer.current,
+        style: buildStyle(viewRef.current, "base"),
         pixelRatio: viewRef.current.pixelRatio ?? window.devicePixelRatio,
+        interactive: false,
+        attributionControl: false,
+      });
+      const m = new maplibregl.Map({
+        ...camera,
+        container: container.current,
+        style: buildStyle(viewRef.current, "labels"),
         attributionControl: { compact: true },
       });
       m.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
+      m.on("move", () =>
+        base.jumpTo({
+          center: m.getCenter(),
+          zoom: m.getZoom(),
+          bearing: m.getBearing(),
+          pitch: m.getPitch(),
+        }),
+      );
+      m.on("resize", () => base.resize());
+      baseMap.current = base;
       map.current = m;
 
       m.on("style.load", () => addInvestorLayers(m, dataRef.current, viewRef.current));
@@ -145,7 +162,9 @@ export function VcMap({ investors, selectedId, warmIds, view, onSelect }: Props)
     return () => {
       cancelled = true;
       map.current?.remove();
+      baseMap.current?.remove();
       map.current = null;
+      baseMap.current = null;
     };
   }, []);
 
@@ -164,16 +183,20 @@ export function VcMap({ investors, selectedId, warmIds, view, onSelect }: Props)
   useEffect(() => {
     if (viewRef.current === view) return;
     viewRef.current = view;
-    const m = map.current;
-    if (!m) return;
-    m.setPixelRatio(view.pixelRatio ?? window.devicePixelRatio);
-    m.setStyle(buildStyle(view));
+    baseMap.current?.setPixelRatio(view.pixelRatio ?? window.devicePixelRatio);
+    baseMap.current?.setStyle(buildStyle(view, "base"));
+    map.current?.setStyle(buildStyle(view, "labels"));
   }, [view]);
 
+  // maplibre forces position: relative on its container, so each map sits inside its own layer.
   return (
-    <div
-      ref={container}
-      className={view.pixelRatio ? "pixel-map h-full w-full" : "h-full w-full"}
-    />
+    <div className="relative h-full w-full">
+      <div aria-hidden className={cn("absolute inset-0", view.pixelRatio && "pixel-map")}>
+        <div ref={baseContainer} className="h-full w-full" />
+      </div>
+      <div className="absolute inset-0">
+        <div ref={container} className="h-full w-full" />
+      </div>
+    </div>
   );
 }
