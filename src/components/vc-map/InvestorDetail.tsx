@@ -2,9 +2,14 @@ import { BadgeCheck, ExternalLink, MapPin, X } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { Investor, Review } from "@/data/types";
-import { SECTOR_LABEL, STAGE_LABEL } from "@/lib/labels";
+import { dataset } from "@/data/source";
+import type { Debrief, Investor, MeetingOutcome, Review } from "@/data/types";
+import { MIN_DEBRIEFS_TO_SHOW, summarizeDebriefs } from "@/lib/debriefs";
+import { OUTCOME_LABEL, PICKY_LABEL, REASON_LABEL, SECTOR_LABEL, STAGE_LABEL } from "@/lib/labels";
 import { DIMENSIONS, summarizeReviews } from "@/lib/ratings";
+import { useDebriefs } from "@/lib/use-debriefs";
+import { cn } from "@/lib/utils";
+import { DebriefForm } from "./DebriefForm";
 import { PIPELINE, type PipelineStatus } from "./pipeline";
 
 interface Props {
@@ -19,6 +24,10 @@ const gbp = (n: number) => (n >= 1_000_000 ? `£${n / 1_000_000}m` : `£${n / 10
 
 export function InvestorDetail({ investor, reviews, status, onStatus, onClose }: Props) {
   const summary = summarizeReviews(reviews);
+  const [ownDebriefs, addDebrief] = useDebriefs();
+  const debriefs = [...dataset.debriefs, ...ownDebriefs].filter(
+    (d) => d.investorId === investor.id,
+  );
 
   return (
     <div className="flex h-full flex-col overflow-y-auto">
@@ -102,6 +111,15 @@ export function InvestorDetail({ investor, reviews, status, onStatus, onClose }:
         </ul>
       </section>
 
+      <div className="border-b p-5">
+        <WhatFoundersHeard
+          debriefs={debriefs}
+          investorId={investor.id}
+          investorName={investor.name}
+          onAdd={addDebrief}
+        />
+      </div>
+
       <section className="p-5">
         <div className="flex items-baseline justify-between">
           <h3 className="text-sm font-semibold">Founder ratings</h3>
@@ -113,8 +131,8 @@ export function InvestorDetail({ investor, reviews, status, onStatus, onClose }:
           )}
         </div>
         <p className="mt-1 text-xs text-muted-foreground">
-          {summary.count} reviews · {summary.verifiedCount} verified portfolio founders. Verified
-          reviews weigh more.
+          {summary.count} {summary.count === 1 ? "review" : "reviews"} · {summary.verifiedCount}{" "}
+          verified portfolio founders. Verified reviews weigh more.
         </p>
         {summary.overall === null ? (
           <p className="mt-3 text-sm text-muted-foreground">No founder reviews yet.</p>
@@ -190,6 +208,103 @@ const reviewScore = (r: Review) => {
   const values = DIMENSIONS.map((d) => r.scores[d.key]);
   return Math.round((values.reduce((a, b) => a + b, 0) / values.length) * 10) / 10;
 };
+
+const OUTCOME_COLOR: Record<MeetingOutcome, string> = {
+  passed: "bg-chart-1",
+  "follow-up": "bg-chart-2",
+  "term-sheet": "bg-primary",
+  ghosted: "bg-muted-foreground/40",
+};
+
+function WhatFoundersHeard({
+  debriefs,
+  investorId,
+  investorName,
+  onAdd,
+}: {
+  debriefs: Debrief[];
+  investorId: string;
+  investorName: string;
+  onAdd: (d: Debrief) => void;
+}) {
+  const s = summarizeDebriefs(debriefs);
+  const outcomes = Object.keys(OUTCOME_LABEL) as MeetingOutcome[];
+
+  return (
+    <section>
+      <div className="flex items-center justify-between gap-3">
+        <h3 className="text-sm font-semibold">What founders heard</h3>
+        <DebriefForm investorId={investorId} investorName={investorName} onSave={onAdd} />
+      </div>
+      {s.count < MIN_DEBRIEFS_TO_SHOW ? (
+        <p className="mt-2 text-sm text-muted-foreground">
+          Not enough debriefs yet to show patterns ({s.count} of {MIN_DEBRIEFS_TO_SHOW}).
+        </p>
+      ) : (
+        <>
+          <p className="mt-1 text-xs text-muted-foreground">{s.count} meeting debriefs</p>
+          <div className="mt-3 flex h-2 overflow-hidden rounded-full bg-muted">
+            {outcomes.map((o) =>
+              s.outcomes[o] ? (
+                <div
+                  key={o}
+                  className={OUTCOME_COLOR[o]}
+                  style={{ width: `${(s.outcomes[o] / s.count) * 100}%` }}
+                />
+              ) : null,
+            )}
+          </div>
+          <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs">
+            {outcomes.map((o) => (
+              <li key={o} className="flex items-center gap-1.5">
+                <span className={cn("h-2 w-2 rounded-full", OUTCOME_COLOR[o])} />
+                <span className="text-muted-foreground">{OUTCOME_LABEL[o]}</span>
+                <span className="font-medium tabular-nums">{s.outcomes[o]}</span>
+              </li>
+            ))}
+          </ul>
+          {s.topReasons.length > 0 && (
+            <CountChips
+              title="Common reasons for a pass"
+              items={s.topReasons.map((r) => ({ label: REASON_LABEL[r.reason], count: r.count }))}
+            />
+          )}
+          {s.topPicky.length > 0 && (
+            <CountChips
+              title="Picky about"
+              items={s.topPicky.map((t) => ({ label: PICKY_LABEL[t.topic], count: t.count }))}
+            />
+          )}
+        </>
+      )}
+    </section>
+  );
+}
+
+function CountChips({
+  title,
+  items,
+}: {
+  title: string;
+  items: { label: string; count: number }[];
+}) {
+  return (
+    <div className="mt-3">
+      <p className="text-xs font-medium text-muted-foreground">{title}</p>
+      <div className="mt-1.5 flex flex-wrap gap-1.5">
+        {items.map((i) => (
+          <span
+            key={i.label}
+            className="inline-flex h-7 items-center gap-1.5 rounded-md bg-muted px-2.5 text-xs font-medium"
+          >
+            {i.label}
+            <span className="tabular-nums text-muted-foreground">{i.count}</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (

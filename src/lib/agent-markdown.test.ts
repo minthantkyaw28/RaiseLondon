@@ -42,6 +42,7 @@ const review = (id: string, verified: boolean, n: 1 | 5): Review => ({
 const dataset: Dataset = {
   generatedAt: "2026-10-28",
   source: "mock",
+  debriefs: [],
   investors: [
     investor({
       id: "inv_a",
