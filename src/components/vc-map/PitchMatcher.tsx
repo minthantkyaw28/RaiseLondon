@@ -55,6 +55,23 @@ interface Props {
   onSelect: (id: string) => void;
 }
 
+// Browser speech recognition fails in ways users can't act on from the raw codes.
+function speechErrorMessage(code: string): string {
+  switch (code) {
+    case "not-allowed":
+    case "service-not-allowed":
+      return "Microphone access was blocked. Allow the microphone for this site, or paste your pitch.";
+    case "network":
+      return "Your browser's speech service couldn't be reached. This happens in Brave, Arc, embedded previews and behind some VPNs. Open the app in its own Chrome tab, or paste your pitch.";
+    case "no-speech":
+      return "Didn't catch anything. Check your microphone and try again.";
+    case "audio-capture":
+      return "No microphone found. Plug one in, or paste your pitch.";
+    default:
+      return "Recording stopped. Try again, or paste your pitch.";
+  }
+}
+
 export function PitchMatcher({ investors, warmIds, onSelect }: Props) {
   const [open, setOpen] = useState(false);
   const [transcript, setTranscript] = useState("");
@@ -87,12 +104,7 @@ export function PitchMatcher({ investors, warmIds, onSelect }: Props) {
       const spoken = Array.from(e.results, (r) => r[0].transcript).join("");
       setTranscript([base, spoken.trim()].filter(Boolean).join(" "));
     };
-    rec.onerror = (e) =>
-      setMicError(
-        e.error === "not-allowed"
-          ? "Microphone access was blocked."
-          : `Recording stopped: ${e.error}`,
-      );
+    rec.onerror = (e) => setMicError(speechErrorMessage(e.error));
     rec.onend = () => {
       recognitionRef.current = null;
       setRecording(false);
