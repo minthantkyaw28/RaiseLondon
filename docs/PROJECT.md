@@ -49,6 +49,7 @@ Only London. Not a fundraising CRM, not live valuations.
   passed to `buildStyle`.
 - **Palette:** cream land, sky-blue water, bright greens, yellow main roads, peach buildings.
   Investor pins are one colour per view: orange-red in Pixel and Chalk, orange in Night.
+- **Map labels, like Google Maps:** firm names are plain bold text right of the pin, the busiest 15 from zoom 11, the next 50 from 12.5, the rest from 14; neighbourhoods are small, muted italic capitals.
 - **Fonts:** Host Grotesk for the UI (clean, not widely used) and Silkscreen for pixel touches
   (wordmark, map labels). Loaded from Google Fonts in `__root.tsx`.
 - Keep it clean: no gradients, no glow, no emoji. Bright colour lives on the map; the panels stay
