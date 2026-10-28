@@ -1,0 +1,122 @@
+# London VC Map — project reference
+
+## The idea
+
+Chasing VCs at events is tiring and random. London VC Map is a live database of every London
+investor on a map. It tells you, for each one, **how you can get a warm intro** through people you
+already know, and **what founders who took their money say about them**.
+
+Three pillars:
+
+1. **Map + directory**: every London investor (VC, CVC, angel network, accelerator) pinned at
+   their office, filterable by stage, sector and cheque size.
+2. **Warm intro paths**: given your network, show the shortest route to a partner:
+   `You → contact → partner` (1st degree) or `You → contact → contact → partner` (2nd degree).
+3. **Rate My VC**: founder ratings of investors, like Rate My Teachers, built so people can't
+   shitpost and the information stays trustworthy.
+
+Only London. Not a fundraising CRM, not live valuations.
+
+## Inspiration: londonstartupmap.com (reverse engineered 2026-10-28)
+
+| Thing      | What they do                                                                | What we copy                                                     |
+| ---------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Stack      | Next.js on Cloudflare (OpenNext), Mapbox GL                                 | Map + list layout; we use MapLibre + OpenFreeMap (no API key)    |
+| Data       | ~1,008 startups, Airtable records (`rec…` ids), embedded in the page        | One flat JSON dataset loaded at build time                       |
+| Pins       | Building-level only, never floor/unit; startups in one building share a pin | Same rule for investor offices                                   |
+| Clustering | Mapbox GeoJSON source clustering                                            | MapLibre GeoJSON clustering                                      |
+| Filters    | `q`, `stage`, `sector`, `events=1`, `yc=1`, `sort`                          | `q`, stage, sector, "warm intro only"                            |
+| Profile    | One-liner, founders, investors, address, upcoming Luma events               | One-liner, partners, portfolio, cheque size, warm paths, ratings |
+| Agents     | `llms.txt` and a `.md` version of every page                                | Later, cheap win                                                 |
+| Revenue    | £99/30 days sponsored card slots                                            | Later                                                            |
+
+## Data: Dealroom → JSON → Lovable
+
+The Dealroom API key must never reach Lovable or the browser. The flow is:
+
+1. **Min** pulls London investors from the Dealroom API with his key, on his machine.
+2. He maps the response into the `Dataset` shape in `src/data/types.ts` and writes it to a JSON
+   file in `src/data/` (for example `investors.json`).
+3. He changes the one import in `src/data/source.ts` from the mock file to the real file and
+   commits to `main`. GitHub syncs it to Lovable. That's the whole "port into Lovable" trick: the
+   data is just a file in the repo.
+
+When the data needs to refresh on a schedule, move it to a Supabase table (Lovable Cloud) filled by
+a scheduled job that holds the key server-side. Not needed for the prototype.
+
+### Dataset shape (`src/data/types.ts`)
+
+- `Investor`: name, type, one-liner, website, building-level address + lat/lng, stages, sectors,
+  cheque size (GBP), fund size, deals in the last 12 months, portfolio, partners.
+- `Partner`: name, title, LinkedIn, sector focus.
+- `Contact`: someone in _your_ network, how you know them, and the partner or contact ids they know.
+- `Review`: investor id, portfolio company, verified flag, four 1–5 scores, tags, date, and
+  optionally which of your contacts wrote it.
+
+The mock (`src/data/investors.mock.json`) holds **fictional** firms and people at real London
+locations: 28 investors, 18 contacts, 76 reviews. Never mix real firm names with made-up people
+or ratings.
+
+## Warm intros (`src/lib/warm-paths.ts`)
+
+- Search at most two hops through your contacts. Shortest path first.
+- 1st degree = ask directly. 2nd degree = needs a double intro; show both names.
+- Firms you can reach are orange on the map and sort to the top of the list.
+- Where the network comes from is open: LinkedIn export upload, manual entry, or each user adding
+  their own contacts. The prototype uses mock contacts.
+
+## Rate My VC: trust rules (`src/lib/ratings.ts`)
+
+The tension: founders need to speak honestly ("this guy is a tool") without the site turning into
+a shitposting board. The rules:
+
+- **Structured scores, not free text.** Responsiveness, value-add, fair terms, founder-first (1–5),
+  plus tags from a fixed list ("Replies in 24h", "Ghosted after IC"). There's no comment box to
+  shitpost in.
+- **Verified against the portfolio.** A review counts fully only when the reviewer founded a
+  company in that investor's portfolio (checkable against Dealroom portfolio data).
+- **Hidden from the public, known to the system.** Other users never see who wrote a review. We
+  keep the identity so we can verify it and remove abuse.
+- **Weighting.** Unverified = 0.25, verified = 1, verified and in _your_ network = 2. Your
+  friends' experience counts most for you.
+- Always show the count, how many are verified, and how many are from your network next to the
+  score.
+
+Open questions: a minimum number of reviews before showing a score (so a single reviewer can't be
+identified), whether investors can reply, and how disputes and takedowns work.
+
+## Pipeline
+
+A per-user status for each firm: Target → Intro asked → Meeting → Passed. The prototype keeps it
+in the browser's localStorage. With accounts it moves into the database.
+
+## Code map
+
+| Path                                       | What                                                            |
+| ------------------------------------------ | --------------------------------------------------------------- |
+| `src/routes/index.tsx`                     | Page: filters, list, map, detail panel                          |
+| `src/components/vc-map/VcMap.tsx`          | MapLibre map, clusters, pins (client-only, loaded in an effect) |
+| `src/components/vc-map/InvestorDetail.tsx` | Firm profile, pipeline, warm paths, ratings                     |
+| `src/data/source.ts`                       | The single place the dataset is loaded; swap mock → real here   |
+| `src/lib/*.test.ts`                        | Tests for warm paths and rating weights                         |
+
+## Guidelines
+
+- **Lovable is connected to `main`.** Every push to `main` shows up in the Lovable editor. Keep
+  `main` working. Never force-push or rewrite pushed history (see `AGENTS.md`).
+- Gate before pushing: `bunx prettier --check src`, `bunx tsc --noEmit`, `bun run lint`,
+  `bun run test`, `bun run build`.
+- Map tiles come from OpenFreeMap (free, no key). Use the `Noto Sans` font stack for map labels.
+  OpenFreeMap doesn't serve the default font.
+- MapLibre needs its worker URL set explicitly (`setWorkerUrl`) because Vite pre-bundling moves it.
+- No secrets in the repo. The Dealroom key stays with Min.
+- Building-level addresses only.
+- London only.
+
+## Next up
+
+1. Real Dealroom data from Min (swap `source.ts`).
+2. Add your own network: LinkedIn connections CSV import.
+3. Accounts and a review submission flow with portfolio verification.
+4. Upcoming investor events (Luma), like londonstartupmap.
+5. `llms.txt` and markdown pages for agents.
