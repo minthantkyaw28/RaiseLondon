@@ -114,7 +114,7 @@ function Index() {
     <div className="flex h-dvh flex-col bg-background text-foreground">
       <header className="flex items-center justify-between gap-4 border-b px-4 py-3">
         <div>
-          <h1 className="text-base font-semibold">London VC Map</h1>
+          <h1 className="font-pixel text-lg leading-none">London VC Map</h1>
           <p className="text-xs text-muted-foreground">
             {investors.length} investors · {warmIds.size} reachable through your network
           </p>
@@ -148,7 +148,7 @@ function Index() {
               onClick={() => setWarmOnly(!warmOnly)}
               className={cn(
                 "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium",
-                warmOnly ? "border-orange-600 bg-orange-600 text-white" : "hover:bg-accent",
+                warmOnly ? "border-warm bg-warm text-white" : "hover:bg-accent",
               )}
             >
               <Flame className="h-3.5 w-3.5" /> Warm intro only
@@ -181,7 +181,7 @@ function Index() {
                     </p>
                     <div className="mt-1.5 flex flex-wrap gap-1">
                       {bestPath && (
-                        <Badge className="bg-orange-600 text-white hover:bg-orange-600">
+                        <Badge className="bg-warm text-white hover:bg-warm">
                           <Flame className="mr-1 h-3 w-3" />
                           {bestPath.via.length === 1 ? "1st" : "2nd"}° via {bestPath.via[0]?.name}
                         </Badge>

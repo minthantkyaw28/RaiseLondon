@@ -108,10 +108,7 @@ export function InvestorDetail({
         ) : (
           <ul className="mt-3 space-y-2">
             {paths.map((p, i) => (
-              <li
-                key={i}
-                className="rounded-lg border bg-orange-50 p-3 text-sm dark:bg-orange-950/30"
-              >
+              <li key={i} className="rounded-lg border border-warm/30 bg-warm/10 p-3 text-sm">
                 <div className="flex flex-wrap items-center gap-1">
                   <span className="font-medium">You</span>
                   {p.via.map((c) => (
