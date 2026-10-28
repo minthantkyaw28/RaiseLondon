@@ -3,6 +3,7 @@ import { BadgeCheck, ExternalLink, MapPin, Users, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { Contact, Investor, Review } from "@/data/types";
+import { SECTOR_LABEL, STAGE_LABEL } from "@/lib/labels";
 import { DIMENSIONS, summarizeReviews } from "@/lib/ratings";
 import type { WarmPath } from "@/lib/warm-paths";
 import { PIPELINE, type PipelineStatus } from "./pipeline";
@@ -62,12 +63,12 @@ export function InvestorDetail({
         <div className="flex flex-wrap gap-1.5">
           {investor.stages.map((s) => (
             <Badge key={s} variant="secondary">
-              {s}
+              {STAGE_LABEL[s]}
             </Badge>
           ))}
           {investor.sectors.map((s) => (
             <Badge key={s} variant="outline">
-              {s}
+              {SECTOR_LABEL[s]}
             </Badge>
           ))}
         </div>
@@ -141,7 +142,9 @@ export function InvestorDetail({
                 <span className="font-medium">{p.name}</span>
                 <span className="text-muted-foreground"> · {p.title}</span>
               </div>
-              <span className="text-xs text-muted-foreground">{p.focus.join(", ")}</span>
+              <span className="text-xs text-muted-foreground">
+                {p.focus.map((f) => SECTOR_LABEL[f]).join(", ")}
+              </span>
             </li>
           ))}
         </ul>
@@ -183,30 +186,45 @@ export function InvestorDetail({
               })}
             </dl>
             <ul className="mt-4 space-y-2">
-              {reviews.map((r) => (
-                <li key={r.id} className="rounded-lg border p-3 text-sm">
-                  <div className="flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
-                    {r.verified ? (
-                      <span className="inline-flex items-center gap-1 text-emerald-700 dark:text-emerald-400">
-                        <BadgeCheck className="h-3.5 w-3.5" /> Founder at {r.portfolioCompany}
+              {reviews.map((r) => {
+                const via = contactName(r.reviewerContactId);
+                return (
+                  <li key={r.id} className="rounded-lg border p-3 text-sm">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        {r.verified ? (
+                          <p className="flex items-center gap-1 font-medium text-emerald-700 dark:text-emerald-400">
+                            <BadgeCheck className="h-3.5 w-3.5 shrink-0" />
+                            <span className="truncate">Founder at {r.portfolioCompany}</span>
+                          </p>
+                        ) : (
+                          <p className="font-medium text-muted-foreground">Unverified</p>
+                        )}
+                        <p className="mt-0.5 text-xs text-muted-foreground">
+                          {formatReviewDate(r.date)}
+                          {via && (
+                            <span className="text-primary"> · in your network via {via}</span>
+                          )}
+                        </p>
+                      </div>
+                      <span className="shrink-0 font-semibold tabular-nums">
+                        {reviewScore(r)}
+                        <span className="text-xs font-normal text-muted-foreground">/5</span>
                       </span>
-                    ) : (
-                      <span>Unverified</span>
-                    )}
-                    {contactName(r.reviewerContactId) && (
-                      <Badge variant="secondary">via {contactName(r.reviewerContactId)}</Badge>
-                    )}
-                    <span className="ml-auto">{r.date}</span>
-                  </div>
-                  <div className="mt-2 flex flex-wrap gap-1.5">
-                    {r.tags.map((t) => (
-                      <Badge key={t} variant="outline">
-                        {t}
-                      </Badge>
-                    ))}
-                  </div>
-                </li>
-              ))}
+                    </div>
+                    <div className="mt-2 flex flex-wrap gap-1">
+                      {r.tags.map((t) => (
+                        <span
+                          key={t}
+                          className="rounded-md bg-muted px-2 py-0.5 text-xs text-muted-foreground"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
           </>
         )}
@@ -214,6 +232,18 @@ export function InvestorDetail({
     </div>
   );
 }
+
+const formatReviewDate = (iso: string) =>
+  new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-GB", {
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+
+const reviewScore = (r: Review) => {
+  const values = DIMENSIONS.map((d) => r.scores[d.key]);
+  return Math.round((values.reduce((a, b) => a + b, 0) / values.length) * 10) / 10;
+};
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
