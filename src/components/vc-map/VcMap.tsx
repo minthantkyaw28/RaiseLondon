@@ -144,6 +144,10 @@ export function VcMap({ investors, selectedId, view, onSelect }: Props) {
       m.on("style.load", () => addInvestorLayers(m, dataRef.current, viewRef.current));
 
       m.once("load", () => {
+        // Compact attribution opens expanded by default, which covers half the map on a phone.
+        container.current
+          ?.querySelector(".maplibregl-ctrl-attrib")
+          ?.classList.remove("maplibregl-compact-show");
         m.on("click", "points", (e: MapLayerMouseEvent) => {
           const id = e.features?.[0]?.properties?.["id"];
           if (typeof id === "string") onSelectRef.current(id);
