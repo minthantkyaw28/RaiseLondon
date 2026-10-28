@@ -1,8 +1,10 @@
-# London VC Map — project reference
+# Raise — project reference
+
+(Formerly "London VC Map" and "RaiseUK". Scope is London only.)
 
 ## The idea
 
-Chasing VCs at events is tiring and random. London VC Map is a live database of every London
+Chasing VCs at events is tiring and random. Raise is a live database of every London
 investor on a map. It tells you, for each one, **how you can get a warm intro** through people you
 already know, and **what founders who took their money say about them**.
 
@@ -36,10 +38,15 @@ Only London. Not a fundraising CRM, not live valuations.
   London. We do **not** use their tiles. They're the author's artwork built from Google map data
   ("Map data ©2026 Google"), and tiny.london is one huge OpenSeadragon deep-zoom image, not a
   slippy map. We recreate the look ourselves:
-  - our own bright style (`src/components/vc-map/pixel-style.ts`) on OpenFreeMap vector tiles;
+  - our own bright style (the Pixel view in `src/components/vc-map/map-styles.ts`) on OpenFreeMap vector tiles;
   - a pitched, rotated camera (pitch 55, bearing -30) with 3D buildings from zoom 14.5;
   - the map rendered at half resolution (`pixelRatio: 0.5`) and upscaled with
     `image-rendering: pixelated`, which gives the chunky pixels.
+- **Map views (toggle, top-left of the map, remembered per browser):** Pixel (default, bright
+  pixel art), Chalk (a white architectural model, after the "chalk" look in owenb/mubit_hackathon)
+  and Night (dark city with glowing cyan main roads, after its "night" look). That repo is a
+  native Metal renderer, so only the looks carry over, not code. Every view is one `Look` palette
+  passed to `buildStyle`.
 - **Palette:** cream land, sky-blue water, bright greens, yellow main roads, peach buildings.
   Orange-red pins = warm intro available; violet pins = no path yet.
 - **Fonts:** Host Grotesk for the UI (clean, not widely used) and Silkscreen for pixel touches
