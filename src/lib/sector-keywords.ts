@@ -523,7 +523,9 @@ export const SECTOR_TERMS: Record<Sector, readonly string[]> = {
     "open source",
     // APIs and SDKs
     "sdk",
-    "api",
+    // Not bare "api": most startups use APIs, which says nothing about selling to developers.
+    "api platform",
+    "apis for developers",
     "api first",
     "rest api",
     "graphql",
