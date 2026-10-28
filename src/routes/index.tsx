@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Flame, Search } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
 import { InvestorDetail } from "@/components/vc-map/InvestorDetail";
 import { PIPELINE, type PipelineStatus } from "@/components/vc-map/pipeline";
 import { MAP_VIEWS, type MapViewId } from "@/components/vc-map/map-styles";
@@ -12,6 +13,7 @@ import { VcMap } from "@/components/vc-map/VcMap";
 import { dataset } from "@/data/source";
 import type { Sector, Stage } from "@/data/types";
 import { summarizeReviews } from "@/lib/ratings";
+import { SECTOR_LABEL, STAGE_LABEL } from "@/lib/labels";
 import { findWarmPaths } from "@/lib/warm-paths";
 import { cn } from "@/lib/utils";
 
@@ -153,7 +155,7 @@ function Index() {
 
       <div className="relative flex min-h-0 flex-1 flex-col md:flex-row">
         <aside className="order-2 flex min-h-0 flex-1 flex-col border-t md:order-1 md:w-[380px] md:flex-none md:border-r md:border-t-0">
-          <div className="space-y-3 border-b p-3">
+          <div className="space-y-4 border-b p-4">
             <div className="relative">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
@@ -163,25 +165,29 @@ function Index() {
                 className="pl-8"
               />
             </div>
-            <ChipRow
-              items={STAGES}
-              active={stages}
-              onToggle={(s) => setStages(toggle(stages, s))}
-            />
-            <ChipRow
-              items={SECTORS}
-              active={sectors}
-              onToggle={(s) => setSectors(toggle(sectors, s))}
-            />
-            <button
-              onClick={() => setWarmOnly(!warmOnly)}
-              className={cn(
-                "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium",
-                warmOnly ? "border-warm bg-warm text-white" : "hover:bg-accent",
-              )}
-            >
-              <Flame className="h-3.5 w-3.5" /> Warm intro only
-            </button>
+            <FilterGroup label="Stage">
+              <ChipRow
+                items={STAGES}
+                labels={STAGE_LABEL}
+                active={stages}
+                onToggle={(s) => setStages(toggle(stages, s))}
+              />
+            </FilterGroup>
+            <FilterGroup label="Sector">
+              <ChipRow
+                items={SECTORS}
+                labels={SECTOR_LABEL}
+                active={sectors}
+                onToggle={(s) => setSectors(toggle(sectors, s))}
+              />
+            </FilterGroup>
+            <label className="flex cursor-pointer items-center justify-between rounded-md bg-warm/10 px-3 py-2 text-sm">
+              <span className="flex items-center gap-2 font-medium">
+                <Flame className="h-4 w-4 text-warm" /> Warm intro only
+                <span className="text-xs font-normal text-muted-foreground">{warmIds.size}</span>
+              </span>
+              <Switch checked={warmOnly} onCheckedChange={setWarmOnly} />
+            </label>
           </div>
           <ul className="min-h-0 flex-1 overflow-y-auto">
             {filtered.map((v) => {
@@ -279,12 +285,25 @@ function Index() {
   );
 }
 
+function FilterGroup({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div className="space-y-1.5">
+      <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+        {label}
+      </p>
+      {children}
+    </div>
+  );
+}
+
 function ChipRow<T extends string>({
   items,
+  labels,
   active,
   onToggle,
 }: {
   items: T[];
+  labels: Record<T, string>;
   active: T[];
   onToggle: (item: T) => void;
 }) {
@@ -294,14 +313,15 @@ function ChipRow<T extends string>({
         <button
           key={item}
           onClick={() => onToggle(item)}
+          aria-pressed={active.includes(item)}
           className={cn(
-            "rounded-full border px-2.5 py-0.5 text-xs",
+            "h-7 rounded-md px-2.5 text-xs font-medium transition-colors",
             active.includes(item)
-              ? "border-primary bg-primary text-primary-foreground"
-              : "hover:bg-accent",
+              ? "bg-primary text-primary-foreground"
+              : "bg-muted text-foreground/80 hover:bg-secondary",
           )}
         >
-          {item}
+          {labels[item]}
         </button>
       ))}
     </div>
