@@ -54,19 +54,23 @@ Only London. Not a fundraising CRM, not live valuations.
 - Keep it clean: no gradients, no glow, no emoji. Bright colour lives on the map; the panels stay
   light and quiet.
 
-## Data: Dealroom → JSON → Lovable
+## Data: Dealroom → Make → database → app
 
-The Dealroom API key must never reach Lovable or the browser. The flow is:
+The directory lives in three Lovable Cloud tables: `investors`, `reviews` and `debriefs`. A Make
+(Integromat) scenario pulls London investors from the Dealroom API and upserts them into those
+tables. The Dealroom API key stays in Make; it never reaches Lovable or the browser.
 
-1. **Min** pulls London investors from the Dealroom API with his key, on his machine.
-2. He maps the response into the `Dataset` shape in `src/data/types.ts` and writes it to a JSON
-   file in `src/data/` (for example `investors.json`).
-3. He changes the one import in `src/data/source.ts` from the mock file to the real file and
-   commits to `main`. GitHub syncs it to Lovable. That's the whole "port into Lovable" trick: the
-   data is just a file in the repo.
+How the app reads it (`src/data/`):
 
-When the data needs to refresh on a schedule, move it to a Supabase table (Lovable Cloud) filled by
-a scheduled job that holds the key server-side. Not needed for the prototype.
+- `source.server.ts` `fetchDataset()` reads all three tables with the **public read-only** key on
+  the server (paged 1000 rows at a time, 5 s timeout) and maps the rows to the `Dataset` shape
+  (`rows.ts`). Rows are sorted by natural id (`inv_2` before `inv_10`).
+- The home page loader calls it through the `getDataset` server function; the agent endpoints
+  (`/llms.txt`, `/index.md`, `/investor/<slug>.md`) call it directly.
+- **Fallback:** if the database can't be read, or `investors` is empty, it logs the reason on the
+  server (`[dataset] …`) and serves the bundled `src/data/investors.mock.json`, so the demo never
+  breaks.
+- The "Mock data" badge shows while any row in any table has `source = 'mock'`.
 
 ### Dataset shape (`src/data/types.ts`)
 
@@ -76,8 +80,92 @@ a scheduled job that holds the key server-side. Not needed for the prototype.
 - `Review`: investor id, portfolio company, verified flag, four 1–5 scores, tags and date.
 
 The mock (`src/data/investors.mock.json`) holds **fictional** firms and people at real London
-locations: 28 investors, 76 reviews and 40 meeting debriefs. Never mix real firm names with made-up people
-or ratings.
+locations: 28 investors, 76 reviews and 40 meeting debriefs. The tables are seeded with the same
+rows (`source = 'mock'`). Never mix real firm names with made-up people or ratings.
+
+## Data import (for the Make scenario)
+
+**Access.** Everyone can read the three tables; nobody can write with the public key. Inserts and
+updates only work with the **service role** key, which bypasses row security. It belongs only in
+the importer (Make, or a server-side endpoint), never in the browser, the repo or a `VITE_`
+variable. Note: on Lovable Cloud the service role key isn't handed out, so the import goes through a
+small server endpoint in this app that holds it, with Make authenticating to that endpoint with its
+own secret. That endpoint isn't built yet.
+
+**How to write.** Upsert on `id` (insert or update the same row), investors first, then reviews
+and debriefs, which reference `investors.id`. Set `source = 'dealroom'` on imported rows.
+`updated_at` is set automatically on every insert and update. Once real data is in, delete the
+`source = 'mock'` rows (deleting a mock investor also deletes its reviews and debriefs).
+
+**`investors`**
+
+| Column               | Type             | Notes                                                                   |
+| -------------------- | ---------------- | ----------------------------------------------------------------------- |
+| `id`                 | text, primary key | Stable id, e.g. the Dealroom id                                         |
+| `slug`               | text, unique     | URL name, e.g. `northbank-ventures`                                     |
+| `name`               | text             |                                                                         |
+| `type`               | text             | `vc`, `cvc`, `angel-network` or `accelerator`                           |
+| `one_liner`          | text             | Default `''`                                                            |
+| `website`            | text             | Default `''`                                                            |
+| `address`            | text             | Building level only, never floor or unit                                |
+| `lat`, `lng`         | double precision | Building coordinates                                                    |
+| `stages`             | text[]           | Any of `pre-seed`, `seed`, `series-a`, `series-b`, `growth`             |
+| `sectors`            | text[]           | Any of `ai`, `fintech`, `healthtech`, `climate`, `devtools`, `consumer`, `b2b-saas`, `deeptech` |
+| `check_size_min_gbp` | integer          | ≥ 0                                                                     |
+| `check_size_max_gbp` | integer          | ≥ min                                                                   |
+| `fund_size_gbp_m`    | numeric, nullable | Fund size in £ millions                                                 |
+| `deals_last_12m`     | integer          | Default 0                                                               |
+| `portfolio`          | text[]           | Company names                                                           |
+| `partners`           | jsonb array      | `[{ "id", "name", "title", "linkedinUrl"?, "focus": [sectors] }]`       |
+| `source`             | text             | Default `'mock'`; use `'dealroom'`                                      |
+| `updated_at`         | timestamptz      | Automatic                                                               |
+
+**`reviews`**: `id` (text, primary key), `investor_id` (→ `investors.id`), `portfolio_company`,
+`verified` (boolean), `responsiveness`, `value_add`, `fair_terms`, `founder_first` (1–5 each),
+`tags` (text[]), `date` (date), `source`, `updated_at`.
+
+**`debriefs`**: `id` (text, primary key), `investor_id` (→ `investors.id`), `outcome` (`passed`,
+`follow-up`, `term-sheet`, `ghosted`), `reasons` (text[], see Meeting debriefs below),
+`picky_about` (text[]), `date` (date), `source`, `updated_at`.
+
+The database rejects values outside these lists (unknown stage, sector, type, outcome, reason,
+topic, or a score outside 1–5), so map Dealroom's values onto them in Make.
+
+**Example `investors` row** (JSON, as Make would send it):
+
+```json
+{
+  "id": "dr_123456",
+  "slug": "northbank-ventures",
+  "name": "Northbank Ventures",
+  "type": "vc",
+  "one_liner": "Seed fund backing consumer and AI founders in King's Cross.",
+  "website": "https://northbankventures.example",
+  "address": "162 King's Cross Street, London N1C 4AG",
+  "lat": 51.5367,
+  "lng": -0.125,
+  "stages": ["seed", "series-a"],
+  "sectors": ["consumer", "ai"],
+  "check_size_min_gbp": 50000,
+  "check_size_max_gbp": 200000,
+  "fund_size_gbp_m": 600,
+  "deals_last_12m": 3,
+  "portfolio": ["Heliograph", "Lumen"],
+  "partners": [
+    {
+      "id": "p_1",
+      "name": "Freya Haddad",
+      "title": "General Partner",
+      "linkedinUrl": "https://www.linkedin.com/",
+      "focus": ["fintech"]
+    }
+  ],
+  "source": "dealroom"
+}
+```
+
+The schema and seed are in `drizzle/migrations/0000_investor_directory.sql`.
+
 
 ## Rate My VC: trust rules (`src/lib/ratings.ts`)
 
