@@ -152,4 +152,13 @@ describe("renderLlmsTxt", () => {
     expect(txt).toContain("/index.md");
     expect(txt).toContain("/investor/<slug>.md");
   });
+
+  it("stops calling the data mock once it comes from Dealroom", () => {
+    const txt = renderLlmsTxt({ ...dataset, source: "dealroom" });
+    expect(txt).not.toContain("mock");
+    expect(txt).toContain("Dealroom");
+    expect(
+      renderInvestorList({ ...dataset, source: "dealroom" }, parseListQuery(new URLSearchParams())),
+    ).not.toContain("mock");
+  });
 });

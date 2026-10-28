@@ -1,5 +1,6 @@
 import type { Dataset, Investor, InvestorType } from "@/data/types";
 import { SECTOR_LABEL, STAGE_LABEL } from "@/lib/labels";
+import { formatGbp } from "@/lib/match";
 import { summarizeReviews } from "@/lib/ratings";
 
 export const AGENT_CACHE_CONTROL = "public, max-age=300";
@@ -8,6 +9,7 @@ const TYPE_LABEL: Record<InvestorType, string> = {
   vc: "VC",
   cvc: "Corporate VC",
   "angel-network": "Angel network",
+  angel: "Angel",
   accelerator: "Accelerator",
 };
 
@@ -47,19 +49,17 @@ export function filterInvestors(investors: Investor[], query: ListQuery): Invest
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
-const gbp = (n: number) => (n >= 1_000_000 ? `£${n / 1_000_000}m` : `£${n / 1000}k`);
-
 const dataNote = (dataset: Dataset) =>
   dataset.source === "mock"
     ? "Data is mock: fictional firms and people at real London locations, until the Dealroom import lands."
-    : `Data from Dealroom, generated ${dataset.generatedAt}.`;
+    : `Data is real: London investors from Dealroom, exported ${dataset.generatedAt}.`;
 
 export function renderLlmsTxt(dataset: Dataset): string {
   const stages = Object.keys(STAGE_LABEL).join(", ");
   const sectors = Object.keys(SECTOR_LABEL).join(", ");
   return `# Raise
 
-> A map and directory of London investors (VCs, corporate VCs, angel networks and accelerators), with stage, sector, cheque size, partners, portfolio and founder ratings.
+> A map and directory of London investors (VCs, corporate VCs, angels, angel networks and accelerators), with stage, sector, cheque size, partners, portfolio and founder ratings.
 
 ${dataNote(dataset)} London only. Read-only: there is no write API.
 
@@ -126,7 +126,7 @@ export function renderInvestorPage(dataset: Dataset, slug: string): string | nul
     `- Address: ${v.address}`,
     `- Stages: ${v.stages.map((s) => STAGE_LABEL[s]).join(", ")}`,
     `- Sectors: ${v.sectors.map((s) => SECTOR_LABEL[s]).join(", ")}`,
-    `- Cheque size: ${gbp(v.checkSizeGbp.min)}–${gbp(v.checkSizeGbp.max)}`,
+    `- Cheque size: ${formatGbp(v.checkSizeGbp.min)}–${formatGbp(v.checkSizeGbp.max)}`,
     `- Fund size: ${v.fundSizeGbpM ? `£${v.fundSizeGbpM}m` : "Not disclosed"}`,
     `- Deals in the last 12 months: ${v.dealsLast12m}`,
     "",
