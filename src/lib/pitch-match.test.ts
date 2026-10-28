@@ -102,7 +102,7 @@ describe("matchInvestors", () => {
   it("ranks a perfect fit first with readable reasons", () => {
     const perfect = investor({ id: "a", name: "Zed Perfect", dealsLast12m: 20 });
     const off = investor({ id: "b", name: "Alpha Off", stages: ["growth"], sectors: ["climate"] });
-    const ranked = matchInvestors(seedFintech, [off, perfect], new Set(["a"]));
+    const ranked = matchInvestors(seedFintech, [off, perfect]);
     const first = nth(ranked, 0);
     const second = nth(ranked, 1);
     expect(first.investor.id).toBe("a");
@@ -112,7 +112,6 @@ describe("matchInvestors", () => {
       "Backs fintech",
       "£500k fits their £250k–£1m cheque",
       "20 deals in the last 12 months",
-      "Warm intro available",
     ]);
     expect(first.misses).toEqual([]);
     expect(second.misses).toContain("Doesn't invest at seed (growth)");
@@ -120,32 +119,21 @@ describe("matchInvestors", () => {
   });
 
   it("gives partial credit for a raise within 2x of the cheque", () => {
-    const m = nth(matchInvestors({ ...empty, raiseGbp: 1_500_000 }, [investor({})], new Set()), 0);
+    const m = nth(matchInvestors({ ...empty, raiseGbp: 1_500_000 }, [investor({})]), 0);
     expect(m.reasons).toContain("£1.5m is close to their £250k–£1m cheque");
     expect(m.score).toBe(10 + 3);
   });
 
-  it("adds 10 points for a warm intro", () => {
-    const v = investor({});
-    const cold = nth(matchInvestors(seedFintech, [v], new Set()), 0);
-    const warm = nth(matchInvestors(seedFintech, [v], new Set([v.id])), 0);
-    expect(warm.score - cold.score).toBe(10);
-  });
-
   it("breaks ties by name", () => {
-    const ranked = matchInvestors(
-      empty,
-      [investor({ name: "B" }), investor({ name: "A" })],
-      new Set(),
-    );
+    const ranked = matchInvestors(empty, [investor({ name: "B" }), investor({ name: "A" })]);
     expect(ranked.map((m) => m.investor.name)).toEqual(["A", "B"]);
   });
 
   it("handles an empty profile without misses it can't justify", () => {
-    const m = nth(matchInvestors(empty, [investor({ dealsLast12m: 0 })], new Set()), 0);
+    const m = nth(matchInvestors(empty, [investor({ dealsLast12m: 0 })]), 0);
     expect(m.score).toBe(0);
     expect(m.reasons).toEqual([]);
     expect(m.misses).toEqual(["No deals in the last 12 months"]);
-    expect(matchInvestors(empty, [], new Set())).toEqual([]);
+    expect(matchInvestors(empty, [])).toEqual([]);
   });
 });

@@ -1,18 +1,15 @@
-import { BadgeCheck, ExternalLink, MapPin, Users, X } from "lucide-react";
+import { BadgeCheck, ExternalLink, MapPin, X } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { Contact, Investor, Review } from "@/data/types";
+import type { Investor, Review } from "@/data/types";
 import { SECTOR_LABEL, STAGE_LABEL } from "@/lib/labels";
 import { DIMENSIONS, summarizeReviews } from "@/lib/ratings";
-import type { WarmPath } from "@/lib/warm-paths";
 import { PIPELINE, type PipelineStatus } from "./pipeline";
 
 interface Props {
   investor: Investor;
-  paths: WarmPath[];
   reviews: Review[];
-  contacts: Contact[];
   status: PipelineStatus;
   onStatus: (s: PipelineStatus) => void;
   onClose: () => void;
@@ -20,18 +17,8 @@ interface Props {
 
 const gbp = (n: number) => (n >= 1_000_000 ? `£${n / 1_000_000}m` : `£${n / 1000}k`);
 
-export function InvestorDetail({
-  investor,
-  paths,
-  reviews,
-  contacts,
-  status,
-  onStatus,
-  onClose,
-}: Props) {
-  const networkIds = new Set(contacts.map((c) => c.id));
-  const summary = summarizeReviews(reviews, networkIds);
-  const contactName = (id?: string) => contacts.find((c) => c.id === id)?.name;
+export function InvestorDetail({ investor, reviews, status, onStatus, onClose }: Props) {
+  const summary = summarizeReviews(reviews);
 
   return (
     <div className="flex h-full flex-col overflow-y-auto">
@@ -99,41 +86,6 @@ export function InvestorDetail({
       </section>
 
       <section className="border-b p-5">
-        <h3 className="flex items-center gap-2 text-sm font-semibold">
-          <Users className="h-4 w-4" /> Warm intro paths
-        </h3>
-        {paths.length === 0 ? (
-          <p className="mt-2 text-sm text-muted-foreground">
-            No one in your network reaches this firm yet. Cold outreach, or ask around.
-          </p>
-        ) : (
-          <ul className="mt-3 space-y-2">
-            {paths.map((p, i) => (
-              <li key={i} className="rounded-lg border border-warm/30 bg-warm/10 p-3 text-sm">
-                <div className="flex flex-wrap items-center gap-1">
-                  <span className="font-medium">You</span>
-                  {p.via.map((c) => (
-                    <span key={c.id}>
-                      → <span className="font-medium">{c.name}</span>
-                      <span className="text-muted-foreground"> ({c.relation})</span>
-                    </span>
-                  ))}
-                  <span>
-                    → <span className="font-medium">{p.partnerName}</span>
-                  </span>
-                </div>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  {p.via.length === 1
-                    ? "1st-degree — ask directly"
-                    : "2nd-degree — needs a double intro"}
-                </p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
-
-      <section className="border-b p-5">
         <h3 className="text-sm font-semibold">Partners</h3>
         <ul className="mt-2 space-y-2 text-sm">
           {investor.partners.map((p) => (
@@ -161,8 +113,8 @@ export function InvestorDetail({
           )}
         </div>
         <p className="mt-1 text-xs text-muted-foreground">
-          {summary.count} reviews · {summary.verifiedCount} verified portfolio founders ·{" "}
-          {summary.fromNetwork} from your network. Verified and in-network reviews weigh more.
+          {summary.count} reviews · {summary.verifiedCount} verified portfolio founders. Verified
+          reviews weigh more.
         </p>
         {summary.overall === null ? (
           <p className="mt-3 text-sm text-muted-foreground">No founder reviews yet.</p>
@@ -186,45 +138,39 @@ export function InvestorDetail({
               })}
             </dl>
             <ul className="mt-4 space-y-2">
-              {reviews.map((r) => {
-                const via = contactName(r.reviewerContactId);
-                return (
-                  <li key={r.id} className="rounded-lg border p-3 text-sm">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0">
-                        {r.verified ? (
-                          <p className="flex items-center gap-1 font-medium text-emerald-700 dark:text-emerald-400">
-                            <BadgeCheck className="h-3.5 w-3.5 shrink-0" />
-                            <span className="truncate">Founder at {r.portfolioCompany}</span>
-                          </p>
-                        ) : (
-                          <p className="font-medium text-muted-foreground">Unverified</p>
-                        )}
-                        <p className="mt-0.5 text-xs text-muted-foreground">
-                          {formatReviewDate(r.date)}
-                          {via && (
-                            <span className="text-primary"> · in your network via {via}</span>
-                          )}
+              {reviews.map((r) => (
+                <li key={r.id} className="rounded-lg border p-3 text-sm">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      {r.verified ? (
+                        <p className="flex items-center gap-1 font-medium text-emerald-700 dark:text-emerald-400">
+                          <BadgeCheck className="h-3.5 w-3.5 shrink-0" />
+                          <span className="truncate">Founder at {r.portfolioCompany}</span>
                         </p>
-                      </div>
-                      <span className="shrink-0 font-semibold tabular-nums">
-                        {reviewScore(r)}
-                        <span className="text-xs font-normal text-muted-foreground">/5</span>
+                      ) : (
+                        <p className="font-medium text-muted-foreground">Unverified</p>
+                      )}
+                      <p className="mt-0.5 text-xs text-muted-foreground">
+                        {formatReviewDate(r.date)}
+                      </p>
+                    </div>
+                    <span className="shrink-0 font-semibold tabular-nums">
+                      {reviewScore(r)}
+                      <span className="text-xs font-normal text-muted-foreground">/5</span>
+                    </span>
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-1">
+                    {r.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="rounded-md bg-muted px-2 py-0.5 text-xs text-muted-foreground"
+                      >
+                        {t}
                       </span>
-                    </div>
-                    <div className="mt-2 flex flex-wrap gap-1">
-                      {r.tags.map((t) => (
-                        <span
-                          key={t}
-                          className="rounded-md bg-muted px-2 py-0.5 text-xs text-muted-foreground"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  </li>
-                );
-              })}
+                    ))}
+                  </div>
+                </li>
+              ))}
             </ul>
           </>
         )}

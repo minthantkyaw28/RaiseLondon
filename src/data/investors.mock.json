@@ -1221,116 +1221,6 @@
       ]
     }
   ],
-  "contacts": [
-    {
-      "id": "c_1",
-      "name": "Arjun Novak",
-      "relation": "Uni friend",
-      "knows": ["p_4", "p_13", "p_32"]
-    },
-    {
-      "id": "c_2",
-      "name": "Mei Kaur",
-      "relation": "Angel in your round",
-      "knows": ["p_73", "p_47"]
-    },
-    {
-      "id": "c_3",
-      "name": "Elena Doyle",
-      "relation": "Met at Founders Forum",
-      "knows": ["p_44"]
-    },
-    {
-      "id": "c_4",
-      "name": "Ben Fraser",
-      "relation": "Uni friend",
-      "knows": ["p_24", "c_14"]
-    },
-    {
-      "id": "c_5",
-      "name": "Arjun Shah",
-      "relation": "Angel in your round",
-      "knows": ["p_7"]
-    },
-    {
-      "id": "c_6",
-      "name": "Kwame Fraser",
-      "relation": "Met at Founders Forum",
-      "knows": ["p_66", "p_13"]
-    },
-    {
-      "id": "c_7",
-      "name": "Marcus Doyle",
-      "relation": "Met at Founders Forum",
-      "knows": ["p_57", "p_77", "p_46"]
-    },
-    {
-      "id": "c_8",
-      "name": "Sam Bennett",
-      "relation": "Ex-colleague",
-      "knows": ["p_18"]
-    },
-    {
-      "id": "c_9",
-      "name": "Chloe Rossi",
-      "relation": "Twitter mutual",
-      "knows": ["p_66", "p_64"]
-    },
-    {
-      "id": "c_10",
-      "name": "Freya Whitfield",
-      "relation": "Ex-colleague",
-      "knows": ["p_67", "p_46", "c_6"]
-    },
-    {
-      "id": "c_11",
-      "name": "Leila Fraser",
-      "relation": "Met at Founders Forum",
-      "knows": ["p_27", "p_39", "c_3"]
-    },
-    {
-      "id": "c_12",
-      "name": "Jonah Lin",
-      "relation": "Fellow founder",
-      "knows": ["p_27", "p_26"]
-    },
-    {
-      "id": "c_13",
-      "name": "Ravi Lin",
-      "relation": "Met at Founders Forum",
-      "knows": ["p_12", "c_2"]
-    },
-    {
-      "id": "c_14",
-      "name": "Isla Bennett",
-      "relation": "Angel in your round",
-      "knows": ["p_57"]
-    },
-    {
-      "id": "c_15",
-      "name": "Kofi Okafor",
-      "relation": "Ex-colleague",
-      "knows": ["p_56", "p_70"]
-    },
-    {
-      "id": "c_16",
-      "name": "Ravi Lin",
-      "relation": "Ex-colleague",
-      "knows": ["p_9", "p_8", "c_9"]
-    },
-    {
-      "id": "c_17",
-      "name": "Leila Reyes",
-      "relation": "Fellow founder",
-      "knows": ["p_75", "p_64", "p_79", "c_18"]
-    },
-    {
-      "id": "c_18",
-      "name": "Isla Doyle",
-      "relation": "Angel in your round",
-      "knows": ["p_17", "p_80"]
-    }
-  ],
   "reviews": [
     {
       "id": "r_1",
@@ -1349,7 +1239,6 @@
     {
       "id": "r_2",
       "investorId": "inv_2",
-      "reviewerContactId": "c_10",
       "portfolioCompany": "Driftwood AI",
       "verified": true,
       "scores": {
@@ -1392,7 +1281,6 @@
     {
       "id": "r_5",
       "investorId": "inv_2",
-      "reviewerContactId": "c_11",
       "portfolioCompany": "Stonefruit",
       "verified": true,
       "scores": {
@@ -1477,7 +1365,6 @@
     {
       "id": "r_11",
       "investorId": "inv_4",
-      "reviewerContactId": "c_13",
       "portfolioCompany": "Lumen",
       "verified": false,
       "scores": {
@@ -1520,7 +1407,6 @@
     {
       "id": "r_14",
       "investorId": "inv_4",
-      "reviewerContactId": "c_17",
       "portfolioCompany": "Stonefruit",
       "verified": true,
       "scores": {
@@ -1591,7 +1477,6 @@
     {
       "id": "r_19",
       "investorId": "inv_6",
-      "reviewerContactId": "c_11",
       "portfolioCompany": "Ledgerlark",
       "verified": false,
       "scores": {
@@ -1620,7 +1505,6 @@
     {
       "id": "r_21",
       "investorId": "inv_8",
-      "reviewerContactId": "c_2",
       "portfolioCompany": "Mintbridge",
       "verified": true,
       "scores": {
@@ -1635,7 +1519,6 @@
     {
       "id": "r_22",
       "investorId": "inv_8",
-      "reviewerContactId": "c_10",
       "portfolioCompany": "Lumen",
       "verified": true,
       "scores": {
@@ -1678,7 +1561,6 @@
     {
       "id": "r_25",
       "investorId": "inv_9",
-      "reviewerContactId": "c_11",
       "portfolioCompany": "Pebble Health",
       "verified": true,
       "scores": {
@@ -1763,7 +1645,6 @@
     {
       "id": "r_31",
       "investorId": "inv_11",
-      "reviewerContactId": "c_2",
       "portfolioCompany": "Pebble Health",
       "verified": false,
       "scores": {
@@ -1778,7 +1659,6 @@
     {
       "id": "r_32",
       "investorId": "inv_11",
-      "reviewerContactId": "c_11",
       "portfolioCompany": "Gridwise",
       "verified": true,
       "scores": {
@@ -1793,7 +1673,6 @@
     {
       "id": "r_33",
       "investorId": "inv_11",
-      "reviewerContactId": "c_1",
       "portfolioCompany": "Gridwise",
       "verified": true,
       "scores": {
@@ -1864,7 +1743,6 @@
     {
       "id": "r_38",
       "investorId": "inv_12",
-      "reviewerContactId": "c_3",
       "portfolioCompany": "Orbitly",
       "verified": false,
       "scores": {
@@ -1921,7 +1799,6 @@
     {
       "id": "r_42",
       "investorId": "inv_14",
-      "reviewerContactId": "c_10",
       "portfolioCompany": "Pebble Health",
       "verified": false,
       "scores": {
@@ -1950,7 +1827,6 @@
     {
       "id": "r_44",
       "investorId": "inv_15",
-      "reviewerContactId": "c_13",
       "portfolioCompany": "Wayfold",
       "verified": true,
       "scores": {
@@ -1965,7 +1841,6 @@
     {
       "id": "r_45",
       "investorId": "inv_16",
-      "reviewerContactId": "c_4",
       "portfolioCompany": "Ledgerlark",
       "verified": true,
       "scores": {
@@ -1980,7 +1855,6 @@
     {
       "id": "r_46",
       "investorId": "inv_16",
-      "reviewerContactId": "c_13",
       "portfolioCompany": "Wayfold",
       "verified": false,
       "scores": {
@@ -2023,7 +1897,6 @@
     {
       "id": "r_49",
       "investorId": "inv_17",
-      "reviewerContactId": "c_1",
       "portfolioCompany": "Mintbridge",
       "verified": true,
       "scores": {
@@ -2038,7 +1911,6 @@
     {
       "id": "r_50",
       "investorId": "inv_17",
-      "reviewerContactId": "c_16",
       "portfolioCompany": "Driftwood AI",
       "verified": true,
       "scores": {
@@ -2123,7 +1995,6 @@
     {
       "id": "r_56",
       "investorId": "inv_18",
-      "reviewerContactId": "c_9",
       "portfolioCompany": "Quillstack",
       "verified": true,
       "scores": {
@@ -2138,7 +2009,6 @@
     {
       "id": "r_57",
       "investorId": "inv_18",
-      "reviewerContactId": "c_13",
       "portfolioCompany": "Quillstack",
       "verified": true,
       "scores": {
@@ -2181,7 +2051,6 @@
     {
       "id": "r_60",
       "investorId": "inv_20",
-      "reviewerContactId": "c_14",
       "portfolioCompany": "Nimbleo",
       "verified": false,
       "scores": {
@@ -2266,7 +2135,6 @@
     {
       "id": "r_66",
       "investorId": "inv_24",
-      "reviewerContactId": "c_7",
       "portfolioCompany": "Lumen",
       "verified": false,
       "scores": {
@@ -2309,7 +2177,6 @@
     {
       "id": "r_69",
       "investorId": "inv_25",
-      "reviewerContactId": "c_9",
       "portfolioCompany": "Cairnly",
       "verified": true,
       "scores": {
@@ -2380,7 +2247,6 @@
     {
       "id": "r_74",
       "investorId": "inv_28",
-      "reviewerContactId": "c_8",
       "portfolioCompany": "Brightloop",
       "verified": true,
       "scores": {
@@ -2395,7 +2261,6 @@
     {
       "id": "r_75",
       "investorId": "inv_28",
-      "reviewerContactId": "c_12",
       "portfolioCompany": "Gridwise",
       "verified": false,
       "scores": {

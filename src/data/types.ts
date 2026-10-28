@@ -32,19 +32,11 @@ export interface Investor {
   partners: Partner[];
 }
 
-export interface Contact {
-  id: string;
-  name: string;
-  relation: string;
-  knows: string[];
-}
-
 export type RatingDimension = "responsiveness" | "valueAdd" | "fairTerms" | "founderFirst";
 
 export interface Review {
   id: string;
   investorId: string;
-  reviewerContactId?: string;
   portfolioCompany: string;
   verified: boolean;
   scores: Record<RatingDimension, 1 | 2 | 3 | 4 | 5>;
@@ -56,6 +48,5 @@ export interface Dataset {
   generatedAt: string;
   source: "mock" | "dealroom";
   investors: Investor[];
-  contacts: Contact[];
   reviews: Review[];
 }

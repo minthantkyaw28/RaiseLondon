@@ -1,5 +1,5 @@
 import { useServerFn } from "@tanstack/react-start";
-import { Check, Flame, Loader2, Mic, Sparkles, Square } from "lucide-react";
+import { Check, Loader2, Mic, Sparkles, Square } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
@@ -28,7 +28,6 @@ import {
   pickMimeType,
 } from "@/lib/recording";
 import { transcribePitch } from "@/lib/transcribe.functions";
-import { cn } from "@/lib/utils";
 
 const TOP_N = 8;
 
@@ -36,11 +35,10 @@ type Phase = "idle" | "recording" | "transcribing";
 
 interface Props {
   investors: Investor[];
-  warmIds: Set<string>;
   onSelect: (id: string) => void;
 }
 
-export function PitchMatcher({ investors, warmIds, onSelect }: Props) {
+export function PitchMatcher({ investors, onSelect }: Props) {
   const [open, setOpen] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [phase, setPhase] = useState<Phase>("idle");
@@ -160,7 +158,7 @@ export function PitchMatcher({ investors, warmIds, onSelect }: Props) {
 
   const findMatches = () => {
     const profile = extractProfile(transcript);
-    setResult({ profile, matches: matchInvestors(profile, investors, warmIds).slice(0, TOP_N) });
+    setResult({ profile, matches: matchInvestors(profile, investors).slice(0, TOP_N) });
   };
 
   const handleOpenChange = (next: boolean) => {
@@ -238,15 +236,11 @@ export function PitchMatcher({ investors, warmIds, onSelect }: Props) {
                 <li key={m.investor.id}>
                   <button
                     onClick={() => pick(m.investor.id)}
-                    className={cn(
-                      "w-full rounded-lg border p-3 text-left hover:bg-accent",
-                      warmIds.has(m.investor.id) && "border-warm/40",
-                    )}
+                    className="w-full rounded-lg border p-3 text-left hover:bg-accent"
                   >
                     <div className="flex items-center justify-between gap-2">
                       <span className="flex items-center gap-1.5 font-medium">
                         {m.investor.name}
-                        {warmIds.has(m.investor.id) && <Flame className="h-3.5 w-3.5 text-warm" />}
                       </span>
                       <span className="font-pixel text-sm tabular-nums">{m.score}</span>
                     </div>

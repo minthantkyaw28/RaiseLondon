@@ -8,7 +8,7 @@ export interface Match {
   misses: string[];
 }
 
-const WEIGHTS = { stage: 35, sector: 30, raise: 20, activity: 5, warm: 10 };
+const WEIGHTS = { stage: 40, sector: 35, raise: 20, activity: 5 };
 // Deal counts in London run roughly 0-30 a year; 20+ is as active as it gets.
 const BUSY_DEALS = 20;
 
@@ -62,13 +62,12 @@ function activityFit(v: Investor): Part {
     : { points: 0, miss: "No deals in the last 12 months" };
 }
 
-function scoreInvestor(profile: PitchProfile, v: Investor, warm: boolean): Match {
+function scoreInvestor(profile: PitchProfile, v: Investor): Match {
   const parts: Part[] = [
     stageFit(profile, v),
     sectorFit(profile, v),
     raiseFit(profile, v),
     activityFit(v),
-    warm ? { points: WEIGHTS.warm, reason: "Warm intro available" } : { points: 0 },
   ];
   return {
     investor: v,
@@ -78,12 +77,8 @@ function scoreInvestor(profile: PitchProfile, v: Investor, warm: boolean): Match
   };
 }
 
-export function matchInvestors(
-  profile: PitchProfile,
-  investors: Investor[],
-  warmIds: Set<string>,
-): Match[] {
+export function matchInvestors(profile: PitchProfile, investors: Investor[]): Match[] {
   return investors
-    .map((v) => scoreInvestor(profile, v, warmIds.has(v.id)))
+    .map((v) => scoreInvestor(profile, v))
     .sort((a, b) => b.score - a.score || a.investor.name.localeCompare(b.investor.name));
 }
