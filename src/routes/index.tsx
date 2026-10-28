@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Search } from "lucide-react";
+import { ChevronDown, Search, SlidersHorizontal } from "lucide-react";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { Badge } from "@/components/ui/badge";
@@ -97,6 +97,7 @@ function Index() {
   const [q, setQ] = useState("");
   const [stages, setStages] = useState<Stage[]>([]);
   const [sectors, setSectors] = useState<Sector[]>([]);
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [pipeline, setStatus] = usePipeline();
   const [view, setView] = useMapView();
@@ -150,22 +151,41 @@ function Index() {
                 className="pl-8"
               />
             </div>
-            <FilterGroup label="Stage">
-              <ChipRow
-                items={STAGES}
-                labels={STAGE_LABEL}
-                active={stages}
-                onToggle={(s) => setStages(toggle(stages, s))}
+            <button
+              onClick={() => setFiltersOpen(!filtersOpen)}
+              aria-expanded={filtersOpen}
+              className="flex w-full items-center justify-between rounded-md bg-muted px-3 py-2 text-sm font-medium md:hidden"
+            >
+              <span className="flex items-center gap-2">
+                <SlidersHorizontal className="h-4 w-4" /> Filters
+                {stages.length + sectors.length > 0 && (
+                  <span className="rounded-full bg-primary px-1.5 text-xs text-primary-foreground">
+                    {stages.length + sectors.length}
+                  </span>
+                )}
+              </span>
+              <ChevronDown
+                className={cn("h-4 w-4 transition-transform", filtersOpen && "rotate-180")}
               />
-            </FilterGroup>
-            <FilterGroup label="Sector">
-              <ChipRow
-                items={SECTORS}
-                labels={SECTOR_LABEL}
-                active={sectors}
-                onToggle={(s) => setSectors(toggle(sectors, s))}
-              />
-            </FilterGroup>
+            </button>
+            <div className={cn("space-y-4", !filtersOpen && "hidden md:block")}>
+              <FilterGroup label="Stage">
+                <ChipRow
+                  items={STAGES}
+                  labels={STAGE_LABEL}
+                  active={stages}
+                  onToggle={(s) => setStages(toggle(stages, s))}
+                />
+              </FilterGroup>
+              <FilterGroup label="Sector">
+                <ChipRow
+                  items={SECTORS}
+                  labels={SECTOR_LABEL}
+                  active={sectors}
+                  onToggle={(s) => setSectors(toggle(sectors, s))}
+                />
+              </FilterGroup>
+            </div>
           </div>
           <ul className="min-h-0 flex-1 overflow-y-auto">
             {filtered.map((v) => {
