@@ -25,7 +25,7 @@ const STAGE_RULES: [Stage, RegExp][] = [
 ];
 
 const MONEY =
-  /(£)?\s?(\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?)\s?(k|m|mn|million|thousand)?\b(?!\s?(users|customers|downloads|sign-?ups|people|members|arr|mrr|revenue|months|years))/g;
+  /(£)?\s?(\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?)\s?(k|m|mn|million|thousand)?\b(\s?(?:pounds|gbp|quid)\b)?(?!\s?(users|customers|downloads|sign-?ups|people|members|arr|mrr|revenue|months|years))/g;
 const RAISE_CUE =
   /\b(raising|raise|round|seek\w*|looking for|investment|cheque|check|fundrais\w*)\b/;
 // A past round ("we raised £1m pre-seed last year") is history, not the ask.
@@ -41,11 +41,55 @@ function amount(digits: string, unit: string | undefined): number {
 
 // Only bare numbers with a £ or a k/m unit count as money, so "two co-founders, 3 years" is ignored.
 // A figure near "raising" beats one that is just mentioned (often revenue or a past round).
-export function parseRaise(text: string): number | null {
+const SMALL: Record<string, number> = {
+  one: 1,
+  two: 2,
+  three: 3,
+  four: 4,
+  five: 5,
+  six: 6,
+  seven: 7,
+  eight: 8,
+  nine: 9,
+  ten: 10,
+  eleven: 11,
+  twelve: 12,
+  fifteen: 15,
+  twenty: 20,
+  twenty_five: 25,
+  thirty: 30,
+  forty: 40,
+  fifty: 50,
+  sixty: 60,
+  seventy: 70,
+  eighty: 80,
+  ninety: 90,
+};
+const WORD = Object.keys(SMALL)
+  .map((w) => w.replace("_", "[- ]"))
+  .join("|");
+const SPOKEN = new RegExp(
+  `\\b(${WORD})(?: hundred(?: and (${WORD}))?)?(?: point (${WORD}))? (million|thousand)\\b`,
+  "g",
+);
+const word = (w: string) => SMALL[w.replace(/[- ]/, "_")] ?? 0;
+
+// Speech-to-text often writes amounts as words: "one point five million", "half a million".
+export function spokenToDigits(text: string): string {
+  return text
+    .replace(/\b(half a million)\b/g, "500k")
+    .replace(SPOKEN, (whole, a: string, b: string | undefined, dec: string | undefined, unit) => {
+      const base = whole.includes(" hundred") ? word(a) * 100 + (b ? word(b) : 0) : word(a);
+      return `${base}${dec ? `.${word(dec)}` : ""} ${unit}`;
+    });
+}
+
+export function parseRaise(raw: string): number | null {
+  const text = spokenToDigits(raw.toLowerCase());
   const candidates: { value: number; cued: boolean }[] = [];
   for (const m of text.matchAll(MONEY)) {
-    const [, pound, digits, unit] = m;
-    if (!digits || (!pound && !unit)) continue;
+    const [, pound, digits, unit, currencyWord] = m;
+    if (!digits || (!pound && !unit && !currencyWord)) continue;
     const value = amount(digits, unit);
     if (value < 10_000) continue;
     const before = text.slice(Math.max(0, (m.index ?? 0) - 40), m.index);

@@ -27,6 +27,15 @@ describe("extractProfile", () => {
     expect(parseRaise("two founders, 3 years in")).toBeNull();
   });
 
+  it("reads amounts the way speech-to-text writes them", () => {
+    expect(parseRaise("we are raising one point five million pounds")).toBe(1_500_000);
+    expect(parseRaise("we are raising two million for our fintech")).toBe(2_000_000);
+    expect(parseRaise("raising two hundred and fifty thousand")).toBe(250_000);
+    expect(parseRaise("raising half a million")).toBe(500_000);
+    expect(parseRaise("we're raising 500000 pounds")).toBe(500_000);
+    expect(parseRaise("we have two thousand users")).toBeNull();
+  });
+
   it("treats a past round as history, not the ask", () => {
     const p = extractProfile("We raised £1m pre-seed last year and now seek £4m");
     expect(p.raiseGbp).toBe(4_000_000);
