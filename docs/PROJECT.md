@@ -76,7 +76,7 @@ a scheduled job that holds the key server-side. Not needed for the prototype.
 - `Review`: investor id, portfolio company, verified flag, four 1–5 scores, tags and date.
 
 The mock (`src/data/investors.mock.json`) holds **fictional** firms and people at real London
-locations: 28 investors and 76 reviews. Never mix real firm names with made-up people
+locations: 28 investors, 76 reviews and 40 meeting debriefs. Never mix real firm names with made-up people
 or ratings.
 
 ## Rate My VC: trust rules (`src/lib/ratings.ts`)
@@ -96,6 +96,25 @@ a shitposting board. The rules:
 
 Open questions: a minimum number of reviews before showing a score (so a single reviewer can't be
 identified), whether investors can reply, and how disputes and takedowns work.
+
+## Meeting debriefs (`src/lib/debriefs.ts`)
+
+The "why they said no" questionnaire, the team's differentiation idea: founders rarely learn why
+an investor passed, and no other directory collects it. After a meeting the founder records
+"Add your debrief" in the firm's panel, and the panel shows "What founders heard".
+
+- **Structured, no free text**, same as reviews. Outcome: Passed, Follow-up, Term sheet, Ghosted.
+  Reasons (only for Passed or Ghosted): too early, market size, team, traction, valuation, not our
+  thesis, competition, timing, no reason given. Picky about: metrics, team background, market
+  sizing, tech depth, go-to-market, cap table, unit economics.
+- **3+ threshold.** `MIN_DEBRIEFS_TO_SHOW = 3`: below it the firm shows only "Not enough debriefs
+  yet", so a single founder can't be identified. Above it: an outcome breakdown and the top 3
+  reasons and topics.
+- **Browser-only storage for now.** `useDebriefs()` keeps the founder's own debriefs in
+  localStorage (`raise-debriefs`); a firm shows the mock debriefs plus the browser's own. With
+  accounts they move into the database.
+- **Verification later works like reviews:** a debrief from a founder we can tie to a real meeting
+  counts fully, the rest weigh less.
 
 ## Pipeline
 
@@ -168,6 +187,5 @@ Read-only markdown endpoints, rendered by `src/lib/agent-markdown.ts`, cached fo
 ## Next up
 
 1. Real Dealroom data from Min (swap `source.ts`).
-2. A "why they said no" questionnaire after investor meetings, verified like reviews.
-3. Accounts and a review submission flow with portfolio verification.
-4. Upcoming investor events (Luma), like londonstartupmap.
+2. Accounts and a review submission flow with portfolio verification.
+3. Upcoming investor events (Luma), like londonstartupmap.

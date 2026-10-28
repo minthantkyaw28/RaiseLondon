@@ -44,9 +44,41 @@ export interface Review {
   date: string;
 }
 
+export type MeetingOutcome = "passed" | "follow-up" | "term-sheet" | "ghosted";
+
+export type DebriefReason =
+  | "too-early"
+  | "market-size"
+  | "team"
+  | "traction"
+  | "valuation"
+  | "not-our-thesis"
+  | "competition"
+  | "timing"
+  | "no-reason-given";
+
+export type PickyTopic =
+  | "metrics"
+  | "team-background"
+  | "market-sizing"
+  | "tech-depth"
+  | "go-to-market"
+  | "cap-table"
+  | "unit-economics";
+
+export interface Debrief {
+  id: string;
+  investorId: string;
+  outcome: MeetingOutcome;
+  reasons: DebriefReason[];
+  pickyAbout: PickyTopic[];
+  date: string;
+}
+
 export interface Dataset {
   generatedAt: string;
   source: "mock" | "dealroom";
   investors: Investor[];
   reviews: Review[];
+  debriefs: Debrief[];
 }

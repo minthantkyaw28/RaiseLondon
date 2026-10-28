@@ -2286,5 +2286,327 @@
       "tags": ["Hands-off"],
       "date": "2026-08-03"
     }
+  ],
+  "debriefs": [
+    {
+      "id": "d_1",
+      "investorId": "inv_1",
+      "outcome": "follow-up",
+      "reasons": [],
+      "pickyAbout": ["tech-depth", "go-to-market"],
+      "date": "2026-03-02"
+    },
+    {
+      "id": "d_2",
+      "investorId": "inv_3",
+      "outcome": "ghosted",
+      "reasons": ["traction"],
+      "pickyAbout": ["market-sizing"],
+      "date": "2026-01-11"
+    },
+    {
+      "id": "d_3",
+      "investorId": "inv_3",
+      "outcome": "ghosted",
+      "reasons": ["traction"],
+      "pickyAbout": ["market-sizing", "tech-depth", "go-to-market"],
+      "date": "2026-02-16"
+    },
+    {
+      "id": "d_4",
+      "investorId": "inv_3",
+      "outcome": "passed",
+      "reasons": ["traction"],
+      "pickyAbout": ["team-background", "go-to-market"],
+      "date": "2026-03-15"
+    },
+    {
+      "id": "d_5",
+      "investorId": "inv_3",
+      "outcome": "term-sheet",
+      "reasons": [],
+      "pickyAbout": ["metrics", "team-background", "market-sizing"],
+      "date": "2026-04-21"
+    },
+    {
+      "id": "d_6",
+      "investorId": "inv_3",
+      "outcome": "passed",
+      "reasons": ["timing"],
+      "pickyAbout": ["metrics", "market-sizing", "go-to-market"],
+      "date": "2026-05-13"
+    },
+    {
+      "id": "d_7",
+      "investorId": "inv_4",
+      "outcome": "passed",
+      "reasons": ["too-early", "valuation", "timing"],
+      "pickyAbout": ["metrics"],
+      "date": "2026-08-12"
+    },
+    {
+      "id": "d_8",
+      "investorId": "inv_6",
+      "outcome": "passed",
+      "reasons": ["valuation"],
+      "pickyAbout": ["cap-table", "unit-economics"],
+      "date": "2026-05-19"
+    },
+    {
+      "id": "d_9",
+      "investorId": "inv_6",
+      "outcome": "ghosted",
+      "reasons": ["no-reason-given"],
+      "pickyAbout": ["market-sizing", "unit-economics"],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "d_10",
+      "investorId": "inv_6",
+      "outcome": "passed",
+      "reasons": ["valuation", "not-our-thesis"],
+      "pickyAbout": ["cap-table"],
+      "date": "2026-10-06"
+    },
+    {
+      "id": "d_11",
+      "investorId": "inv_8",
+      "outcome": "passed",
+      "reasons": ["competition"],
+      "pickyAbout": ["team-background", "market-sizing"],
+      "date": "2026-06-07"
+    },
+    {
+      "id": "d_12",
+      "investorId": "inv_9",
+      "outcome": "term-sheet",
+      "reasons": [],
+      "pickyAbout": ["go-to-market"],
+      "date": "2026-01-20"
+    },
+    {
+      "id": "d_13",
+      "investorId": "inv_9",
+      "outcome": "follow-up",
+      "reasons": [],
+      "pickyAbout": ["market-sizing", "go-to-market"],
+      "date": "2026-05-05"
+    },
+    {
+      "id": "d_14",
+      "investorId": "inv_10",
+      "outcome": "ghosted",
+      "reasons": ["no-reason-given"],
+      "pickyAbout": ["market-sizing", "tech-depth"],
+      "date": "2026-01-12"
+    },
+    {
+      "id": "d_15",
+      "investorId": "inv_10",
+      "outcome": "term-sheet",
+      "reasons": [],
+      "pickyAbout": ["go-to-market"],
+      "date": "2026-08-28"
+    },
+    {
+      "id": "d_16",
+      "investorId": "inv_11",
+      "outcome": "follow-up",
+      "reasons": [],
+      "pickyAbout": ["team-background"],
+      "date": "2026-03-22"
+    },
+    {
+      "id": "d_17",
+      "investorId": "inv_11",
+      "outcome": "passed",
+      "reasons": ["not-our-thesis", "timing"],
+      "pickyAbout": ["team-background", "unit-economics"],
+      "date": "2026-04-22"
+    },
+    {
+      "id": "d_18",
+      "investorId": "inv_11",
+      "outcome": "passed",
+      "reasons": ["competition", "timing"],
+      "pickyAbout": ["team-background"],
+      "date": "2026-10-21"
+    },
+    {
+      "id": "d_19",
+      "investorId": "inv_12",
+      "outcome": "ghosted",
+      "reasons": ["no-reason-given"],
+      "pickyAbout": ["market-sizing", "tech-depth", "cap-table"],
+      "date": "2026-01-06"
+    },
+    {
+      "id": "d_20",
+      "investorId": "inv_12",
+      "outcome": "follow-up",
+      "reasons": [],
+      "pickyAbout": ["market-sizing"],
+      "date": "2026-03-10"
+    },
+    {
+      "id": "d_21",
+      "investorId": "inv_13",
+      "outcome": "follow-up",
+      "reasons": [],
+      "pickyAbout": ["tech-depth", "go-to-market"],
+      "date": "2026-03-08"
+    },
+    {
+      "id": "d_22",
+      "investorId": "inv_14",
+      "outcome": "passed",
+      "reasons": ["team"],
+      "pickyAbout": ["metrics", "go-to-market"],
+      "date": "2026-07-07"
+    },
+    {
+      "id": "d_23",
+      "investorId": "inv_14",
+      "outcome": "passed",
+      "reasons": ["not-our-thesis"],
+      "pickyAbout": ["team-background"],
+      "date": "2026-08-04"
+    },
+    {
+      "id": "d_24",
+      "investorId": "inv_14",
+      "outcome": "ghosted",
+      "reasons": ["team"],
+      "pickyAbout": ["team-background", "go-to-market"],
+      "date": "2026-10-09"
+    },
+    {
+      "id": "d_25",
+      "investorId": "inv_14",
+      "outcome": "passed",
+      "reasons": ["market-size", "team"],
+      "pickyAbout": ["team-background", "go-to-market"],
+      "date": "2026-10-25"
+    },
+    {
+      "id": "d_26",
+      "investorId": "inv_15",
+      "outcome": "passed",
+      "reasons": ["timing"],
+      "pickyAbout": ["market-sizing", "tech-depth"],
+      "date": "2026-02-15"
+    },
+    {
+      "id": "d_27",
+      "investorId": "inv_17",
+      "outcome": "passed",
+      "reasons": ["too-early", "traction"],
+      "pickyAbout": ["team-background"],
+      "date": "2026-02-09"
+    },
+    {
+      "id": "d_28",
+      "investorId": "inv_17",
+      "outcome": "passed",
+      "reasons": ["too-early"],
+      "pickyAbout": ["go-to-market"],
+      "date": "2026-03-07"
+    },
+    {
+      "id": "d_29",
+      "investorId": "inv_17",
+      "outcome": "passed",
+      "reasons": ["too-early", "market-size"],
+      "pickyAbout": ["tech-depth"],
+      "date": "2026-04-03"
+    },
+    {
+      "id": "d_30",
+      "investorId": "inv_21",
+      "outcome": "follow-up",
+      "reasons": [],
+      "pickyAbout": ["cap-table"],
+      "date": "2026-01-26"
+    },
+    {
+      "id": "d_31",
+      "investorId": "inv_21",
+      "outcome": "passed",
+      "reasons": ["market-size", "competition"],
+      "pickyAbout": ["team-background"],
+      "date": "2026-02-11"
+    },
+    {
+      "id": "d_32",
+      "investorId": "inv_21",
+      "outcome": "follow-up",
+      "reasons": [],
+      "pickyAbout": ["cap-table"],
+      "date": "2026-08-17"
+    },
+    {
+      "id": "d_33",
+      "investorId": "inv_22",
+      "outcome": "ghosted",
+      "reasons": ["not-our-thesis"],
+      "pickyAbout": ["market-sizing"],
+      "date": "2026-01-02"
+    },
+    {
+      "id": "d_34",
+      "investorId": "inv_22",
+      "outcome": "term-sheet",
+      "reasons": [],
+      "pickyAbout": ["market-sizing"],
+      "date": "2026-04-27"
+    },
+    {
+      "id": "d_35",
+      "investorId": "inv_22",
+      "outcome": "passed",
+      "reasons": ["competition"],
+      "pickyAbout": ["metrics", "team-background", "market-sizing"],
+      "date": "2026-08-12"
+    },
+    {
+      "id": "d_36",
+      "investorId": "inv_28",
+      "outcome": "follow-up",
+      "reasons": [],
+      "pickyAbout": ["market-sizing"],
+      "date": "2026-01-09"
+    },
+    {
+      "id": "d_37",
+      "investorId": "inv_28",
+      "outcome": "passed",
+      "reasons": ["not-our-thesis", "timing"],
+      "pickyAbout": ["cap-table"],
+      "date": "2026-05-11"
+    },
+    {
+      "id": "d_38",
+      "investorId": "inv_28",
+      "outcome": "passed",
+      "reasons": ["too-early", "competition", "timing"],
+      "pickyAbout": ["market-sizing"],
+      "date": "2026-07-04"
+    },
+    {
+      "id": "d_39",
+      "investorId": "inv_28",
+      "outcome": "term-sheet",
+      "reasons": [],
+      "pickyAbout": ["cap-table"],
+      "date": "2026-07-13"
+    },
+    {
+      "id": "d_40",
+      "investorId": "inv_28",
+      "outcome": "ghosted",
+      "reasons": ["no-reason-given"],
+      "pickyAbout": ["cap-table", "unit-economics"],
+      "date": "2026-07-27"
+    }
   ]
 }
