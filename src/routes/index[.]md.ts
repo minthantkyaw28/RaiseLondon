@@ -1,13 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { dataset } from "@/data/source";
 import { AGENT_CACHE_CONTROL, parseListQuery, renderInvestorList } from "@/lib/agent-markdown";
 
 export const Route = createFileRoute("/index.md")({
   server: {
     handlers: {
-      GET: ({ request }) =>
-        new Response(
+      GET: async ({ request }) => {
+        const { fetchDataset } = await import("@/data/source.server");
+        const dataset = await fetchDataset();
+        return new Response(
           renderInvestorList(dataset, parseListQuery(new URL(request.url).searchParams)),
           {
             headers: {
@@ -15,7 +16,8 @@ export const Route = createFileRoute("/index.md")({
               "cache-control": AGENT_CACHE_CONTROL,
             },
           },
-        ),
+        );
+      },
     },
   },
 });

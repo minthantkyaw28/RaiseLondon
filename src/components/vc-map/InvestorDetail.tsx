@@ -2,7 +2,7 @@ import { BadgeCheck, ExternalLink, MapPin, X } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { dataset } from "@/data/source";
+import { useDataset } from "@/data/source";
 import type { Debrief, Investor, MeetingOutcome, Review } from "@/data/types";
 import { MIN_DEBRIEFS_TO_SHOW, summarizeDebriefs } from "@/lib/debriefs";
 import { OUTCOME_LABEL, PICKY_LABEL, REASON_LABEL, SECTOR_LABEL, STAGE_LABEL } from "@/lib/labels";
@@ -25,6 +25,7 @@ const gbp = (n: number) => (n >= 1_000_000 ? `£${n / 1_000_000}m` : `£${n / 10
 export function InvestorDetail({ investor, reviews, status, onStatus, onClose }: Props) {
   const summary = summarizeReviews(reviews);
   const [ownDebriefs, addDebrief] = useDebriefs();
+  const dataset = useDataset();
   const debriefs = [...dataset.debriefs, ...ownDebriefs].filter(
     (d) => d.investorId === investor.id,
   );
