@@ -69,6 +69,8 @@ export function PitchMatcher({ investors, warmIds, onSelect }: Props) {
     setPhase((p) => (p === "recording" ? "idle" : p));
   };
 
+  // Only refs are touched on unmount, so the first render's function is enough.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => cancelRecording, []);
 
   const sendForTranscription = async (audio: Blob, mimeType: string) => {
