@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ChevronDown, Search, SlidersHorizontal, X } from "lucide-react";
+import { ChevronDown, Presentation, Search, SlidersHorizontal, X } from "lucide-react";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { Badge } from "@/components/ui/badge";
@@ -201,6 +201,11 @@ function Index() {
         </div>
         <div className="flex items-center gap-2">
           {dataset.source === "mock" && <Badge variant="outline">Mock data</Badge>}
+          <Button size="sm" variant="outline" asChild>
+            <a href="/deck">
+              <Presentation className="h-4 w-4" /> Pitch deck
+            </a>
+          </Button>
           <PitchMatcher
             investors={investors}
             onSelect={setSelectedId}
