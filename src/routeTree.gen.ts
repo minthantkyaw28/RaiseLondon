@@ -10,33 +10,64 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as IndexDotmdRouteImport } from './routes/index[.]md'
+import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
+import { Route as InvestorChar123slugChar125DotmdRouteImport } from './routes/investor/{$slug}[.]md'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IndexDotmdRoute = IndexDotmdRouteImport.update({
+  id: '/index.md',
+  path: '/index.md',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
+  id: '/llms.txt',
+  path: '/llms.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InvestorChar123slugChar125DotmdRoute =
+  InvestorChar123slugChar125DotmdRouteImport.update({
+    id: '/investor/{$slug}.md',
+    path: '/investor/{$slug}.md',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/index.md': typeof IndexDotmdRoute
+  '/llms.txt': typeof LlmsDottxtRoute
+  '/investor/{$slug}.md': typeof InvestorChar123slugChar125DotmdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/index.md': typeof IndexDotmdRoute
+  '/llms.txt': typeof LlmsDottxtRoute
+  '/investor/{$slug}.md': typeof InvestorChar123slugChar125DotmdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/index.md': typeof IndexDotmdRoute
+  '/llms.txt': typeof LlmsDottxtRoute
+  '/investor/{$slug}.md': typeof InvestorChar123slugChar125DotmdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/index.md' | '/llms.txt' | '/investor/{$slug}.md'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/index.md' | '/llms.txt' | '/investor/{$slug}.md'
+  id: '__root__' | '/' | '/index.md' | '/llms.txt' | '/investor/{$slug}.md'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  IndexDotmdRoute: typeof IndexDotmdRoute
+  LlmsDottxtRoute: typeof LlmsDottxtRoute
+  InvestorChar123slugChar125DotmdRoute: typeof InvestorChar123slugChar125DotmdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +79,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/index.md': {
+      id: '/index.md'
+      path: '/index.md'
+      fullPath: '/index.md'
+      preLoaderRoute: typeof IndexDotmdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llms.txt': {
+      id: '/llms.txt'
+      path: '/llms.txt'
+      fullPath: '/llms.txt'
+      preLoaderRoute: typeof LlmsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/investor/{$slug}.md': {
+      id: '/investor/{$slug}.md'
+      path: '/investor/{$slug}.md'
+      fullPath: '/investor/{$slug}.md'
+      preLoaderRoute: typeof InvestorChar123slugChar125DotmdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  IndexDotmdRoute: IndexDotmdRoute,
+  LlmsDottxtRoute: LlmsDottxtRoute,
+  InvestorChar123slugChar125DotmdRoute: InvestorChar123slugChar125DotmdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

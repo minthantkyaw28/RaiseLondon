@@ -120,6 +120,16 @@ in the browser's localStorage. With accounts it moves into the database.
 Neither audio nor transcript is stored or logged anywhere: no database, no storage, no transcript
 in logs. Extraction is still keyword rules in the browser. The speech key lives only on the server.
 
+## For AI agents
+
+Read-only markdown endpoints, rendered by `src/lib/agent-markdown.ts`, cached for 5 minutes:
+
+- `GET /llms.txt`: what Raise is, when to use it and how to call it.
+- `GET /index.md`: every investor as a markdown list. Filters: `stage` and `sector`
+  (comma-separated slugs) and `q` (name, one-liner, partner names).
+- `GET /investor/<slug>.md`: one investor's profile with partners, portfolio and review
+  summary. Unknown slugs return 404.
+
 ## Code map
 
 | Path                                       | What                                                            |
@@ -161,4 +171,3 @@ in logs. Extraction is still keyword rules in the browser. The speech key lives 
 2. A "why they said no" questionnaire after investor meetings, verified like reviews.
 3. Accounts and a review submission flow with portfolio verification.
 4. Upcoming investor events (Luma), like londonstartupmap.
-5. `llms.txt` and markdown pages for agents.
