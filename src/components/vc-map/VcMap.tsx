@@ -1,10 +1,17 @@
 import { useEffect, useRef } from "react";
-import type { GeoJSONSource, MapLayerMouseEvent, Map as MapLibreMap } from "maplibre-gl";
+import type {
+  ExpressionSpecification,
+  GeoJSONSource,
+  MapLayerMouseEvent,
+  Map as MapLibreMap,
+  SymbolLayerSpecification,
+} from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?url";
 
 import type { Investor } from "@/data/types";
 import { cn } from "@/lib/utils";
+import { rankInvestors, type Tier } from "./importance";
 import { buildStyle, type MapView } from "./map-styles";
 
 const LONDON: [number, number] = [-0.11, 51.515];
@@ -12,46 +19,6 @@ const FONT = ["Noto Sans Bold"];
 const ANTIALIAS = { antialias: true };
 
 const baseRatio = (view: MapView) => window.devicePixelRatio * (view.pixelScale ?? 1);
-
-const PILL = "vc-pill";
-const PILL_SELECTED = "vc-pill-selected";
-const PILL_W = 32;
-const PILL_H = 24;
-const PILL_R = 8;
-
-// A stretchable rounded rectangle: icon-text-fit grows the straight middle around the firm name
-// while the corners keep their radius.
-function addPillImage(
-  m: MapLibreMap,
-  id: string,
-  fill: string,
-  stroke: string,
-  strokeWidth: number,
-) {
-  const ratio = Math.max(2, Math.ceil(window.devicePixelRatio));
-  const canvas = document.createElement("canvas");
-  canvas.width = PILL_W * ratio;
-  canvas.height = PILL_H * ratio;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return;
-  ctx.scale(ratio, ratio);
-  const inset = strokeWidth / 2;
-  ctx.beginPath();
-  ctx.roundRect(inset, inset, PILL_W - strokeWidth, PILL_H - strokeWidth, PILL_R - inset);
-  ctx.fillStyle = fill;
-  ctx.fill();
-  ctx.lineWidth = strokeWidth;
-  ctx.strokeStyle = stroke;
-  ctx.stroke();
-  const px = (n: number) => n * ratio;
-  if (m.hasImage(id)) m.removeImage(id);
-  m.addImage(id, ctx.getImageData(0, 0, canvas.width, canvas.height), {
-    pixelRatio: ratio,
-    stretchX: [[px(PILL_R), px(PILL_W - PILL_R)]],
-    stretchY: [[px(PILL_R), px(PILL_H - PILL_R)]],
-    content: [px(PILL_R), px(PILL_R), px(PILL_W - PILL_R), px(PILL_H - PILL_R)],
-  });
-}
 
 interface Props {
   investors: Investor[];
@@ -61,6 +28,7 @@ interface Props {
 }
 
 function toGeoJSON(investors: Investor[], selectedId: string | null) {
+  const importance = rankInvestors(investors);
   return {
     type: "FeatureCollection" as const,
     features: investors.map((v) => ({
@@ -70,77 +38,120 @@ function toGeoJSON(investors: Investor[], selectedId: string | null) {
         id: v.id,
         name: v.name,
         selected: v.id === selectedId,
+        rank: importance.get(v.id)?.rank ?? investors.length,
+        tier: importance.get(v.id)?.tier ?? 3,
       },
     })),
   };
 }
 
+const SELECTED: ExpressionSpecification = ["get", "selected"];
+const TIER: ExpressionSpecification = ["get", "tier"];
+
+const pinRadius = (tier1: number, tier2: number, tier3: number): ExpressionSpecification => [
+  "case",
+  SELECTED,
+  8,
+  ["match", TIER, 1, tier1, 2, tier2, tier3],
+];
+
+// Like Google Maps, the busiest firms are named first and smaller ones appear as you zoom in.
+// One layer per tier because a ["zoom"] filter on a tiled source only sees whole tile zooms.
+const LABEL_TIERS: { id: string; tier: Tier; minzoom: number; size: number }[] = [
+  { id: "labels-tier-3", tier: 3, minzoom: 14, size: 11 },
+  { id: "labels-tier-2", tier: 2, minzoom: 12.5, size: 12 },
+  { id: "labels-tier-1", tier: 1, minzoom: 11, size: 13.5 },
+];
+
+function labelLayout(size: number): NonNullable<SymbolLayerSpecification["layout"]> {
+  return {
+    "text-field": ["get", "name"],
+    "text-font": FONT,
+    "text-size": size,
+    // Right of the pin so the pin stays visible; left of it when the right side is taken.
+    "text-variable-anchor-offset": ["literal", ["left", [0.7, 0], "right", [-0.7, 0]]],
+    "text-justify": "auto",
+    "text-padding": 3,
+    "symbol-sort-key": ["get", "rank"],
+  };
+}
+
+function labelPaint(color: string, halo: string): NonNullable<SymbolLayerSpecification["paint"]> {
+  return {
+    "text-color": color,
+    "text-halo-color": halo,
+    "text-halo-width": 2,
+    "text-halo-blur": 0.5,
+  };
+}
+
 function addInvestorLayers(m: MapLibreMap, data: ReturnType<typeof toGeoJSON>, view: MapView) {
-  const { pin } = view;
-  addPillImage(m, PILL, pin.fill, pin.stroke, 1.5);
-  addPillImage(m, PILL_SELECTED, pin.cluster, pin.stroke, 2.5);
-  m.addSource("investors", {
-    type: "geojson",
-    data,
-    cluster: true,
-    clusterRadius: 40,
-    clusterMaxZoom: 14,
-  });
-  m.addLayer({
-    id: "clusters",
-    type: "circle",
-    source: "investors",
-    filter: ["has", "point_count"],
-    paint: {
-      "circle-color": pin.cluster,
-      "circle-radius": ["step", ["get", "point_count"], 16, 5, 20, 10, 26],
-      "circle-stroke-width": 3,
-      "circle-stroke-color": pin.stroke,
-    },
-  });
-  m.addLayer({
-    id: "cluster-count",
-    type: "symbol",
-    source: "investors",
-    filter: ["has", "point_count"],
-    layout: { "text-field": "{point_count_abbreviated}", "text-size": 12, "text-font": FONT },
-    paint: { "text-color": pin.stroke },
-  });
+  const { pin, look } = view;
+  m.addSource("investors", { type: "geojson", data });
   m.addLayer({
     id: "points",
     type: "circle",
     source: "investors",
-    filter: ["!", ["has", "point_count"]],
+    layout: { "circle-sort-key": ["case", SELECTED, 1, ["-", 0, ["get", "rank"]]] },
     paint: {
       "circle-color": pin.fill,
-      "circle-radius": ["case", ["get", "selected"], 13, 9],
-      "circle-stroke-width": ["case", ["get", "selected"], 4, 2],
+      "circle-radius": [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        11,
+        pinRadius(4.5, 3.5, 2.5),
+        15,
+        pinRadius(7, 6, 5),
+      ],
+      // Unnamed small firms recede until their names appear, so dots never crowd a name.
+      "circle-opacity": [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        12.5,
+        ["case", SELECTED, 1, ["match", TIER, 3, 0.45, 1]],
+        14,
+        1,
+      ],
+      "circle-stroke-opacity": [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        12.5,
+        ["case", SELECTED, 1, ["match", TIER, 3, 0.45, 1]],
+        14,
+        1,
+      ],
+      "circle-stroke-width": ["case", SELECTED, 2.5, ["match", TIER, 3, 1, 1.5]],
       "circle-stroke-color": pin.stroke,
     },
   });
-  m.addLayer(
-    {
-      id: "labels",
+  // Above the pins: in the packed centre a name drawn under the dots would be unreadable.
+  // Symbol layers are placed top first, so tier 1 claims space before tier 2 and tier 3.
+  for (const { id, tier, minzoom, size } of LABEL_TIERS) {
+    m.addLayer({
+      id,
       type: "symbol",
       source: "investors",
-      filter: ["!", ["has", "point_count"]],
-      minzoom: 13,
-      layout: {
-        "text-field": ["get", "name"],
-        "text-font": FONT,
-        "text-size": ["case", ["get", "selected"], 13, 12],
-        "text-offset": ["case", ["get", "selected"], ["literal", [0, 1.9]], ["literal", [0, 1.6]]],
-        "text-anchor": "top",
-        "icon-image": ["case", ["get", "selected"], PILL_SELECTED, PILL],
-        "icon-text-fit": "both",
-        "icon-text-fit-padding": [2, 7, 2, 7],
-        "symbol-sort-key": ["case", ["get", "selected"], 0, 1],
-      },
-      paint: { "text-color": pin.stroke },
+      filter: ["all", ["==", TIER, tier], ["!", SELECTED]],
+      minzoom,
+      layout: labelLayout(size),
+      paint: labelPaint(pin.label, look.land),
+    });
+  }
+  m.addLayer({
+    id: "label-selected",
+    type: "symbol",
+    source: "investors",
+    filter: ["==", SELECTED, true],
+    layout: {
+      ...labelLayout(15),
+      "text-variable-anchor-offset": ["literal", ["left", [0.8, 0]]],
+      "text-allow-overlap": true,
     },
-    // Below the pins so a pill never hides a neighbouring firm's pin.
-    "points",
-  );
+    paint: { ...labelPaint(pin.fill, look.land), "text-halo-width": 3 },
+  });
 }
 
 // maplibre touches `window` on import, so it is loaded inside the effect to keep SSR happy.
@@ -190,6 +201,7 @@ export function VcMap({ investors, selectedId, view, onSelect }: Props) {
       m.on("resize", () => base.resize());
       baseMap.current = base;
       map.current = m;
+      if (import.meta.env.DEV) Object.assign(window, { __vcMap: m });
 
       m.on("style.load", () => addInvestorLayers(m, dataRef.current, viewRef.current));
 
@@ -198,19 +210,13 @@ export function VcMap({ investors, selectedId, view, onSelect }: Props) {
         container.current
           ?.querySelector(".maplibregl-ctrl-attrib")
           ?.classList.remove("maplibregl-compact-show");
-        m.on("click", "points", (e: MapLayerMouseEvent) => {
+        // Small pins are hard to hit, so a firm's name pill selects it too.
+        const clickable = ["points", ...LABEL_TIERS.map((t) => t.id)];
+        m.on("click", clickable, (e: MapLayerMouseEvent) => {
           const id = e.features?.[0]?.properties?.["id"];
           if (typeof id === "string") onSelectRef.current(id);
         });
-        m.on("click", "clusters", async (e: MapLayerMouseEvent) => {
-          const feature = e.features?.[0];
-          if (!feature) return;
-          const source = m.getSource("investors") as GeoJSONSource;
-          const zoom = await source.getClusterExpansionZoom(feature.properties["cluster_id"]);
-          const [lng, lat] = (feature.geometry as { coordinates: [number, number] }).coordinates;
-          m.easeTo({ center: [lng, lat], zoom });
-        });
-        for (const layer of ["points", "clusters"]) {
+        for (const layer of clickable) {
           m.on("mouseenter", layer, () => (m.getCanvas().style.cursor = "pointer"));
           m.on("mouseleave", layer, () => (m.getCanvas().style.cursor = ""));
         }
