@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DeckRouteImport } from './routes/deck'
 import { Route as IndexDotmdRouteImport } from './routes/index[.]md'
 import { Route as IntrosRouteImport } from './routes/intros'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
@@ -22,6 +23,11 @@ import { Route as InvestorsIdRouteImport } from './routes/investors/$id'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DeckRoute = DeckRouteImport.update({
+  id: '/deck',
+  path: '/deck',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexDotmdRoute = IndexDotmdRouteImport.update({
@@ -68,6 +74,7 @@ const InvestorsIdRoute = InvestorsIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/deck': typeof DeckRoute
   '/index.md': typeof IndexDotmdRoute
   '/intros': typeof IntrosRoute
   '/llms.txt': typeof LlmsDottxtRoute
@@ -79,6 +86,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/deck': typeof DeckRoute
   '/index.md': typeof IndexDotmdRoute
   '/intros': typeof IntrosRoute
   '/llms.txt': typeof LlmsDottxtRoute
@@ -91,6 +99,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/deck': typeof DeckRoute
   '/index.md': typeof IndexDotmdRoute
   '/intros': typeof IntrosRoute
   '/llms.txt': typeof LlmsDottxtRoute
@@ -104,6 +113,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/deck'
     | '/index.md'
     | '/intros'
     | '/llms.txt'
@@ -115,6 +125,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/deck'
     | '/index.md'
     | '/intros'
     | '/llms.txt'
@@ -126,6 +137,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/deck'
     | '/index.md'
     | '/intros'
     | '/llms.txt'
@@ -138,6 +150,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DeckRoute: typeof DeckRoute
   IndexDotmdRoute: typeof IndexDotmdRoute
   IntrosRoute: typeof IntrosRoute
   LlmsDottxtRoute: typeof LlmsDottxtRoute
@@ -155,6 +168,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/deck': {
+      id: '/deck'
+      path: '/deck'
+      fullPath: '/deck'
+      preLoaderRoute: typeof DeckRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/index.md': {
@@ -218,6 +238,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DeckRoute: DeckRoute,
   IndexDotmdRoute: IndexDotmdRoute,
   IntrosRoute: IntrosRoute,
   LlmsDottxtRoute: LlmsDottxtRoute,
