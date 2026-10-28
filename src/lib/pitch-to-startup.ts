@@ -139,12 +139,31 @@ const byRank = (a: MatchResult, b: MatchResult) =>
   b.investor.londonRoundsSince2024 - a.investor.londonRoundsSince2024 ||
   a.investor.name.localeCompare(b.investor.name);
 
+// Min's partial sector overlap is worth 18 of 40; a firm that backs any sector gets the same.
+export const GENERALIST_POINTS = 18;
+const NO_SECTOR_OVERLAP = /^No sector overlap with /;
+
+/** A generalist that missed on sector gets partial sector credit in place of the miss. */
+function creditGeneralist(r: MatchResult): MatchResult {
+  const miss = r.reasons.findIndex((reason) => NO_SECTOR_OVERLAP.test(reason));
+  if (miss < 0) return r;
+  const reasons = [...r.reasons];
+  reasons[miss] = "Generalist investor.";
+  return { ...r, score: Math.min(100, r.score + GENERALIST_POINTS), reasons };
+}
+
 /**
  * Min's ranking for a pitch. Only the sector part of his score depends on the sector, so ranking
  * once per Dealroom term and keeping each investor's best result is his score with the best
- * sector fit across every sector we read in the pitch.
+ * sector fit across every sector we read in the pitch. `generalists` (uuids) get partial sector
+ * credit where no term overlapped.
  */
-export function rankPitch(profile: PitchProfile, text: string, investors: Investor[]) {
+export function rankPitch(
+  profile: PitchProfile,
+  text: string,
+  investors: Investor[],
+  generalists: ReadonlySet<string> = new Set(),
+) {
   const input = pitchToStartup(profile, text);
   const terms = termsFor(profile.sectors);
   if (!terms.length) return rankInvestors(investors, input);
@@ -155,5 +174,7 @@ export function rankPitch(profile: PitchProfile, text: string, investors: Invest
       if (!prev || r.score > prev.score) best.set(r.investor.uuid, r);
     }
   }
-  return [...best.values()].sort(byRank);
+  return [...best.values()]
+    .map((r) => (generalists.has(r.investor.uuid) ? creditGeneralist(r) : r))
+    .sort(byRank);
 }

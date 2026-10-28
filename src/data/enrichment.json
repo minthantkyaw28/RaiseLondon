@@ -1,0 +1,3389 @@
+[
+  {
+    "uuid": "81bca5ea-1155-4e7e-93ef-0149c565446c",
+    "name": "SFC Capital",
+    "office": {
+      "address": "Fox Court, 14 Gray's Inn Road, London WC1X 8HN",
+      "postcode": "WC1X 8HN",
+      "lat": 51.518927,
+      "lng": -0.111356,
+      "source": "https://sfccapital.com/raise"
+    },
+    "sectors": [
+      "generalist"
+    ],
+    "sectorsSource": "https://sfccapital.com/raise",
+    "stages": [
+      "seed"
+    ],
+    "stagesSource": "https://sfccapital.com/raise",
+    "chequeGbp": {
+      "min": 100000,
+      "max": 300000
+    },
+    "chequeSource": "https://sfccapital.com/faq",
+    "confidence": "high",
+    "notes": "SEIS/EIS funds; invests in any sector, UK companies only; second office in Northwich, Cheshire."
+  },
+  {
+    "uuid": "9ebb1740-2482-472a-8551-5b2000c1a689",
+    "name": "Fuel Ventures",
+    "office": null,
+    "sectors": [
+      "AI",
+      "fintech",
+      "B2B SaaS",
+      "hardware",
+      "consumer",
+      "biotech"
+    ],
+    "sectorsSource": "https://fuel.ventures/founders",
+    "stages": [
+      "pre-seed",
+      "seed",
+      "series-a"
+    ],
+    "stagesSource": "https://fuel.ventures/founders",
+    "chequeGbp": {
+      "min": null,
+      "max": 3000000
+    },
+    "chequeSource": "https://fuel.ventures/founders",
+    "confidence": "high",
+    "notes": "Pre-seed SEIS up to £250k; seed EIS £1-3m; follow-on £500k-£2m for Series A. No address published."
+  },
+  {
+    "uuid": "729f14eb-ed32-42b9-9af8-873fce4b4f88",
+    "name": "Octopus Ventures",
+    "office": {
+      "address": "33 Holborn, London EC1N 2HT",
+      "postcode": "EC1N 2HT",
+      "lat": 51.517537,
+      "lng": -0.108272,
+      "source": "https://octopusventures.com/contact/"
+    },
+    "sectors": [
+      "B2B SaaS",
+      "bio",
+      "climate",
+      "consumer",
+      "deep tech",
+      "fintech",
+      "healthtech"
+    ],
+    "sectorsSource": "https://octopusventures.com/about/faq/",
+    "stages": [
+      "pre-seed",
+      "seed",
+      "series-a",
+      "series-b"
+    ],
+    "stagesSource": "https://octopusventures.com/about/faq/",
+    "chequeGbp": {
+      "min": 100000,
+      "max": null
+    },
+    "chequeSource": "https://octopusventures.com/about/faq/",
+    "confidence": "high",
+    "notes": "Pre-seed standard £100k; seed and later typically from £1m; 'Series A and beyond' mapped to series-a, series-b; no max stated. Postcode EC1N 2HT is terminated (Feb 2026) in postcodes.io; coordinates from its terminated record."
+  },
+  {
+    "uuid": "a9d89ae3-22df-49b8-9fb6-57ad8701973d",
+    "name": "Seedcamp",
+    "office": {
+      "address": "12 Little Portland Street, London W1W 8BJ",
+      "postcode": "W1W 8BJ",
+      "lat": 51.516858,
+      "lng": -0.142287,
+      "source": "https://seedcamp.com/contact/"
+    },
+    "sectors": [
+      "generalist"
+    ],
+    "sectorsSource": "https://seedcamp.com/faqs/",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": {
+      "min": 276500,
+      "max": 987500
+    },
+    "chequeSource": "https://seedcamp.com/faqs/",
+    "confidence": "high",
+    "notes": "First cheque $350k-$1.25m converted at USD 0.79. Stage only described as pre-product to post-launch, so stages null."
+  },
+  {
+    "uuid": "43fe704a-756e-4616-a745-ca0938ef161c",
+    "name": "AlbionVC",
+    "office": {
+      "address": "1 Benjamin Street, Farringdon, London EC1M 5QL",
+      "postcode": "EC1M 5QL",
+      "lat": 51.520723,
+      "lng": -0.103974,
+      "source": "https://albion.vc/contact-us/"
+    },
+    "sectors": [
+      "deep tech",
+      "fintech",
+      "healthtech"
+    ],
+    "sectorsSource": "https://albion.vc/contact-us/",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Site organises investing into Deeptech, Fintech and Healthtech hubs; no stage or cheque size published."
+  },
+  {
+    "uuid": "c907cf53-e181-4d47-9883-f30dd58676d0",
+    "name": "Notion Capital",
+    "office": {
+      "address": "91 Wimpole Street, London W1G 0EF",
+      "postcode": "W1G 0EF",
+      "lat": 51.516222,
+      "lng": -0.147573,
+      "source": "https://notioncapital.com"
+    },
+    "sectors": [
+      "B2B SaaS",
+      "fintech"
+    ],
+    "sectorsSource": "https://notioncapital.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "European business software focus. Third-party cheque figures conflict ($1-15m vs EUR 1-8m vs $1-3m), so left null."
+  },
+  {
+    "uuid": "9c3c8279-3e29-4b58-8f10-fcb0730acb26",
+    "name": "Entrepreneurs First",
+    "office": {
+      "address": "Shoreditch Exchange, Senna Building, Gorsuch Place, London E2 8JF",
+      "postcode": "E2 8JF",
+      "lat": 51.530169,
+      "lng": -0.075481,
+      "source": "https://www.joinef.com/contact/"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": {
+      "min": null,
+      "max": 197500
+    },
+    "chequeSource": "https://joinef.com",
+    "confidence": "high",
+    "notes": "Up to $250k once a company forms (USD 0.79), up to $5m follow-on. Stage and sector not stated."
+  },
+  {
+    "uuid": "7d3c9943-e634-4481-848a-80bcf452c848",
+    "name": "LocalGlobe",
+    "office": {
+      "address": "2 Brill Place, Somers Town / King's Cross, London NW1 1DX",
+      "postcode": "NW1 1DX",
+      "lat": 51.532159,
+      "lng": -0.128976,
+      "source": "https://www.phoenixcourt.vc/funds/localglobe/"
+    },
+    "sectors": [
+      "generalist"
+    ],
+    "sectorsSource": "https://www.phoenixcourt.vc/funds/localglobe/",
+    "stages": [
+      "seed"
+    ],
+    "stagesSource": "https://www.phoenixcourt.vc/funds/localglobe/",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "localglobe.vc redirects to Phoenix Court; seed fund. No cheque size published."
+  },
+  {
+    "uuid": "404146bc-e9d8-4536-b9ac-4917cb7ebdf2",
+    "name": "Bethnal Green Ventures (BGV)",
+    "office": {
+      "address": "Techspace, 140 Goswell Road, London EC1V 7DY",
+      "postcode": "EC1V 7DY",
+      "lat": 51.525062,
+      "lng": -0.099209,
+      "source": "https://bethnalgreenventures.com/contact"
+    },
+    "sectors": [
+      "climate",
+      "education",
+      "healthtech",
+      "impact"
+    ],
+    "sectorsSource": "https://bethnalgreenventures.com/our-offer",
+    "stages": [
+      "pre-seed",
+      "seed",
+      "series-a",
+      "series-b"
+    ],
+    "stagesSource": "https://bethnalgreenventures.com/our-offer",
+    "chequeGbp": {
+      "min": 60000,
+      "max": 750000
+    },
+    "chequeSource": "https://bethnalgreenventures.com/our-offer",
+    "confidence": "high",
+    "notes": "Programme £60k for 7%; follow-on £250-300k pre-seed, £500-750k seed, £500k+ Series A/B. Tech for good themes."
+  },
+  {
+    "uuid": "311bf922-e16f-4397-9259-89c2f4ed3107",
+    "name": "Balderton Capital",
+    "office": {
+      "address": "The Stables, 28 Britannia Street, London WC1X 9JF",
+      "postcode": "WC1X 9JF",
+      "lat": 51.529874,
+      "lng": -0.118818,
+      "source": "https://find-and-update.company-information.service.gov.uk/company/OC306910"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "balderton.com returned 403; office from Companies House registered office of Balderton Capital (UK) LLP."
+  },
+  {
+    "uuid": "c8821c1d-68fa-4bdd-be34-6bde5103bcc2",
+    "name": "Mercuri",
+    "office": {
+      "address": "Kings Place, 90 York Way, London N1 9GU",
+      "postcode": "N1 9GU",
+      "lat": 51.534911,
+      "lng": -0.121668,
+      "source": "https://mercuri.vc"
+    },
+    "sectors": [
+      "media",
+      "entertainment",
+      "AI",
+      "gaming",
+      "creator economy"
+    ],
+    "sectorsSource": "https://mercuri.vc",
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://mercuri.vc",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Media, entertainment and AI intersection. No cheque size published."
+  },
+  {
+    "uuid": "f7a455eb-2b38-4081-b017-ef42eb22148c",
+    "name": "Firstminute Capital",
+    "office": {
+      "address": "Level 6, Arundel Street Building, 180 Strand, 2 Arundel Street, London WC2R 3DA",
+      "postcode": "WC2R 3DA",
+      "lat": 51.512087,
+      "lng": -0.114406,
+      "source": "https://firstminute.capital"
+    },
+    "sectors": [
+      "AI",
+      "deep tech",
+      "B2B SaaS",
+      "fintech",
+      "healthtech",
+      "developer tools"
+    ],
+    "sectorsSource": "https://firstminute.capital",
+    "stages": [
+      "seed"
+    ],
+    "stagesSource": "https://firstminute.capital",
+    "chequeGbp": {
+      "min": 1000000,
+      "max": 3000000
+    },
+    "chequeSource": "https://firstminute.capital",
+    "confidence": "high",
+    "notes": "Seed fund, first institutional cheque; '£1m - £3m tickets'."
+  },
+  {
+    "uuid": "80f325c6-e85f-427b-8b96-5cc55423e960",
+    "name": "Episode 1 Ventures",
+    "office": {
+      "address": "4th Floor, 112-116 New Oxford Street, London WC1A 1HH",
+      "postcode": "WC1A 1HH",
+      "lat": 51.516697,
+      "lng": -0.129336,
+      "source": "https://episode1.com"
+    },
+    "sectors": [
+      "AI",
+      "B2B SaaS",
+      "infrastructure",
+      "developer tools"
+    ],
+    "sectorsSource": "https://episode1.com/faq",
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://episode1.com/faq",
+    "chequeGbp": {
+      "min": 250000,
+      "max": 2000000
+    },
+    "chequeSource": "https://episode1.com/faq",
+    "confidence": "high",
+    "notes": "Invests £250k-£2m; generally avoids B2C and hardware."
+  },
+  {
+    "uuid": "d8795151-5792-40da-8cd9-8ede02bc58de",
+    "name": "Index Ventures",
+    "office": {
+      "address": "5-8 Lower John Street, London W1F 9DY",
+      "postcode": "W1F 9DY",
+      "lat": 51.511035,
+      "lng": -0.137451,
+      "source": "https://www.indexventures.com/contact-us/"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "No stage, sector or cheque criteria published on own site."
+  },
+  {
+    "uuid": "bb487d35-cbed-419f-ac10-4aca90764fd8",
+    "name": "MMC Ventures",
+    "office": {
+      "address": "24 High Holborn, London WC1V 6AZ",
+      "postcode": "WC1V 6AZ",
+      "lat": 51.51856,
+      "lng": -0.113144,
+      "source": "https://mmc.vc"
+    },
+    "sectors": [
+      "AI",
+      "data infrastructure",
+      "fintech",
+      "healthtech"
+    ],
+    "sectorsSource": "https://mmc.vc",
+    "stages": [
+      "seed",
+      "series-a"
+    ],
+    "stagesSource": "https://mmc.vc",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "No cheque size published."
+  },
+  {
+    "uuid": "d61514c9-9409-48bc-bfb4-529494d2a551",
+    "name": "Twin Path Ventures",
+    "office": {
+      "address": "Work.Life Clerkenwell Green, London EC1R 0EB",
+      "postcode": "EC1R 0EB",
+      "lat": 51.523312,
+      "lng": -0.105034,
+      "source": "https://twinpath.vc/contact"
+    },
+    "sectors": [
+      "AI"
+    ],
+    "sectorsSource": "https://twinpath.vc",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": {
+      "min": 300000,
+      "max": 1000000
+    },
+    "chequeSource": "https://twinpath.vc",
+    "confidence": "high",
+    "notes": "AI-first only; cheques £300k-£1m; stage wording only 'early-stage'."
+  },
+  {
+    "uuid": "92d3a121-58f0-4e3a-8f39-471becd6cc8b",
+    "name": "Tiny Supercomputer Investment Company",
+    "office": null,
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://tiny.vc",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "States 'about 200-250K' with no currency (Berlin and London offices), so cheque null. No street address published."
+  },
+  {
+    "uuid": "7202b85a-8685-45d5-855d-92b506df75ee",
+    "name": "Ascension",
+    "office": {
+      "address": "9 Appold Street, 6th Floor, London EC2A 2AP",
+      "postcode": "EC2A 2AP",
+      "lat": 51.521691,
+      "lng": -0.081634,
+      "source": "https://ascension.vc"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://ascension.vc",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "No cheque size published; sectors only implied by portfolio so left null."
+  },
+  {
+    "uuid": "bd5d7690-a542-4ac3-927e-e92035b6fea7",
+    "name": "Concept Ventures",
+    "office": {
+      "address": "40 Grosvenor Gardens Mews South, Belgravia, London SW1W 0LD",
+      "postcode": "SW1W 0LD",
+      "lat": 51.496342,
+      "lng": -0.146608,
+      "source": "https://concept.vc"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": [
+      "pre-seed"
+    ],
+    "stagesSource": "https://concept.vc",
+    "chequeGbp": {
+      "min": null,
+      "max": 1185000
+    },
+    "chequeSource": "https://concept.vc",
+    "confidence": "high",
+    "notes": "'Up to $1.5m in first rounds' converted at USD 0.79. Not sector-led."
+  },
+  {
+    "uuid": "f9bb680b-4a31-4656-9dbd-cce74801f1b1",
+    "name": "Plural",
+    "office": {
+      "address": "1 Little Marlborough Street, London W1F 7BH",
+      "postcode": "W1F 7BH",
+      "lat": 51.51374,
+      "lng": -0.139632,
+      "source": "https://pluralplatform.com/contact"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Also Tallinn office. No stage/sector/cheque criteria published."
+  },
+  {
+    "uuid": "e88ea2ad-7996-450d-83dd-595de9200755",
+    "name": "Active Partners",
+    "office": {
+      "address": "38 Soho Square, London W1D 3HB",
+      "postcode": "W1D 3HB",
+      "lat": 51.515173,
+      "lng": -0.133045,
+      "source": "https://active.partners"
+    },
+    "sectors": [
+      "consumer"
+    ],
+    "sectorsSource": "https://active.partners/approach/",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": {
+      "min": 200000,
+      "max": 15000000
+    },
+    "chequeSource": "https://active.partners/approach/",
+    "confidence": "high",
+    "notes": "Consumer only. Early-stage £200k-£1m; growth average cheque £5-15m. 'Early-stage' not mapped to a named round, so stages null."
+  },
+  {
+    "uuid": "9f6b03a9-6c40-49c3-a8f4-a9eb58e662d7",
+    "name": "Molten Ventures",
+    "office": {
+      "address": "20 Garrick Street, London WC2E 9BT",
+      "postcode": "WC2E 9BT",
+      "lat": 51.511823,
+      "lng": -0.126552,
+      "source": "https://moltenventures.com/contact"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": [
+      "series-a",
+      "series-b",
+      "growth"
+    ],
+    "stagesSource": "https://moltenventures.com",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "'Series A and beyond' mapped to series-a, series-b, growth. No cheque size on site."
+  },
+  {
+    "uuid": "731cb004-4f4b-46bd-aef9-cf9e5a48313d",
+    "name": "IQ Capital",
+    "office": {
+      "address": "45 Whitfield Street, London W1T 4HD",
+      "postcode": "W1T 4HD",
+      "lat": 51.520721,
+      "lng": -0.135801,
+      "source": "https://iqcapital.vc"
+    },
+    "sectors": [
+      "deep tech"
+    ],
+    "sectorsSource": "https://iqcapital.vc",
+    "stages": [
+      "pre-seed",
+      "seed",
+      "series-a"
+    ],
+    "stagesSource": "https://iqcapital.vc",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Leads pre-seed to Series A; growth fund follow-ons up to $40m. No lead cheque size stated."
+  },
+  {
+    "uuid": "75c08350-7c94-4c7e-85e5-a78f9b0e42dd",
+    "name": "Love Ventures",
+    "office": {
+      "address": "213 Oxford Street, London W1D 2LG",
+      "postcode": "W1D 2LG",
+      "lat": 51.515303,
+      "lng": -0.140087,
+      "source": "https://loveventures.co.uk"
+    },
+    "sectors": [
+      "fintech",
+      "future of work",
+      "consumer"
+    ],
+    "sectorsSource": "https://loveventures.co.uk",
+    "stages": [
+      "pre-seed",
+      "seed",
+      "series-a"
+    ],
+    "stagesSource": "https://loveventures.co.uk",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "No cheque size published."
+  },
+  {
+    "uuid": "d565d33d-a14e-43bc-b590-41df76bb2d10",
+    "name": "Northzone",
+    "office": {
+      "address": "Elsley Court, 20-22 Great Titchfield Street, London W1W 8BE",
+      "postcode": "W1W 8BE",
+      "lat": 51.517438,
+      "lng": -0.13977,
+      "source": "https://northzone.com/locations/"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Street address from search index of northzone.com/locations; the live page shows only coordinates N51.5173 W0.1398, which match W1W 8BE exactly. No cheque or stage criteria published."
+  },
+  {
+    "uuid": "f1dd2d2f-1478-4bfa-b60a-4deae3a1b183",
+    "name": "Triple Point Ventures",
+    "office": {
+      "address": "1 King William Street, London EC4N 7AF",
+      "postcode": "EC4N 7AF",
+      "lat": 51.51253,
+      "lng": -0.088418,
+      "source": "https://triplepoint.vc"
+    },
+    "sectors": [
+      "fintech",
+      "healthtech",
+      "climate",
+      "data",
+      "AI"
+    ],
+    "sectorsSource": "https://triplepoint.vc",
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://triplepoint.vc",
+    "chequeGbp": {
+      "min": null,
+      "max": 5000000
+    },
+    "chequeSource": "https://triplepoint.vc",
+    "confidence": "high",
+    "notes": "Leads rounds with tickets up to £5m."
+  },
+  {
+    "uuid": "711387f0-db03-4343-b11b-834cb3902c2b",
+    "name": "Sure Valley Ventures",
+    "office": null,
+    "sectors": [
+      "AI"
+    ],
+    "sectorsSource": "https://svv.ai",
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://svv.ai",
+    "chequeGbp": {
+      "min": 500000,
+      "max": 1000000
+    },
+    "chequeSource": "https://svv.ai",
+    "confidence": "high",
+    "notes": "Now SVV (svv.ai). First cheques '£/€500k-1m', follow-on to Series A. Offices London, Dublin, Manchester, Cork, Waterford; no London street address."
+  },
+  {
+    "uuid": "a3971b56-d04d-485d-a3a6-25e7ee716e71",
+    "name": "Eka Ventures",
+    "office": null,
+    "sectors": [
+      "consumer",
+      "healthtech",
+      "sustainability"
+    ],
+    "sectorsSource": "https://ekavc.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Consumer-led Life, Health, Sustainability themes. No address, stage or cheque published."
+  },
+  {
+    "uuid": "2f6f8f5f-9633-47b1-88d7-666e75dc29e5",
+    "name": "Felix Capital",
+    "office": {
+      "address": "27 Beak Street, London W1F 9RU",
+      "postcode": "W1F 9RU",
+      "lat": 51.512314,
+      "lng": -0.138134,
+      "source": "https://felixcap.com"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Themes: new ways of working and living. No stage or cheque size on site."
+  },
+  {
+    "uuid": "a50b7737-3df9-4693-a9b5-4d48264bfb26",
+    "name": "Hoxton Ventures",
+    "office": {
+      "address": "Eighth Floor, 55 New Oxford Street, London WC1A 1BS",
+      "postcode": "WC1A 1BS",
+      "lat": 51.516679,
+      "lng": -0.127074,
+      "source": "https://hoxtonventures.com"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Describes itself as anti-thematic early-stage; no cheque size published."
+  },
+  {
+    "uuid": "595c15ca-1dd1-40a4-9445-b65acabefdd3",
+    "name": "Pembroke VCT",
+    "office": null,
+    "sectors": [
+      "consumer",
+      "technology",
+      "business services"
+    ],
+    "sectorsSource": "https://pembrokevct.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "No address or per-company cheque on homepage."
+  },
+  {
+    "uuid": "3a8984e7-d505-4589-ba3a-2a6423ee1b02",
+    "name": "Outlier Ventures",
+    "office": null,
+    "sectors": [
+      "deep tech",
+      "AI",
+      "energy"
+    ],
+    "sectorsSource": "https://outlierventures.io",
+    "stages": [
+      "pre-seed",
+      "seed",
+      "series-a",
+      "series-b",
+      "growth"
+    ],
+    "stagesSource": "https://outlierventures.io",
+    "chequeGbp": {
+      "min": 39500,
+      "max": 790000
+    },
+    "chequeSource": "https://outlierventures.io",
+    "confidence": "high",
+    "notes": "'Pre-seed to growth'. Primary $50k-$1m lead/co-lead (USD 0.79); secondaries up to $2m excluded. No address."
+  },
+  {
+    "uuid": "12e17439-c9bf-4a1c-a2ff-30191bae4497",
+    "name": "Redrice Ventures",
+    "office": {
+      "address": "Unit 103, Tea Building, London E1 6JJ",
+      "postcode": "E1 6JJ",
+      "lat": 51.52422,
+      "lng": -0.076856,
+      "source": "https://redriceventures.com"
+    },
+    "sectors": [
+      "consumer"
+    ],
+    "sectorsSource": "https://redriceventures.com",
+    "stages": [
+      "seed",
+      "series-a"
+    ],
+    "stagesSource": "https://redriceventures.com",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Premium consumer brands and B2B tech for consumer brands. 'Up to £10m a year' is annual deployment, not a cheque, so cheque null."
+  },
+  {
+    "uuid": "44079c71-7841-4adf-af40-ff0477f2db78",
+    "name": "Business Growth Fund",
+    "office": {
+      "address": "13-15 York Buildings, London WC2N 6JU",
+      "postcode": "WC2N 6JU",
+      "lat": 51.508771,
+      "lng": -0.122916,
+      "source": "https://www.bgf.co.uk/offices/"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": [
+      "seed",
+      "series-a",
+      "series-b",
+      "growth"
+    ],
+    "stagesSource": "https://bgf.co.uk",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Early stage is 'late seed to Series B' plus growth capital. Third-party early-stage cheque figures differ (£1-10m vs £3-10m), left null."
+  },
+  {
+    "uuid": "2318f945-ca0c-40bf-8a76-e9da304d74bc",
+    "name": "Passion Capital",
+    "office": {
+      "address": "2nd Floor, Laxmi, The Tanneries, 57 Bermondsey Street, London SE1 3XJ",
+      "postcode": "SE1 3XJ",
+      "lat": 51.501822,
+      "lng": -0.08195,
+      "source": "https://passioncapital.com"
+    },
+    "sectors": [
+      "AI",
+      "fintech",
+      "B2B SaaS"
+    ],
+    "sectorsSource": "https://passioncapital.com",
+    "stages": [
+      "pre-seed",
+      "seed",
+      "series-a"
+    ],
+    "stagesSource": "https://passioncapital.com",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Series A only occasionally. No cheque size."
+  },
+  {
+    "uuid": "ad1ee1af-63ae-48c8-b602-c9e7c168151d",
+    "name": "Salica Investments",
+    "office": {
+      "address": "6-8 Greencoat Place, London SW1P 1PL",
+      "postcode": "SW1P 1PL",
+      "lat": 51.496077,
+      "lng": -0.13613,
+      "source": "https://salicainvestments.com/contact"
+    },
+    "sectors": [
+      "fintech",
+      "healthtech",
+      "sustainability",
+      "productivity"
+    ],
+    "sectorsSource": "https://salicainvestments.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Portfolio categories finance, healthcare, sustainability, productivity. Early and later-stage plus secondaries and growth debt (not mapped). Also Abu Dhabi."
+  },
+  {
+    "uuid": "0f77ea8b-4c34-4c2b-912a-d46d9830f1c7",
+    "name": "Connect Ventures (Europe)",
+    "office": null,
+    "sectors": [
+      "AI",
+      "hardware",
+      "automation"
+    ],
+    "sectorsSource": "https://connectventures.co",
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://connectventures.co",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Leads/co-leads rounds of $500k-$5m (round size, not cheque, so cheque null). Third-party addresses conflict (Pancras Square vs Great Eastern St), office null."
+  },
+  {
+    "uuid": "087ff418-703b-44bd-8100-d5c3363503bc",
+    "name": "Playfair Capital",
+    "office": null,
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": [
+      "pre-seed"
+    ],
+    "stagesSource": "https://playfair.vc",
+    "chequeGbp": {
+      "min": 100000,
+      "max": 1500000
+    },
+    "chequeSource": "https://playfair.vc",
+    "confidence": "high",
+    "notes": "Cheques £100k (angel rounds) to £1.5m (largest pre-seed); up to £5m per company incl. follow-on. Address only from third-party search (8 Warner Yard EC1R 5EY), not used."
+  },
+  {
+    "uuid": "b927cd8a-babb-4b4a-8d38-6aabe5336187",
+    "name": "Outward VC",
+    "office": {
+      "address": "30 Gresham Street, London EC2V 7QP",
+      "postcode": "EC2V 7QP",
+      "lat": 51.515104,
+      "lng": -0.092951,
+      "source": "https://outwardvc.com"
+    },
+    "sectors": [
+      "fintech",
+      "cybersecurity",
+      "insurtech",
+      "proptech",
+      "legaltech",
+      "healthtech",
+      "future of work"
+    ],
+    "sectorsSource": "https://outwardvc.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Complex/regulated industries. No stage or cheque published."
+  },
+  {
+    "uuid": "64ff6eeb-18b1-4c12-87c7-f1f11d1a4117",
+    "name": "Future Planet Capital",
+    "office": null,
+    "sectors": [
+      "impact"
+    ],
+    "sectorsSource": "https://futureplanetcapital.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Impact-led, mapped to UN SDGs (climate, education, health, security). No street address or cheque size."
+  },
+  {
+    "uuid": "1fc9be32-9158-487e-8079-cd322dd7d5b4",
+    "name": "JamJar Investments",
+    "office": null,
+    "sectors": [
+      "consumer"
+    ],
+    "sectorsSource": "https://jamjarinvestments.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Early-stage European consumer VC. No address, stage or cheque on homepage."
+  },
+  {
+    "uuid": "bc71af41-9ae7-4b42-aef6-e4f808a5fa03",
+    "name": "Pi Labs",
+    "office": {
+      "address": "33 Broadwick Street, London W1F 0DQ",
+      "postcode": "W1F 0DQ",
+      "lat": 51.513316,
+      "lng": -0.136133,
+      "source": "https://pilabs.vc"
+    },
+    "sectors": [
+      "proptech",
+      "construction",
+      "climate"
+    ],
+    "sectorsSource": "https://pilabs.vc",
+    "stages": [
+      "pre-seed",
+      "seed",
+      "series-a"
+    ],
+    "stagesSource": "https://pilabs.vc",
+    "chequeGbp": {
+      "min": 350000,
+      "max": 2000000
+    },
+    "chequeSource": "https://pilabs.vc",
+    "confidence": "high",
+    "notes": "Digital and sustainable built world. £350k-£2m plus follow-on."
+  },
+  {
+    "uuid": "27a837fd-21fe-4145-8832-4ddbf7dece19",
+    "name": "Clean Growth Fund",
+    "office": null,
+    "sectors": [
+      "climate"
+    ],
+    "sectorsSource": "https://cleangrowthfund.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": {
+      "min": 500000,
+      "max": 5000000
+    },
+    "chequeSource": "https://cleangrowthfund.com",
+    "confidence": "high",
+    "notes": "First cheque £500k-£5m. Sectors power, transport, industry, buildings, agrifood, circular economy. No address on homepage."
+  },
+  {
+    "uuid": "7e222100-04b4-41ae-8132-be619273cc87",
+    "name": "Exceptional Ventures",
+    "office": null,
+    "sectors": [
+      "healthtech"
+    ],
+    "sectorsSource": "https://exceptional.ventures",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Themes: prevention, early detection and risk assessment, smarter treatment and care delivery. No address or cheque."
+  },
+  {
+    "uuid": "c07e824b-003a-4bcd-92c8-119d978b8c25",
+    "name": "Begin Capital",
+    "office": null,
+    "sectors": [
+      "deep tech",
+      "AI"
+    ],
+    "sectorsSource": "https://www.begin.capital/",
+    "stages": [
+      "pre-seed",
+      "seed",
+      "series-a"
+    ],
+    "stagesSource": "https://www.begin.capital/",
+    "chequeGbp": {
+      "min": 395000,
+      "max": 6320000
+    },
+    "chequeSource": "https://www.begin.capital/",
+    "confidence": "high",
+    "notes": "Tickets $500k-$8m converted at USD 0.79. Fund II also 'the physical world'. No address."
+  },
+  {
+    "uuid": "91dc5cd2-c0b2-410e-8938-3850b80db3b2",
+    "name": "Amadeus Capital Partners",
+    "office": null,
+    "sectors": [
+      "AI",
+      "deep tech",
+      "healthtech",
+      "climate",
+      "space"
+    ],
+    "sectorsSource": "https://amadeuscapital.com",
+    "stages": [
+      "seed",
+      "series-a",
+      "series-b",
+      "growth"
+    ],
+    "stagesSource": "https://amadeuscapital.com",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "'From seed to growth'. Themes Intelligence, Human, Planet. No address on homepage."
+  },
+  {
+    "uuid": "d4d84f2e-712d-4076-b5a6-310f9f907357",
+    "name": "Kindred Capital",
+    "office": {
+      "address": "1st Floor West, Percy House, 33 Gresse Street, London W1T 1QU",
+      "postcode": "W1T 1QU",
+      "lat": 51.517869,
+      "lng": -0.133453,
+      "source": "https://kindredcapital.vc"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Early-stage; no sector, stage name or cheque published."
+  },
+  {
+    "uuid": "538d9199-bde8-441a-be20-1a692ffb2f5f",
+    "name": "Moonfire Ventures",
+    "office": {
+      "address": "37-41 Mortimer Street, London W1T 3JH",
+      "postcode": "W1T 3JH",
+      "lat": 51.51798,
+      "lng": -0.138739,
+      "source": "https://moonfire.com"
+    },
+    "sectors": [
+      "infrastructure",
+      "cybersecurity",
+      "future of work",
+      "fintech",
+      "gaming",
+      "healthtech"
+    ],
+    "sectorsSource": "https://moonfire.com",
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://moonfire.com",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "No cheque size published."
+  },
+  {
+    "uuid": "22c973c3-30a8-4a4b-9377-df7078dc0640",
+    "name": "Chalfen Ventures",
+    "office": null,
+    "sectors": [
+      "software"
+    ],
+    "sectorsSource": "https://chalfenventures.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Backs software startups in new/unusual markets; early-stage. No address or cheque."
+  },
+  {
+    "uuid": "cc1e5c3b-725e-413d-8e09-46a66d787a1b",
+    "name": "Cornerstone VC",
+    "office": {
+      "address": "10 Orange Street, Haymarket, London WC2H 7DQ",
+      "postcode": "WC2H 7DQ",
+      "lat": 51.509081,
+      "lng": -0.131103,
+      "source": "https://cornerstonevc.co"
+    },
+    "sectors": [
+      "healthtech",
+      "climate",
+      "proptech",
+      "B2B SaaS",
+      "AI",
+      "fintech",
+      "edtech",
+      "marketplaces",
+      "adtech"
+    ],
+    "sectorsSource": "https://cornerstonevc.co",
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://cornerstonevc.co",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Pre-seed through pre-Series A, mapped to pre-seed and seed. Live/Work/Play themes. No cheque size."
+  },
+  {
+    "uuid": "83987e7f-31fe-43db-82f8-20df8b46e78f",
+    "name": "Araya",
+    "office": null,
+    "sectors": [
+      "AI",
+      "healthtech",
+      "commerce",
+      "fintech",
+      "future of work"
+    ],
+    "sectorsSource": "https://araya.ventures",
+    "stages": [
+      "pre-seed",
+      "seed",
+      "growth"
+    ],
+    "stagesSource": "https://araya.ventures",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Only fund sizes published, no per-company cheque. No address."
+  },
+  {
+    "uuid": "fc4f95b6-8df8-49ab-9b4b-a6793138ab19",
+    "name": "RTP Global",
+    "office": {
+      "address": "Nash House, 4th Floor, 13a St George Street, London W1S 2FQ",
+      "postcode": "W1S 2FQ",
+      "lat": 51.512505,
+      "lng": -0.143415,
+      "source": "https://rtp.vc"
+    },
+    "sectors": [
+      "AI",
+      "B2B SaaS",
+      "developer tools",
+      "fintech",
+      "ecommerce",
+      "healthtech",
+      "edtech",
+      "climate",
+      "transport"
+    ],
+    "sectorsSource": "https://rtp.vc",
+    "stages": [
+      "pre-seed",
+      "seed",
+      "series-a"
+    ],
+    "stagesSource": "https://rtp.vc",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "No cheque size published. Dealroom chequeMax of ~£8.3bn in source data is clearly wrong."
+  },
+  {
+    "uuid": "36f4ea65-3de7-4eb6-96f5-7f470f02e852",
+    "name": "Force Over Mass Capital",
+    "office": {
+      "address": "2nd Floor, 4 Matthew Parker Street, London SW1H 9NP",
+      "postcode": "SW1H 9NP",
+      "lat": 51.500548,
+      "lng": -0.131121,
+      "source": "https://fomcap.com"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "No stage, sector or cheque criteria on homepage."
+  },
+  {
+    "uuid": "0f999587-2023-44af-be0d-3d6190992745",
+    "name": "Outrun Ventures",
+    "office": {
+      "address": "167-169 Great Portland Street, London W1W 5PF",
+      "postcode": "W1W 5PF",
+      "lat": 51.521673,
+      "lng": -0.143705,
+      "source": "https://outrunventures.com"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Only address found on homepage."
+  },
+  {
+    "uuid": "ce565902-244f-4ffb-b76e-94d863541296",
+    "name": "Calculus Capital",
+    "office": null,
+    "sectors": [
+      "technology",
+      "healthtech",
+      "creative industries"
+    ],
+    "sectorsSource": "https://calculuscapital.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "No address, stage or per-company cheque on homepage."
+  },
+  {
+    "uuid": "0f65e6c1-58e5-42da-b892-e302994234cb",
+    "name": "Puma Growth Partners",
+    "office": {
+      "address": "Cassini House, 57 St James's Street, London SW1A 1LD",
+      "postcode": "SW1A 1LD",
+      "lat": 51.50679,
+      "lng": -0.140276,
+      "source": "https://pumagrowthpartners.co.uk"
+    },
+    "sectors": [
+      "generalist"
+    ],
+    "sectorsSource": "https://pumagrowthpartners.co.uk",
+    "stages": [
+      "growth"
+    ],
+    "stagesSource": "https://pumagrowthpartners.co.uk",
+    "chequeGbp": {
+      "min": 5000000,
+      "max": 15000000
+    },
+    "chequeSource": "https://pumagrowthpartners.co.uk",
+    "confidence": "high",
+    "notes": "Sector agnostic growth investor, £5m-£15m. Also Manchester and Edinburgh offices."
+  },
+  {
+    "uuid": "9d086b2d-748d-4f84-94bc-c458f5ed5a8b",
+    "name": "Velocity Capital",
+    "office": null,
+    "sectors": [
+      "consumer",
+      "SME tech"
+    ],
+    "sectorsSource": "https://www.velocity-group.com/capital/",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Published office is Epsom, Surrey (KT17 4RH), outside London, so office null. SEIS/EIS funds in B2C/B2SME technology; £10k is investor minimum, not a cheque."
+  },
+  {
+    "uuid": "26a1c885-e4c1-489c-bb4a-e67e6bfae1de",
+    "name": "Anotherway Ventures",
+    "office": {
+      "address": "15B St George's Mews, London NW1 8XE",
+      "postcode": "NW1 8XE",
+      "lat": 51.540858,
+      "lng": -0.158167,
+      "source": "https://anotherway.ventures/contact"
+    },
+    "sectors": [
+      "consumer"
+    ],
+    "sectorsSource": "https://anotherway.ventures",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Backs 'purposeful brands', start-ups and early-stage. No cheque size."
+  },
+  {
+    "uuid": "f948b44e-b950-4cb8-bead-4e39594366bd",
+    "name": "Highland Europe",
+    "office": {
+      "address": "30 Golden Square, London W1F 9LD",
+      "postcode": "W1F 9LD",
+      "lat": 51.511746,
+      "lng": -0.138085,
+      "source": "https://highlandeurope.com"
+    },
+    "sectors": [
+      "software",
+      "consumer"
+    ],
+    "sectorsSource": "https://highlandeurope.com",
+    "stages": [
+      "growth"
+    ],
+    "stagesSource": "https://highlandeurope.com",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Targets companies raising EUR 20-80m (round size, not cheque, so cheque null)."
+  },
+  {
+    "uuid": "fec3166e-da91-4483-b318-b1306ca2f987",
+    "name": "Crane Venture Partners",
+    "office": null,
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://crane.vc",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "'Inception through seed', foundational technology. No London street address or cheque on homepage. Dealroom chequeMax of 4 in source data is wrong."
+  },
+  {
+    "uuid": "5d6bb0fd-1fe1-4a66-9fed-c7ce13a46f7f",
+    "name": "24Haymarket",
+    "office": {
+      "address": "3rd & 4th Floor, 24 Haymarket, London SW1Y 4DG",
+      "postcode": "SW1Y 4DG",
+      "lat": 51.509213,
+      "lng": -0.13202,
+      "source": "https://24haymarket.com"
+    },
+    "sectors": [
+      "software"
+    ],
+    "sectorsSource": "https://24haymarket.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": {
+      "min": 1000000,
+      "max": 2000000
+    },
+    "chequeSource": "https://24haymarket.com",
+    "confidence": "high",
+    "notes": "Initial £1-2m, up to c.£5m+ across rounds; targets UK software with £500k-£3m ARR (called growth stage, not mapped to a round name). Edinburgh office too."
+  },
+  {
+    "uuid": "7102aad1-91a9-4978-8f66-e4a18fb0cb9b",
+    "name": "Air Street Capital",
+    "office": null,
+    "sectors": [
+      "AI"
+    ],
+    "sectorsSource": "https://airstreet.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "AI-first only, invests 'as early as possible'. No address or cheque on homepage."
+  },
+  {
+    "uuid": "f6e43002-f71a-4891-b9fe-8e7a7ccd209a",
+    "name": "One Planet Capital",
+    "office": null,
+    "sectors": [
+      "climate"
+    ],
+    "sectorsSource": "https://oneplanet.capital",
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://oneplanet.capital",
+    "chequeGbp": {
+      "min": 25000,
+      "max": 500000
+    },
+    "chequeSource": "https://oneplanet.capital",
+    "confidence": "high",
+    "notes": "Published office is in Cambridge (CB2 9LG), outside London, so office null."
+  },
+  {
+    "uuid": "8e5d588f-9c5a-41ff-8ab2-f6741f3aaaa8",
+    "name": "Cocoa VC",
+    "office": null,
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://cocoa.vc",
+    "chequeGbp": {
+      "min": 395000,
+      "max": 395000
+    },
+    "chequeSource": "https://cocoa.vc",
+    "confidence": "high",
+    "notes": "'$500k angel checks at pre-seed/seed' converted at USD 0.79. No address."
+  },
+  {
+    "uuid": "4a9ca3de-c120-40c4-9670-d8250cd77b36",
+    "name": "6 Degrees Capital",
+    "office": null,
+    "sectors": [
+      "B2B SaaS",
+      "AI",
+      "fintech",
+      "insurtech"
+    ],
+    "sectorsSource": "https://6degrees.vc",
+    "stages": [
+      "seed",
+      "series-a"
+    ],
+    "stagesSource": "https://6degrees.vc",
+    "chequeGbp": {
+      "min": 850000,
+      "max": 6375000
+    },
+    "chequeSource": "https://6degrees.vc",
+    "confidence": "high",
+    "notes": "Initial ticket EUR 1m-7.5m converted at EUR 0.85. No address."
+  },
+  {
+    "uuid": "9a503b20-8566-452a-80b3-eb97ac6a1149",
+    "name": "The Conduit Connect",
+    "office": null,
+    "sectors": [
+      "climate",
+      "healthtech",
+      "fintech",
+      "edtech"
+    ],
+    "sectorsSource": "https://theconduitconnect.com",
+    "stages": [
+      "pre-seed",
+      "seed",
+      "series-a"
+    ],
+    "stagesSource": "https://theconduitconnect.com",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Footer says 'The Conduit, 6 Langley St, London, W1S 2GA' but Langley Street is Covent Garden (WC2H) and W1S is Mayfair; street and postcode conflict, so office null. No cheque size."
+  },
+  {
+    "uuid": "ed70eb7a-9c78-4ea6-9ae4-f21c9d7e7923",
+    "name": "Common Magic",
+    "office": null,
+    "sectors": [
+      "community"
+    ],
+    "sectorsSource": "https://commonmagic.xyz",
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://commonmagic.xyz",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Backs companies where community is the moat; angel-sized, non-lead cheques (no amount). No address."
+  },
+  {
+    "uuid": "13046364-ab66-4aa6-9bb2-2c1d2321a449",
+    "name": "Osney Capital",
+    "office": null,
+    "sectors": [
+      "cybersecurity"
+    ],
+    "sectorsSource": "https://osneycapital.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Exclusively UK cyber security; first invests where round size is under £5m. No address or cheque."
+  },
+  {
+    "uuid": "a12e64a9-9f71-4d56-b54c-a804f49158da",
+    "name": "THENA Capital",
+    "office": null,
+    "sectors": [
+      "healthtech",
+      "medtech"
+    ],
+    "sectorsSource": "https://www.thenacapital.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Digital health and fast-track medical devices; helps UK medtech expand to the US. No address, stage or cheque."
+  },
+  {
+    "uuid": "5d9c55fb-99c6-4321-a2c7-f668e518f66a",
+    "name": "PXN Group",
+    "office": {
+      "address": "London SW1V 1PX",
+      "postcode": "SW1V 1PX",
+      "lat": 51.493209,
+      "lng": -0.14358,
+      "source": "https://www.pxngroup.com"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": [
+      "pre-seed",
+      "seed",
+      "series-a",
+      "series-b"
+    ],
+    "stagesSource": "https://www.pxngroup.com",
+    "chequeGbp": {
+      "min": 200000,
+      "max": 8000000
+    },
+    "chequeSource": "https://www.pxngroup.com",
+    "confidence": "medium",
+    "notes": "Site lists only postcodes for offices (Manchester M3 3GY, Leeds, Edinburgh, London SW1V 1PX); no London street. 'Preseed to Series B+', £200k-£8m across multiple funds. Mainly a Northern UK investor."
+  },
+  {
+    "uuid": "d811f7d1-1b3c-4468-8ad1-c6f114ffe4a2",
+    "name": "DN Capital",
+    "office": {
+      "address": "2 Queen Anne's Gate Buildings, Dartmouth Street, London SW1H 9BP",
+      "postcode": "SW1H 9BP",
+      "lat": 51.500502,
+      "lng": -0.131627,
+      "source": "https://dncapital.com"
+    },
+    "sectors": [
+      "software",
+      "AI",
+      "fintech",
+      "consumer internet"
+    ],
+    "sectorsSource": "https://dncapital.com",
+    "stages": [
+      "seed",
+      "series-a",
+      "growth"
+    ],
+    "stagesSource": "https://dncapital.com",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Can support companies with up to EUR 20m total (lifetime, not first cheque), so cheque null."
+  },
+  {
+    "uuid": "86b1cde6-a5ab-4f2a-ae17-6fdedab27e03",
+    "name": "Parkwalk Advisors",
+    "office": {
+      "address": "3 Pancras Square, King's Cross, London N1C 4AG",
+      "postcode": "N1C 4AG",
+      "lat": 51.533481,
+      "lng": -0.125043,
+      "source": "https://www.parkwalk.vc/"
+    },
+    "sectors": [
+      "deep tech",
+      "healthtech",
+      "cleantech"
+    ],
+    "sectorsSource": "https://www.parkwalk.vc/",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Now parkwalk.vc. University spinout EIS investor, 'seed to scale' (not mapped). No cheque size."
+  },
+  {
+    "uuid": "f54153fa-28af-4280-bed0-b8e597c39ae7",
+    "name": "Nauta Capital",
+    "office": null,
+    "sectors": [
+      "B2B SaaS",
+      "deep tech"
+    ],
+    "sectorsSource": "https://nautacapital.com",
+    "stages": [
+      "pre-seed",
+      "seed",
+      "series-a"
+    ],
+    "stagesSource": "https://nautacapital.com",
+    "chequeGbp": {
+      "min": 212500,
+      "max": 3400000
+    },
+    "chequeSource": "https://nautacapital.com",
+    "confidence": "high",
+    "notes": "First ticket EUR 250k-4m converted at EUR 0.85. Site footer shows Barcelona registered address only; no London street address."
+  },
+  {
+    "uuid": "adccee61-af35-425a-b7ad-8142aab676da",
+    "name": "Dawn Capital",
+    "office": {
+      "address": "Ilona Rose House, Manette Street, London W1D 4DL",
+      "postcode": "W1D 4DL",
+      "lat": 51.514365,
+      "lng": -0.130873,
+      "source": "https://dawncapital.com"
+    },
+    "sectors": [
+      "B2B SaaS"
+    ],
+    "sectorsSource": "https://dawncapital.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "B2B technology focus. No stage range or cheque on homepage."
+  },
+  {
+    "uuid": "9a3dc815-35aa-42e5-bee5-ee3e341ff47c",
+    "name": "7percent Ventures",
+    "office": {
+      "address": "Unit 107, 59 St Martin's Lane, London WC2N 4JS",
+      "postcode": "WC2N 4JS",
+      "lat": 51.511263,
+      "lng": -0.12695,
+      "source": "https://7pc.vc"
+    },
+    "sectors": [
+      "deep tech",
+      "space",
+      "quantum",
+      "AR/VR",
+      "defence"
+    ],
+    "sectorsSource": "https://7pc.vc",
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://7pc.vc",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "No cheque size published."
+  },
+  {
+    "uuid": "0b0859fa-0be4-4139-b8ac-a6312e6f09ca",
+    "name": "BACKED VC",
+    "office": null,
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": {
+      "min": 395000,
+      "max": 3950000
+    },
+    "chequeSource": "https://backed.vc",
+    "confidence": "medium",
+    "notes": "'Average ticket size $500K-$5M' converted at USD 0.79 (an average range, not hard bounds). Frontier tech; no address."
+  },
+  {
+    "uuid": "136b0ebc-bb50-47fa-bfc6-b62c8d47f6e2",
+    "name": "13books Capital",
+    "office": null,
+    "sectors": [
+      "fintech"
+    ],
+    "sectorsSource": "https://13bookscapital.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "European fintech only. Stages only visible via portfolio, so null. No address or cheque."
+  },
+  {
+    "uuid": "bad0f465-143f-4e50-8657-77f5d4efe006",
+    "name": "Transition",
+    "office": {
+      "address": "4th Floor, 5 Carnaby Street, London W1F 9PB",
+      "postcode": "W1F 9PB",
+      "lat": 51.512589,
+      "lng": -0.13795,
+      "source": "https://transition.vc"
+    },
+    "sectors": [
+      "climate",
+      "deep tech",
+      "AI",
+      "energy",
+      "robotics"
+    ],
+    "sectorsSource": "https://transition.vc",
+    "stages": [
+      "pre-seed",
+      "seed",
+      "series-a"
+    ],
+    "stagesSource": "https://transition.vc",
+    "chequeGbp": {
+      "min": 790000,
+      "max": 6320000
+    },
+    "chequeSource": "https://transition.vc",
+    "confidence": "high",
+    "notes": "Initial cheque $1-8m converted at USD 0.79."
+  },
+  {
+    "uuid": "d5db4ac5-fe39-41f7-8ae6-971c5f8fc1fe",
+    "name": "Edge Investments",
+    "office": null,
+    "sectors": [
+      "edtech",
+      "AI",
+      "immersive tech",
+      "creative economy"
+    ],
+    "sectorsSource": "https://edge.vc",
+    "stages": [
+      "seed",
+      "series-a"
+    ],
+    "stagesSource": "https://edge.vc",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "'Rounds of up to £5m' is round size, so cheque null. No address."
+  },
+  {
+    "uuid": "da2e7248-efc4-4201-9d66-911a1df756f2",
+    "name": "Pact VC",
+    "office": null,
+    "sectors": [
+      "AI",
+      "human potential",
+      "climate"
+    ],
+    "sectorsSource": "https://pactvc.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Site: early-stage across Responsible AI, Human Potential and Planetary Resilience. No stated cheque or office."
+  },
+  {
+    "uuid": "a85642da-75b2-40e6-9cfd-2ae33761d462",
+    "name": "TSP Ventures",
+    "office": {
+      "address": "32 Blackfriars Road, London SE1 8PB",
+      "postcode": "SE1 8PB",
+      "lat": 51.505837,
+      "lng": -0.104895,
+      "source": "https://tspventures.co.uk"
+    },
+    "sectors": [
+      "climate",
+      "energy",
+      "food and water",
+      "critical materials",
+      "carbon mitigation"
+    ],
+    "sectorsSource": "https://tspventures.co.uk",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Climate-focused early stage; cheque not stated on site. Postcode is terminated in postcodes.io; coords from terminated_postcodes."
+  },
+  {
+    "uuid": "227c7213-9221-43c8-be1c-e846aff8a03f",
+    "name": "SynBioVen",
+    "office": null,
+    "sectors": [
+      "synthetic biology",
+      "life sciences"
+    ],
+    "sectorsSource": "https://synbioven.com",
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://synbioven.com",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Site: PoC, pre-seed and seed funding in synthetic biology. No office or cheque stated."
+  },
+  {
+    "uuid": "1beec614-d5aa-4782-af48-aa473f8e5551",
+    "name": "UK Sovereign AI",
+    "office": null,
+    "sectors": [
+      "AI",
+      "compute and infrastructure",
+      "foundation models",
+      "healthtech",
+      "life sciences",
+      "AI safety"
+    ],
+    "sectorsSource": "https://sovereignai.gov.uk",
+    "stages": [
+      "pre-seed",
+      "seed",
+      "series-a",
+      "series-b",
+      "growth"
+    ],
+    "stagesSource": "https://sovereignai.gov.uk",
+    "chequeGbp": {
+      "min": 1000000,
+      "max": 10000000
+    },
+    "chequeSource": "https://sovereignai.gov.uk",
+    "confidence": "high",
+    "notes": "GBP500M government fund; site: Pre-Seed to Growth, cheques GBP1m-10m. Priority areas: compute & infrastructure, foundation models, AI in health & life sciences, scientific discovery, trust/safety/assurance. No office address."
+  },
+  {
+    "uuid": "421f6216-346d-464d-9136-ac45408f95cf",
+    "name": "RCA Design & Innovation S/EIS Fund",
+    "office": null,
+    "sectors": [
+      "design-led",
+      "medtech",
+      "cleantech"
+    ],
+    "sectorsSource": "https://tech.eu/2025/11/19/rca-closes-first-design-innovation-investment-fund/",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Fund managed by Infinity Asset Management backing early-stage RCA graduate/staff companies, multi-sector incl. medtech and cleantech. Website domain in data does not resolve."
+  },
+  {
+    "uuid": "aaff03c4-5d4d-416f-aab7-4a53bb8608d3",
+    "name": "FIGR Ventures",
+    "office": null,
+    "sectors": [
+      "consumer"
+    ],
+    "sectorsSource": "https://figr-ventures.co.uk",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Family office fund investing in responsible early-stage consumer businesses; no cheque or office stated."
+  },
+  {
+    "uuid": "94f59e76-4e28-423c-9f9f-a2bb1c4d3122",
+    "name": "Hummingbird Ventures",
+    "office": null,
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": [
+      "pre-seed",
+      "seed",
+      "series-a",
+      "series-b",
+      "growth"
+    ],
+    "stagesSource": "https://hummingbird.vc",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Site: partners with founders at every stage from inception to IPO. London address conflicts across aggregators (Fitzroy Sq vs Clerkenwell Rd), so office left null."
+  },
+  {
+    "uuid": "bf0e118e-47ab-48b4-aa63-63d5e86c7e5b",
+    "name": "MH Ventures",
+    "office": null,
+    "sectors": [
+      "crypto",
+      "blockchain infrastructure"
+    ],
+    "sectorsSource": "https://mhventures.io",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Published address is Grand Cayman (Cayman Islands), not London, so office null."
+  },
+  {
+    "uuid": "7524140b-8d67-4f5c-af49-ac1666d54f33",
+    "name": "Stride.VC",
+    "office": {
+      "address": "4 Grotto Passage, London W1U 4JX",
+      "postcode": "W1U 4JX",
+      "lat": 51.520444,
+      "lng": -0.152995,
+      "source": "https://stride.vc"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": [
+      "seed"
+    ],
+    "stagesSource": "https://techcrunch.com/2021/05/04/londons-stride-vc-raised-second-138-6m-seed-fund-hunts-for-third-partner",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Seed fund per TechCrunch 2021; office from own site footer."
+  },
+  {
+    "uuid": "43611852-47d7-475d-9cd2-f830970ad1f3",
+    "name": "Brighteye Ventures",
+    "office": {
+      "address": "7 Colville Mews, London W11 2DA",
+      "postcode": "W11 2DA",
+      "lat": 51.515368,
+      "lng": -0.200763,
+      "source": "https://brighteyevc.com"
+    },
+    "sectors": [
+      "edtech",
+      "future of work"
+    ],
+    "sectorsSource": "https://brighteyevc.com",
+    "stages": [
+      "pre-seed",
+      "seed",
+      "series-a"
+    ],
+    "stagesSource": "https://brighteyevc.com",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Site: learning and work (HumanOS); funded 55+ companies Pre-Seed to Series A."
+  },
+  {
+    "uuid": "fce36888-6c24-4660-a60d-cd5c856a0fd9",
+    "name": "Samos Investments",
+    "office": {
+      "address": "22 Charing Cross Road, London WC2H 0HS",
+      "postcode": "WC2H 0HS",
+      "lat": 51.510609,
+      "lng": -0.128202,
+      "source": "https://samos.vc"
+    },
+    "sectors": [
+      "deep tech",
+      "AI",
+      "consumer",
+      "e-commerce",
+      "B2B SaaS",
+      "fintech"
+    ],
+    "sectorsSource": "https://samos.vc",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Sectors quoted from site; stage and cheque not stated."
+  },
+  {
+    "uuid": "75ac7c72-cf84-4ea4-b424-0e8ce76112ad",
+    "name": "Hedosophia",
+    "office": {
+      "address": "2 Soho Place, London W1D 3BG",
+      "postcode": "W1D 3BG",
+      "lat": 51.515723,
+      "lng": -0.130846,
+      "source": "https://www.hedosophia.com/registration-information"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "UK registered address of Hedosophia Services Limited (FCA-regulated) from own registration page; also Guernsey office. No strategy details published."
+  },
+  {
+    "uuid": "0f0a3866-2f1e-4b5e-9873-2849449e6611",
+    "name": "Dig Ventures",
+    "office": null,
+    "sectors": [
+      "B2B SaaS",
+      "AI",
+      "cloud infrastructure"
+    ],
+    "sectorsSource": "https://dig.ventures",
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://dig.ventures",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Site: invest early, pre-seed and seed; Fund III $120m. No office or cheque stated."
+  },
+  {
+    "uuid": "81a30be9-118b-4dc7-9fcd-dec434b8295b",
+    "name": "Anamcara Capital",
+    "office": null,
+    "sectors": [
+      "enterprise software",
+      "AI",
+      "healthtech",
+      "fintech"
+    ],
+    "sectorsSource": "https://anamcaracapital.com",
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://anamcaracapital.com",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "European founders; no office or cheque stated."
+  },
+  {
+    "uuid": "43455089-0bb2-470d-bcee-aa09695fd7de",
+    "name": "Evantic Capital",
+    "office": null,
+    "sectors": [
+      "AI"
+    ],
+    "sectorsSource": "https://evantic.ai",
+    "stages": [
+      "growth"
+    ],
+    "stagesSource": "https://evantic.ai",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Site states early-stage cheques up to $1M, growth up to $60M, champions up to $250M (USD, no minimum stated, so chequeGbp left null). Early-stage label not mapped to a specific round."
+  },
+  {
+    "uuid": "bff7d702-1b45-4a0d-b380-ea1046b1d1c4",
+    "name": "Boost Capital Partners",
+    "office": {
+      "address": "5th Floor, Berkeley Square House, Mayfair, London W1J 6BU",
+      "postcode": "W1J 6BU",
+      "lat": 51.509879,
+      "lng": -0.14456,
+      "source": "https://boostcp.vc"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://boostcp.vc",
+    "chequeGbp": {
+      "min": null,
+      "max": 592500
+    },
+    "chequeSource": "https://boostcp.vc",
+    "confidence": "high",
+    "notes": "Site: initial tickets up to $750K (converted at 0.79); no minimum stated."
+  },
+  {
+    "uuid": "ed938e5d-59b5-4f7d-b259-dd91741230b7",
+    "name": "Endurance Ventures",
+    "office": null,
+    "sectors": [
+      "fintech",
+      "AI",
+      "B2B SaaS",
+      "risktech",
+      "developer tools"
+    ],
+    "sectorsSource": "https://endurance.ventures",
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://endurance.ventures",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "B2B enterprise AI in fintech and adjacent. Only address on site is a regulatory affiliate registered office (82 St John Street EC1M), not used."
+  },
+  {
+    "uuid": "e4dff77e-1b94-4c93-a933-6d875e7cd3ee",
+    "name": "Andrena Ventures",
+    "office": null,
+    "sectors": [
+      "fintech",
+      "AI",
+      "developer tools",
+      "infrastructure"
+    ],
+    "sectorsSource": "https://andrena.vc",
+    "stages": [
+      "pre-seed"
+    ],
+    "stagesSource": "https://andrena.vc",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Backs companies from day one; London-based, no street address published."
+  },
+  {
+    "uuid": "759a8e00-fd85-4636-a977-91f73e4c57e8",
+    "name": "Lightbulb Trust",
+    "office": null,
+    "sectors": [
+      "education",
+      "social impact"
+    ],
+    "sectorsSource": "https://lightbulbtrust.org",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Registered charity (1187551) doing grants and social investment around learning; not a conventional VC."
+  },
+  {
+    "uuid": "a9517f4d-f213-45f8-a7d0-cd92a486b7ac",
+    "name": "Founders Capital",
+    "office": {
+      "address": "155 Minories, Suite 275, London EC3N 1AD",
+      "postcode": "EC3N 1AD",
+      "lat": 51.513451,
+      "lng": -0.076013,
+      "source": "https://founderscap.co.uk"
+    },
+    "sectors": [
+      "AI",
+      "defence",
+      "life sciences",
+      "energy",
+      "fintech"
+    ],
+    "sectorsSource": "https://founderscap.co.uk",
+    "stages": [
+      "pre-seed",
+      "seed",
+      "series-a"
+    ],
+    "stagesSource": "https://founderscap.co.uk",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Sovereign/defence AI, health and life sciences, energy and resilience, financial services. Address differs from Dealroom pin (Shoreditch)."
+  },
+  {
+    "uuid": "a0b3e819-29cf-45e1-97e4-61c384743986",
+    "name": "Meridian Health Ventures",
+    "office": null,
+    "sectors": [
+      "digital health",
+      "medtech"
+    ],
+    "sectorsSource": "https://meridianhealthventures.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Transatlantic health tech fund with NHS Trust founding members."
+  },
+  {
+    "uuid": "67c28f3d-26cd-48e1-bf9e-070194f6c206",
+    "name": "Lightrock",
+    "office": {
+      "address": "1 Eagle Place, London SW1Y 6AF",
+      "postcode": "SW1Y 6AF",
+      "lat": 51.509158,
+      "lng": -0.135366,
+      "source": "https://lightrock.com"
+    },
+    "sectors": [
+      "healthtech",
+      "edtech",
+      "fintech",
+      "climate",
+      "B2B SaaS"
+    ],
+    "sectorsSource": "https://lightrock.com",
+    "stages": [
+      "growth"
+    ],
+    "stagesSource": "https://lightrock.com",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Impact growth investor: People, Planet, Productivity themes."
+  },
+  {
+    "uuid": "fef12fb1-3108-4abb-a235-751684992aa1",
+    "name": "London Co-Investment Fund",
+    "office": null,
+    "sectors": [
+      "science",
+      "digital",
+      "technology"
+    ],
+    "sectorsSource": "https://www.london.gov.uk/press-releases/mayoral/mayor-launches-fund-to-help-budding-tech-start-ups",
+    "stages": [
+      "seed"
+    ],
+    "stagesSource": "https://www.london.gov.uk/press-releases/mayoral/mayor-launches-fund-to-help-budding-tech-start-ups",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Mayor of London fund (managed by Funding London) co-investing in seed rounds of London science/digital/tech startups. Per-cheque size ambiguous in sources, left null."
+  },
+  {
+    "uuid": "48a5339e-20e2-4e97-bc76-f8601bdf28c1",
+    "name": "Vitruvian Partners",
+    "office": {
+      "address": "105 Wigmore Street, London W1U 1QY",
+      "postcode": "W1U 1QY",
+      "lat": 51.515298,
+      "lng": -0.153981,
+      "source": "https://vitruvianpartners.com"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Office from own site; sectors/stages/cheques not stated."
+  },
+  {
+    "uuid": "01f4a31b-2bfc-4770-8835-1cc210d5a70c",
+    "name": "PROfounders Capital",
+    "office": {
+      "address": "60 Sloane Avenue, London SW3 3DD",
+      "postcode": "SW3 3DD",
+      "lat": 51.492893,
+      "lng": -0.166902,
+      "source": "https://profounderscapital.com"
+    },
+    "sectors": [
+      "B2B SaaS",
+      "consumer",
+      "tech-enabled"
+    ],
+    "sectorsSource": "https://profounderscapital.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": {
+      "min": 425000,
+      "max": 2550000
+    },
+    "chequeSource": "https://profounderscapital.com",
+    "confidence": "high",
+    "notes": "Site: initial EUR500k to EUR3m (converted at 0.85). Early-stage with working product; round label not stated."
+  },
+  {
+    "uuid": "5f44b08d-ab96-4307-a816-b66a697b77f9",
+    "name": "Latitude",
+    "office": {
+      "address": "2 Brill Place, Somers Town / King's Cross, London NW1 1DX",
+      "postcode": "NW1 1DX",
+      "lat": 51.532159,
+      "lng": -0.128976,
+      "source": "https://www.phoenixcourt.vc/funds/latitude/"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Latitude is Phoenix Court's early-growth fund (latitude.vc redirects to phoenixcourt.vc). Stage described as early growth; not mapped to a round."
+  },
+  {
+    "uuid": "3348b2bf-4bf7-4801-84ac-b993e794a187",
+    "name": "True.",
+    "office": null,
+    "sectors": [
+      "consumer",
+      "retail tech"
+    ],
+    "sectorsSource": "https://true.global",
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://true.global",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "VC arm invests pre-seed & seed in consumer and retail tech; separate PE strategy does GBP25m-150m equity (not VC, not used)."
+  },
+  {
+    "uuid": "2f49e0c5-1f20-4730-848e-731117e4d2a2",
+    "name": "One Peak Partners",
+    "office": null,
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": [
+      "growth"
+    ],
+    "stagesSource": "https://www.onepeak.tech/",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Describes itself as growth investors; recent leads $25M-$120M. Site moved to onepeak.tech."
+  },
+  {
+    "uuid": "b3d3c595-52f9-436d-b572-c6e9891e5c75",
+    "name": "2150",
+    "office": null,
+    "sectors": [
+      "climate",
+      "energy",
+      "industry",
+      "materials",
+      "built environment"
+    ],
+    "sectorsSource": "https://2150.vc",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Sectors from own site; stage/cheque not stated."
+  },
+  {
+    "uuid": "9b27000d-71b3-4ac1-b13a-f2060e3bde36",
+    "name": "Ufi Ventures",
+    "office": {
+      "address": "Office 605, Albert House, 256-260 Old Street, London EC1V 9DD",
+      "postcode": "EC1V 9DD",
+      "lat": 51.525894,
+      "lng": -0.085162,
+      "source": "https://ufi.co.uk"
+    },
+    "sectors": [
+      "edtech",
+      "future of work"
+    ],
+    "sectorsSource": "https://ufi.co.uk",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": {
+      "min": 250000,
+      "max": 1000000
+    },
+    "chequeSource": "https://ufi.co.uk",
+    "confidence": "high",
+    "notes": "Site: GBP250k to GBP1m early-stage investment in tech for skills and future of work."
+  },
+  {
+    "uuid": "6b8cca4e-7d8f-4972-861c-f7c848b59f39",
+    "name": "QuantumLight",
+    "office": {
+      "address": "North Side, 7/10 Chandos Street, Cavendish Square, London W1G 9DQ",
+      "postcode": "W1G 9DQ",
+      "lat": 51.517884,
+      "lng": -0.145171,
+      "source": "https://quantumlightcapital.com"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Street address from own site regulatory disclosure (no postcode there); postcode W1G 9DQ from secondary listing (privateequitylist/f4.fund). Stage sources conflict: Fortune 2024 says early-stage at ~$5M per deal, other coverage says growth stage, so stages/cheque left null."
+  },
+  {
+    "uuid": "00bd1719-acdf-4457-b145-e595a9d34035",
+    "name": "Concrete Ventures",
+    "office": null,
+    "sectors": [
+      "proptech",
+      "construction tech"
+    ],
+    "sectorsSource": "https://concretevc.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Data and automation for real estate and construction."
+  },
+  {
+    "uuid": "3b61b8ef-8865-4ddc-b8b4-2254c4c9155f",
+    "name": "V3 Ventures",
+    "office": {
+      "address": "4th Floor, 21 Ganton Street, London W1F 9BW",
+      "postcode": "W1F 9BW",
+      "lat": 51.512798,
+      "lng": -0.13918,
+      "source": "https://v3.ventures"
+    },
+    "sectors": [
+      "consumer",
+      "wellness and beauty",
+      "food and drink",
+      "lifestyle"
+    ],
+    "sectorsSource": "https://v3.ventures",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Consumer brands investor; also Mumbai and New York offices. Stage/cheque not stated."
+  },
+  {
+    "uuid": "3c4cf4a7-c168-4064-ae8f-0ac7d5ae9754",
+    "name": "Pentland Ventures",
+    "office": null,
+    "sectors": [
+      "consumer",
+      "health and wellness"
+    ],
+    "sectorsSource": "https://pentland.vc",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Eat Better / Live Better / Move Better consumer brands."
+  },
+  {
+    "uuid": "fa21fc88-5173-4dc4-a83a-b6178d456d4b",
+    "name": "Raw Ventures",
+    "office": null,
+    "sectors": [
+      "media tech",
+      "healthtech",
+      "sustainability"
+    ],
+    "sectorsSource": "https://rawventures.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "RAW Group evergreen capital; focus areas listed loosely on site."
+  },
+  {
+    "uuid": "16f17889-48a5-4126-b6c5-063e9c527cea",
+    "name": "HICO",
+    "office": null,
+    "sectors": [
+      "maritime",
+      "logistics",
+      "hospitality"
+    ],
+    "sectorsSource": "https://hico.one",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Invests in new technology, venture and established companies; not a pure VC."
+  },
+  {
+    "uuid": "d96ddd3d-10f4-4ce0-be13-f92951fb1f55",
+    "name": "Monograph Capital",
+    "office": null,
+    "sectors": [
+      "life sciences"
+    ],
+    "sectorsSource": "https://monograph.bio",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Founds and supports life sciences companies; offices Fort Worth, London, San Francisco (no London street address in page text)."
+  },
+  {
+    "uuid": "d24ae06b-5c02-4164-a66a-efdeee0286c0",
+    "name": "Deep Science Ventures",
+    "office": null,
+    "sectors": [
+      "agritech",
+      "computation",
+      "climate",
+      "pharma",
+      "education"
+    ],
+    "sectorsSource": "https://deepscienceventures.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Venture creator (company builder) rather than conventional fund."
+  },
+  {
+    "uuid": "dc219a40-9a5e-4074-a94a-2723ac2fd50d",
+    "name": "National Security Strategic Investment Fund",
+    "office": null,
+    "sectors": [
+      "AI",
+      "quantum",
+      "semiconductors",
+      "space",
+      "deep tech",
+      "defence"
+    ],
+    "sectorsSource": "https://www.nssif.gov.uk/about-us/your-questions-answered",
+    "stages": [
+      "seed",
+      "series-a"
+    ],
+    "stagesSource": "https://www.nssif.gov.uk/about-us/your-questions-answered",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Government corporate venture arm for dual-use tech: focus typically Seed or Series A. Own site is nssif.gov.uk (Dealroom lists BBB)."
+  },
+  {
+    "uuid": "aa4a01cd-65df-49fd-a46d-93f77fd1cd74",
+    "name": "FirstParty Capital",
+    "office": {
+      "address": "8 Coldbath Square, London EC1R 5HL",
+      "postcode": "EC1R 5HL",
+      "lat": 51.52382,
+      "lng": -0.110289,
+      "source": "https://firstpartycapital.com"
+    },
+    "sectors": [
+      "AI",
+      "martech",
+      "data"
+    ],
+    "sectorsSource": "https://firstpartycapital.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "AI, data and outcomes-based tech for marketing."
+  },
+  {
+    "uuid": "5eec1919-8a10-4fd5-b963-96675c832021",
+    "name": "MD ONE Ventures",
+    "office": null,
+    "sectors": [
+      "defence",
+      "deep tech"
+    ],
+    "sectorsSource": "https://md-one.com",
+    "stages": [
+      "pre-seed",
+      "seed",
+      "series-a"
+    ],
+    "stagesSource": "https://md-one.com",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Defence and national security deep tech, software and hardware."
+  },
+  {
+    "uuid": "aad90e64-acca-49ad-96c1-822d0b5e0c34",
+    "name": "Entropy Industrial Capital",
+    "office": null,
+    "sectors": [
+      "industrial tech",
+      "aerospace",
+      "defence",
+      "space",
+      "energy storage",
+      "semiconductors",
+      "robotics"
+    ],
+    "sectorsSource": "https://entropyindustrial.com",
+    "stages": [
+      "pre-seed"
+    ],
+    "stagesSource": "https://entropyindustrial.com",
+    "chequeGbp": {
+      "min": 197500,
+      "max": 790000
+    },
+    "chequeSource": "https://entropyindustrial.com",
+    "confidence": "high",
+    "notes": "Site: $250k to $1m at pre-seed (converted at 0.79)."
+  },
+  {
+    "uuid": "8a46d5e7-5d35-468b-8a09-9a6c2b436dc5",
+    "name": "The SidebySide Partnership",
+    "office": {
+      "address": "71-75 Shelton Street, Covent Garden, London WC2H 9JQ",
+      "postcode": "WC2H 9JQ",
+      "lat": 51.514897,
+      "lng": -0.123615,
+      "source": "https://thesidebysidepartnership.com"
+    },
+    "sectors": [
+      "generalist"
+    ],
+    "sectorsSource": "https://thesidebysidepartnership.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Backs tech-enabled businesses moving from scale-up to commercial success; sector-diverse. Shelton Street address is a common virtual-office address."
+  },
+  {
+    "uuid": "675b045e-4ffe-4e0c-9ce4-96fbd7d7808a",
+    "name": "UKTV Ventures",
+    "office": null,
+    "sectors": [
+      "consumer",
+      "D2C"
+    ],
+    "sectorsSource": "https://uktvventures.co.uk",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Media-for-equity: UKTV advertising airtime for minority stakes in D2C start-ups."
+  },
+  {
+    "uuid": "f9430fba-d4a0-4251-a74b-79eca64e59e7",
+    "name": "Verb Ventures",
+    "office": null,
+    "sectors": [
+      "trade tech",
+      "logistics"
+    ],
+    "sectorsSource": "https://verb.ventures",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Mission: backing action-takers modernising global trade."
+  },
+  {
+    "uuid": "06d83802-b910-43df-920e-540dadc358bd",
+    "name": "The Players Fund",
+    "office": {
+      "address": "126 New Kings Road, London SW6 4LZ",
+      "postcode": "SW6 4LZ",
+      "lat": 51.471429,
+      "lng": -0.206553,
+      "source": "https://playersfund.vc"
+    },
+    "sectors": [
+      "AI",
+      "software infrastructure",
+      "cybersecurity",
+      "compute",
+      "fintech",
+      "healthtech"
+    ],
+    "sectorsSource": "https://playersfund.vc",
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://playersfund.vc",
+    "chequeGbp": {
+      "min": 50000,
+      "max": 300000
+    },
+    "chequeSource": "https://playersfund.vc",
+    "confidence": "high",
+    "notes": "Site: GBP50k-300k in technical founders at pre-seed and seed; explicitly no sports tech."
+  },
+  {
+    "uuid": "f6d5188c-5336-42da-811e-19325cd6b6f4",
+    "name": "Archangel Capital Partners",
+    "office": null,
+    "sectors": [
+      "defence"
+    ],
+    "sectorsSource": "https://archangel.partners",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "EUR50M early-stage defence tech fund; London and Tallinn, no street address."
+  },
+  {
+    "uuid": "97ae826b-5b24-4a76-8cc0-90302711ac04",
+    "name": "Velocity Capital",
+    "office": null,
+    "sectors": [
+      "technology",
+      "e-commerce"
+    ],
+    "sectorsSource": "https://velocity-group.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Growth SEIS & EIS fund investing in tech & eCommerce."
+  },
+  {
+    "uuid": "f99048a3-88c6-4df8-a972-07964bfd068d",
+    "name": "Archipelago Ventures",
+    "office": null,
+    "sectors": [
+      "circular economy",
+      "deep tech",
+      "materials"
+    ],
+    "sectorsSource": "https://archipelagoventures.vc",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Early-stage circular economy deep tech (plastics, metals, fibres)."
+  },
+  {
+    "uuid": "1d892988-9191-4391-af48-159051a7cfb9",
+    "name": "DST Global",
+    "office": null,
+    "sectors": [
+      "internet"
+    ],
+    "sectorsSource": "https://www.dst-global.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Site: one of the leading Internet investment firms globally; registered office in Cayman Islands, no London address published, so office null."
+  },
+  {
+    "uuid": "28a63e96-7bba-45df-b153-ab509d83e094",
+    "name": "SV Health Investors",
+    "office": {
+      "address": "71 Kingsway, London WC2B 6ST",
+      "postcode": "WC2B 6ST",
+      "lat": 51.515696,
+      "lng": -0.119576,
+      "source": "https://svhealthinvestors.com/contact"
+    },
+    "sectors": [
+      "therapeutics",
+      "healthtech",
+      "medtech"
+    ],
+    "sectorsSource": "https://svhealthinvestors.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Therapeutics, Healthcare Growth and Medtech strategies."
+  },
+  {
+    "uuid": "c21d3725-1ef8-4d32-9695-67fe8c083037",
+    "name": "IP Group",
+    "office": {
+      "address": "2nd Floor, 3 Pancras Square, Kings Cross, London N1C 4AG",
+      "postcode": "N1C 4AG",
+      "lat": 51.533481,
+      "lng": -0.125043,
+      "source": "https://find-and-update.company-information.service.gov.uk/company/04204490"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Office is Companies House registered office (own site returned 403)."
+  },
+  {
+    "uuid": "82bdae56-802f-4b43-a6ce-482db637efc9",
+    "name": "Abingworth",
+    "office": {
+      "address": "1 St James's Market, London SW1Y 4AH",
+      "postcode": "SW1Y 4AH",
+      "lat": 51.508654,
+      "lng": -0.133066,
+      "source": "https://abingworth.com"
+    },
+    "sectors": [
+      "life sciences",
+      "biopharma"
+    ],
+    "sectorsSource": "https://abingworth.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Early-stage life sciences at heart of strategy, plus VIPEs and clinical co-development; no round labels."
+  },
+  {
+    "uuid": "2f0dacc1-5deb-4e91-89f1-0fe3a0e8ad6b",
+    "name": "Deepbridge Capital",
+    "office": null,
+    "sectors": [
+      "technology",
+      "life sciences",
+      "renewable energy"
+    ],
+    "sectorsSource": "https://www.deepbridge.com/",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Published office is Deepbridge House, Chester CH4 9QN (outside London), so office null. Site now deepbridge.com."
+  },
+  {
+    "uuid": "db1f020c-fc5d-4485-ad53-86037f612e1b",
+    "name": "Mouro Capital",
+    "office": {
+      "address": "Eastcastle House, 27/28 Eastcastle Street, London W1W 8DH",
+      "postcode": "W1W 8DH",
+      "lat": 51.51684,
+      "lng": -0.137762,
+      "source": "https://mourocapital.com"
+    },
+    "sectors": [
+      "fintech"
+    ],
+    "sectorsSource": "https://mourocapital.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Early to growth stage fintech across Europe, North America, LatAm; no round labels or cheque stated."
+  },
+  {
+    "uuid": "d1188df6-595e-41ff-98c6-4381df7806f6",
+    "name": "Illuminate Financial",
+    "office": null,
+    "sectors": [
+      "enterprise AI",
+      "fintech"
+    ],
+    "sectorsSource": "https://illuminatefinancial.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Early-stage; targets ~15% stake (no cheque amount stated)."
+  },
+  {
+    "uuid": "d9547d4a-3c34-4bca-991f-edb70040cca6",
+    "name": "ETF Partners",
+    "office": {
+      "address": "29 Queen Anne's Gate, London SW1H 9BU",
+      "postcode": "SW1H 9BU",
+      "lat": 51.500332,
+      "lng": -0.133392,
+      "source": "https://etfpartners.capital"
+    },
+    "sectors": [
+      "climate",
+      "environmental tech"
+    ],
+    "sectorsSource": "https://etfpartners.capital",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "The Environmental Technologies Fund; stage/cheque not stated."
+  },
+  {
+    "uuid": "8c0bab2a-18d8-478a-89b9-0e748359c06f",
+    "name": "Kennet Partners",
+    "office": {
+      "address": "9-11 Kingly Street, London W1B 5PH",
+      "postcode": "W1B 5PH",
+      "lat": 51.512496,
+      "lng": -0.13889,
+      "source": "https://kennet.com"
+    },
+    "sectors": [
+      "AI",
+      "B2B SaaS"
+    ],
+    "sectorsSource": "https://kennet.com",
+    "stages": [
+      "growth"
+    ],
+    "stagesSource": "https://kennet.com",
+    "chequeGbp": {
+      "min": 6800000,
+      "max": 42500000
+    },
+    "chequeSource": "https://kennet.com",
+    "confidence": "high",
+    "notes": "Site: EUR8-50m cheques (converted at 0.85) into bootstrapped/lightly funded companies with EUR3-20m ARR."
+  },
+  {
+    "uuid": "b2c8f3b9-ca8f-405a-923f-8025cd40f341",
+    "name": "Giant Ventures",
+    "office": null,
+    "sectors": [
+      "deep tech",
+      "energy",
+      "materials",
+      "industry",
+      "future of work",
+      "fintech",
+      "biology",
+      "healthtech"
+    ],
+    "sectorsSource": "https://giant.vc",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Frontier technology; London office, no street address on page."
+  },
+  {
+    "uuid": "51529e99-afb3-4c5c-b455-f69143bd66bd",
+    "name": "Climate Investment",
+    "office": null,
+    "sectors": [
+      "climate",
+      "energy",
+      "industrial decarbonisation",
+      "built environment",
+      "transportation"
+    ],
+    "sectorsSource": "https://climateinvestment.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Venture to growth equity in high-emission sectors; $1.8bn AUM."
+  },
+  {
+    "uuid": "acf4dcc1-ffe8-4722-b6d3-ec67828893fb",
+    "name": "Smedvig Capital",
+    "office": {
+      "address": "Ryger House, 11 Arlington Street, London SW1A 1RD",
+      "postcode": "SW1A 1RD",
+      "lat": 51.506545,
+      "lng": -0.140141,
+      "source": "https://smedvigcapital.com"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": [
+      "growth"
+    ],
+    "stagesSource": "https://smedvigcapital.com",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Invests directly in growth-stage businesses via Smedvig Ventures (UK, Nordics, BeNeLux, DACH) plus LP commitments."
+  },
+  {
+    "uuid": "7d9ca8c9-084c-404b-9836-e97e6d263051",
+    "name": "Blossom Capital",
+    "office": null,
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": [
+      "series-a"
+    ],
+    "stagesSource": "https://blossomcap.com",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Site: limits investments to 4-5 Series A rounds per year. Dealroom chequeMax (8.3bn) is clearly bad data."
+  },
+  {
+    "uuid": "da5f9d1b-de63-4807-a590-43465d7f05e9",
+    "name": "Syncona",
+    "office": null,
+    "sectors": [
+      "life sciences",
+      "therapeutics"
+    ],
+    "sectorsSource": "https://synconaltd.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Builds life science companies from pre-clinical to commercial."
+  },
+  {
+    "uuid": "9e5e9cb3-45ca-4a15-83fa-f1243096a3a4",
+    "name": "Ponderosa Ventures",
+    "office": null,
+    "sectors": [
+      "agritech",
+      "food and supply chain",
+      "oceans and water",
+      "forestry and land",
+      "climate"
+    ],
+    "sectorsSource": "https://ponderosavc.com",
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://ponderosavc.com",
+    "chequeGbp": {
+      "min": 79000,
+      "max": 592500
+    },
+    "chequeSource": "https://ponderosavc.com",
+    "confidence": "high",
+    "notes": "Site: $100k-$750k (converted at 0.79). Invests globally, focus US and Europe."
+  },
+  {
+    "uuid": "21987fe3-4d43-4949-85df-39c874669cd3",
+    "name": "noa",
+    "office": {
+      "address": "1st Floor, 32 Wigmore Street, London W1U 2RP",
+      "postcode": "W1U 2RP",
+      "lat": 51.516788,
+      "lng": -0.148113,
+      "source": "https://noavc.com"
+    },
+    "sectors": [
+      "climate",
+      "built environment",
+      "proptech",
+      "energy",
+      "materials",
+      "mobility"
+    ],
+    "sectorsSource": "https://noavc.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Decarbonising the built world."
+  },
+  {
+    "uuid": "7b2e2ab3-6116-44f8-85f5-d1666a1f5211",
+    "name": "Hiro Capital",
+    "office": null,
+    "sectors": [
+      "AI",
+      "robotics",
+      "defence",
+      "space",
+      "sports tech",
+      "longevity",
+      "gaming",
+      "spatial computing"
+    ],
+    "sectorsSource": "https://hiro.capital",
+    "stages": [
+      "series-a",
+      "series-b",
+      "growth"
+    ],
+    "stagesSource": "https://hiro.capital",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Site: invests from Series A to Scale Up."
+  },
+  {
+    "uuid": "244f3f03-2410-48d7-82db-14e8e84b7219",
+    "name": "NxGen Capital",
+    "office": null,
+    "sectors": [
+      "crypto",
+      "DeFi",
+      "gaming",
+      "AI infrastructure"
+    ],
+    "sectorsSource": "https://nxgen.xyz",
+    "stages": [
+      "pre-seed"
+    ],
+    "stagesSource": "https://nxgen.xyz",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Multi-family office plus advisory; invests at earliest stages (advisory starts before the seed)."
+  },
+  {
+    "uuid": "a113db0e-3010-46b5-8e3d-7fc9d012c240",
+    "name": "InReach Ventures",
+    "office": {
+      "address": "10 York Road, London SE1 7ND",
+      "postcode": "SE1 7ND",
+      "lat": 51.503492,
+      "lng": -0.11564,
+      "source": "https://inreachventures.com"
+    },
+    "sectors": [
+      "AI",
+      "consumer",
+      "B2B SaaS"
+    ],
+    "sectorsSource": "https://inreachventures.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Correspondence address used (registered office 80 Cheapside EC2V 6EE). Invests at MVP and initial user engagement."
+  },
+  {
+    "uuid": "29addc37-49d2-4c88-85b7-19d953c70169",
+    "name": "Apis Partners",
+    "office": {
+      "address": "Seventh Floor, 8 Lancelot Place, London SW7 1DR",
+      "postcode": "SW7 1DR",
+      "lat": 51.500555,
+      "lng": -0.164044,
+      "source": "https://apis.pe"
+    },
+    "sectors": [
+      "fintech",
+      "payments",
+      "insurtech",
+      "lending"
+    ],
+    "sectorsSource": "https://apis.pe",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Minority stakes in tech-enabled financial infrastructure with proven unit economics; $2.2bn AUM."
+  },
+  {
+    "uuid": "0f68a4a5-71b1-4c6a-973d-f2bb29d3cbeb",
+    "name": "Emerge VC",
+    "office": {
+      "address": "15 Fetter Lane, London EC4A 1BW",
+      "postcode": "EC4A 1BW",
+      "lat": 51.515142,
+      "lng": -0.109193,
+      "source": "https://emergecapital.vc"
+    },
+    "sectors": [
+      "edtech",
+      "future of work",
+      "HR tech"
+    ],
+    "sectorsSource": "https://emergecapital.vc",
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://emergecapital.vc",
+    "chequeGbp": {
+      "min": 395000,
+      "max": 1975000
+    },
+    "chequeSource": "https://emergecapital.vc",
+    "confidence": "high",
+    "notes": "Site: $500k-$2.5M (converted at 0.79); $75M fund, human capital development."
+  },
+  {
+    "uuid": "a3acf698-6c30-4f4a-9ce8-7a271028a0b8",
+    "name": "Lansdowne Partners",
+    "office": {
+      "address": "65 Curzon Street, London W1J 8PE",
+      "postcode": "W1J 8PE",
+      "lat": 51.507911,
+      "lng": -0.144611,
+      "source": "https://lansdownepartners.com"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Fundamental equity (hedge fund) manager; site mentions no venture strategy."
+  },
+  {
+    "uuid": "fc85855e-3b03-46a8-bb87-0886f4360544",
+    "name": "Symvan Capital",
+    "office": {
+      "address": "19-21 Christopher Street, London EC2A 2BS",
+      "postcode": "EC2A 2BS",
+      "lat": 51.52141,
+      "lng": -0.084269,
+      "source": "https://symvancapital.com"
+    },
+    "sectors": [
+      "B2B SaaS",
+      "fintech",
+      "insurtech",
+      "proptech"
+    ],
+    "sectorsSource": "https://symvancapital.com",
+    "stages": [
+      "seed"
+    ],
+    "stagesSource": "https://symvancapital.com",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Site: from seed funding through to exit; GBP50m AUM."
+  },
+  {
+    "uuid": "562c3149-0d9e-46b0-8e37-b043d1e3c401",
+    "name": "Isomer Capital",
+    "office": {
+      "address": "17A Curzon Street, London W1J 5HS",
+      "postcode": "W1J 5HS",
+      "lat": 51.506771,
+      "lng": -0.148706,
+      "source": "https://isomercapital.com"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Fund-of-funds / secondaries / co-investment platform for European tech; Dealroom cheque values (189394 to 8) look corrupt."
+  },
+  {
+    "uuid": "094773fa-8662-4a81-8b18-f82760e37185",
+    "name": "Blue Wire Capital",
+    "office": {
+      "address": "6 Stannary Street, London SE11 4AA",
+      "postcode": "SE11 4AA",
+      "lat": 51.485574,
+      "lng": -0.109754,
+      "source": "https://bluewirecapital.com"
+    },
+    "sectors": null,
+    "sectorsSource": null,
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Registered address from own site footer; early capital, sector list on site is portfolio only so sectors left null."
+  },
+  {
+    "uuid": "aef0fed0-f89b-4fd6-8ad1-3969baade56c",
+    "name": "Oryx Fund",
+    "office": null,
+    "sectors": [
+      "fintech",
+      "healthtech",
+      "enterprise software",
+      "logistics",
+      "edtech"
+    ],
+    "sectorsSource": "https://salicainvestments.com/fund/oryx-fund/",
+    "stages": [
+      "seed"
+    ],
+    "stagesSource": "https://salicainvestments.com/fund/oryx-fund/",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Salica Investments fund, 100% MENA focus, seed/early-stage tech. oryxfund.com redirects to salicainvestments.com."
+  },
+  {
+    "uuid": "9f457105-df0d-40f8-ab40-020b4e70d11a",
+    "name": "Elbow Beach Capital",
+    "office": {
+      "address": "27-29 Union Street, London SE1 1SD",
+      "postcode": "SE1 1SD",
+      "lat": 51.50351,
+      "lng": -0.093363,
+      "source": "https://elbowbeach.com"
+    },
+    "sectors": [
+      "climate"
+    ],
+    "sectorsSource": "https://elbowbeach.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "medium",
+    "notes": "Backs technologies that are commercially better and greener; stage not stated generally."
+  },
+  {
+    "uuid": "532699cd-17ae-4f2c-8779-2aee9fd4d0f7",
+    "name": "Counteract",
+    "office": {
+      "address": "4th Floor, 9 Bonhill Street, London EC2A 4DJ",
+      "postcode": "EC2A 4DJ",
+      "lat": 51.522592,
+      "lng": -0.08507,
+      "source": "https://counteract.vc"
+    },
+    "sectors": [
+      "climate",
+      "carbon removal"
+    ],
+    "sectorsSource": "https://counteract.vc",
+    "stages": [
+      "pre-seed",
+      "seed"
+    ],
+    "stagesSource": "https://counteract.vc",
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "Carbon removal fund (Counteract One)."
+  },
+  {
+    "uuid": "ad4eafdd-010b-4430-9081-d10ca8a039a0",
+    "name": "4BIO Capital",
+    "office": null,
+    "sectors": [
+      "life sciences",
+      "advanced therapies"
+    ],
+    "sectorsSource": "https://4biocapital.com",
+    "stages": null,
+    "stagesSource": null,
+    "chequeGbp": null,
+    "chequeSource": null,
+    "confidence": "high",
+    "notes": "London-based life sciences VC focused on advanced therapies."
+  }
+]

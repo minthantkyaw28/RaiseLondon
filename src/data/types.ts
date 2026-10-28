@@ -32,6 +32,10 @@ export interface Investor {
   dealsLast12m: number;
   portfolio: string[];
   partners: Partner[];
+  /** The web enrichment says the firm backs any sector; the matcher gives partial sector credit. */
+  generalist?: boolean;
+  /** Source URLs for the values taken from the web enrichment (`src/data/enrichment.json`). */
+  sources?: { office?: string; stages?: string; cheque?: string };
 }
 
 export type RatingDimension = "responsiveness" | "valueAdd" | "fairTerms" | "founderFirst";

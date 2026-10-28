@@ -136,6 +136,35 @@ Investors (29), B Corp (10), Automotive (8), Investing (5), Investing in Startup
 Technology, Alternative Investments, Equity Research (2 each), Platform, Social Entrepreneurship,
 Crowdsourcing, Communication, Telecommunications, Capital Market, Partners (1 each).
 
+### Web enrichment (`src/data/enrichment.json`)
+
+Web research on 157 London VC firms, keyed by Dealroom uuid: office (address, postcode, lat/lng),
+sectors, stages and cheque (GBP), each with the source URL it came from, plus a confidence and
+notes. A sample was checked by hand against the firms' own sites. The file is committed unchanged
+so the provenance stays visible. `src/data/enrichment.ts` loads it and `applyEnrichment` fills our
+`Investor` in the adapter; `enrichScoringRow` does the same for Min's scoring rows. Enrichment only fills gaps or replaces clearly corrupt Dealroom values:
+
+- **Office:** when present, its pin and street address replace Dealroom's point (or the spiral).
+- **Sectors:** added to Dealroom's through the same `SECTOR_MAP` (extended with the enrichment's
+  names: insurtech → fintech, medtech → healthtech, energy → climate, defence → deep tech…;
+  edtech, proptech, logistics and the like fit none of ours and are dropped). For the scorer each
+  sector becomes one tag from `DEALROOM_TERMS` that no other sector's terms match ("artificial
+  intelligence", not "ai", which would match "retail"). "generalist" adds no sector: it flags the
+  firm, and the matcher gives it Min's partial sector credit (18 of 40, "Generalist investor.").
+- **Stages:** only when Dealroom maps to none.
+- **Cheque:** only when Dealroom's is missing or implausible. A single bound is completed as the
+  adapter does (floor = ceiling / 10, ceiling = floor x 10).
+- **Corrupt-cheque guard, with or without enrichment:** a Dealroom ticket with a ceiling over
+  £500m or under £1,000, or a floor above the ceiling, is discarded (the firm gets its type's
+  default; the scoring row gets no ticket). Earlier, a reversed floor and ceiling were swapped.
+- The profile shows a small "Source" link next to an office, cheque or stages that came from it.
+
+Counts on the 281 firms shown: 82 real office pins (the spiral drops from 161 to 144 pins), 100
+firms gained sectors (firms with none of our sectors: 207 → 135), 5 generalists, 23 cheques, 0
+stages (every firm already has Dealroom stages). 6 corrupt Dealroom cheques discarded: RTP
+Global, Blossom Capital, Simon Franks (£8.3bn ceilings), Crane Venture Partners (£4), Isomer
+Capital (£8), Hedosophia (£38); none has an enrichment cheque, so all six show the default.
+
 ### Dataset shape (`src/data/types.ts`)
 
 - `Investor`: name, type, one-liner, website, address + lat/lng, stages, sectors, cheque size
@@ -354,6 +383,7 @@ Read-only markdown endpoints, rendered by `src/lib/agent-markdown.ts`, cached fo
 | `src/components/vc-map/InvestorDetail.tsx` | Firm profile, pipeline, ratings                                 |
 | `src/data/source.ts`                       | The single place the dataset is loaded (real Dealroom data)     |
 | `src/data/from-raise.ts`                   | Adapter: Min's Dealroom export → our `Dataset`                  |
+| `src/data/enrichment.ts`                   | Web enrichment: offices, sectors, stages, cheques, with sources |
 | `src/lib/pitch-to-startup.ts`              | Bridge: our pitch profile → Min's scorer, sector terms, MRR/ARR |
 | `src/lib/infer-sectors.ts`                 | Investor sectors inferred from portfolio companies              |
 | `src/lib/*.test.ts`                        | Tests for rating weights and the pitch matcher                  |

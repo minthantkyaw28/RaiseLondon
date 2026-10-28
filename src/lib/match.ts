@@ -22,7 +22,8 @@ const MISS = /^No |\boutside\b|\bdoes not match\b|\bdo not match\b/;
 /**
  * Ranks our investors for a pitch with Min's scorer over his Dealroom rows (`scoring`, keyed by
  * the same uuid as our `Investor.id`). Investors with no scoring row are left out. Score and
- * reasons are his; reasons that count against the fit are split out as misses.
+ * reasons are his, plus partial sector credit for generalists; reasons that count against the fit
+ * are split out as misses.
  */
 export function matchInvestors(
   profile: PitchProfile,
@@ -32,7 +33,8 @@ export function matchInvestors(
 ): Match[] {
   const ours = new Map(investors.map((v) => [v.id, v]));
   const rows = scoring.filter((r) => ours.has(r.uuid));
-  return rankPitch(profile, text, rows).flatMap((r) => {
+  const generalists = new Set(investors.filter((v) => v.generalist).map((v) => v.id));
+  return rankPitch(profile, text, rows, generalists).flatMap((r) => {
     const investor = ours.get(r.investor.uuid);
     if (!investor) return [];
     const said = r.reasons.filter((reason) => !NOT_SCORED.test(reason));

@@ -2,10 +2,14 @@ import { dataset as raise } from "@/lib/raise/dataset";
 import type { Investor as RaiseInvestor } from "@/lib/raise/types";
 import { withInferredSectors } from "@/lib/infer-sectors";
 
+import { enrichScoringRow, loadEnrichment } from "./enrichment";
+import enrichmentJson from "./enrichment.json";
 import { fromRaise } from "./from-raise";
 import type { Dataset } from "./types";
 
-// Min's scorer reads stages, sectors, cheques and activity. The long text fields are dropped so
+const enrichment = loadEnrichment(enrichmentJson);
+
+// Min's scorer reads stages, sectors, cheques and activity, with the web enrichment filled in. The long text fields are dropped so
 // the rows add little to the home page payload.
 const forScoring = (v: RaiseInvestor): RaiseInvestor => ({
   ...v,
@@ -19,13 +23,15 @@ const forScoring = (v: RaiseInvestor): RaiseInvestor => ({
 });
 
 function build(): Dataset {
-  const dataset = fromRaise(raise).dataset;
+  const dataset = fromRaise(raise, enrichment).dataset;
   const ids = new Set(dataset.investors.map((v) => v.id));
   const scoring = withInferredSectors(
     raise.investors.filter((v) => ids.has(v.uuid)),
     raise.deals,
     raise.companies ?? [],
-  ).map(forScoring);
+  )
+    .map((v) => enrichScoringRow(v, enrichment.get(v.uuid)))
+    .map(forScoring);
   return { ...dataset, scoring };
 }
 
