@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import type { Investor } from "@/data/types";
-import { matchInvestors, type Match } from "./match";
+import { matchInvestors, scoreTier, type Match } from "./match";
 import { extractProfile, parseRaise, type PitchProfile } from "./pitch-profile";
 
 describe("extractProfile", () => {
@@ -135,5 +135,20 @@ describe("matchInvestors", () => {
     expect(m.reasons).toEqual([]);
     expect(m.misses).toEqual(["No deals in the last 12 months"]);
     expect(matchInvestors(empty, [])).toEqual([]);
+  });
+});
+
+describe("scoreTier", () => {
+  it("bands scores at 80, 60 and 40", () => {
+    expect([100, 80, 79, 60, 59, 40, 39, 0].map(scoreTier)).toEqual([
+      "strong",
+      "strong",
+      "good",
+      "good",
+      "fair",
+      "fair",
+      "weak",
+      "weak",
+    ]);
   });
 });
