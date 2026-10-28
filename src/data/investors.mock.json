@@ -1,0 +1,2425 @@
+{
+  "generatedAt": "2026-10-28",
+  "source": "mock",
+  "investors": [
+    {
+      "id": "inv_1",
+      "slug": "northbank-ventures",
+      "name": "Northbank Ventures",
+      "type": "accelerator",
+      "oneLiner": "seed fund backing consumer & ai founders out of King's Cross.",
+      "website": "https://northbankventures.example",
+      "address": "162 King's Cross Street, London N1C 4AG",
+      "lat": 51.536738516759875,
+      "lng": -0.12499030361175538,
+      "stages": ["seed", "series-a", "series-b"],
+      "sectors": ["consumer", "ai", "fintech", "healthtech"],
+      "checkSizeGbp": {
+        "min": 50000,
+        "max": 200000
+      },
+      "fundSizeGbpM": 600,
+      "dealsLast12m": 3,
+      "portfolio": ["Heliograph", "Lumen", "Haddock", "Gridwise", "Parcelry", "Stonefruit"],
+      "partners": [
+        {
+          "id": "p_1",
+          "name": "Freya Haddad",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["healthtech", "fintech"]
+        },
+        {
+          "id": "p_2",
+          "name": "Ravi Haddad",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["consumer"]
+        }
+      ]
+    },
+    {
+      "id": "inv_2",
+      "slug": "thames-ridge-capital",
+      "name": "Thames Ridge Capital",
+      "type": "vc",
+      "oneLiner": "series a fund backing healthtech & b2b-saas founders out of Shoreditch.",
+      "website": "https://thamesridgecapital.example",
+      "address": "106 Shoreditch Street, London EC2A 3AY",
+      "lat": 51.52428906974792,
+      "lng": -0.07499551544189453,
+      "stages": ["series-a", "series-b", "growth"],
+      "sectors": ["healthtech", "b2b-saas", "fintech"],
+      "checkSizeGbp": {
+        "min": 50000,
+        "max": 200000
+      },
+      "fundSizeGbpM": 600,
+      "dealsLast12m": 30,
+      "portfolio": ["Stonefruit", "Haddock", "Gridwise", "Driftwood AI", "Parcelry"],
+      "partners": [
+        {
+          "id": "p_3",
+          "name": "Mei Okafor",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["fintech"]
+        },
+        {
+          "id": "p_4",
+          "name": "Freya Novak",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["healthtech", "b2b-saas"]
+        },
+        {
+          "id": "p_5",
+          "name": "Amara Kaur",
+          "title": "Principal",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["fintech", "b2b-saas"]
+        },
+        {
+          "id": "p_6",
+          "name": "Amara Whitfield",
+          "title": "Investment Manager",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["b2b-saas", "fintech"]
+        }
+      ]
+    },
+    {
+      "id": "inv_3",
+      "slug": "lantern-seed",
+      "name": "Lantern Seed",
+      "type": "vc",
+      "oneLiner": "pre seed fund backing deeptech & climate founders out of Mayfair.",
+      "website": "https://lanternseed.example",
+      "address": "144 Mayfair Street, London W1K 2PE",
+      "lat": 51.51123193869591,
+      "lng": -0.14858069057464598,
+      "stages": ["pre-seed", "seed"],
+      "sectors": ["deeptech", "climate"],
+      "checkSizeGbp": {
+        "min": 500000,
+        "max": 2000000
+      },
+      "fundSizeGbpM": 50,
+      "dealsLast12m": 14,
+      "portfolio": ["Parcelry", "Fernly", "Orbitly", "Gridwise", "Mintbridge"],
+      "partners": [
+        {
+          "id": "p_7",
+          "name": "Ben Rossi",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["deeptech"]
+        },
+        {
+          "id": "p_8",
+          "name": "Chloe Novak",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["deeptech", "climate"]
+        },
+        {
+          "id": "p_9",
+          "name": "Sam Ward",
+          "title": "Principal",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["deeptech"]
+        },
+        {
+          "id": "p_10",
+          "name": "Sofia Ward",
+          "title": "Investment Manager",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["deeptech"]
+        }
+      ]
+    },
+    {
+      "id": "inv_4",
+      "slug": "fleet-street-partners",
+      "name": "Fleet Street Partners",
+      "type": "vc",
+      "oneLiner": "seed fund backing consumer & devtools founders out of Soho.",
+      "website": "https://fleetstreetpartners.example",
+      "address": "162 Soho Street, London W1F 9JR",
+      "lat": 51.51170450577735,
+      "lng": -0.13849163126945496,
+      "stages": ["seed", "series-a"],
+      "sectors": ["consumer", "devtools"],
+      "checkSizeGbp": {
+        "min": 100000,
+        "max": 1000000
+      },
+      "fundSizeGbpM": 50,
+      "dealsLast12m": 13,
+      "portfolio": ["Lumen", "Heliograph", "Kiln", "Stonefruit", "Fernly", "Driftwood AI"],
+      "partners": [
+        {
+          "id": "p_11",
+          "name": "Leila Okafor",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["consumer", "devtools"]
+        },
+        {
+          "id": "p_12",
+          "name": "Marcus Adeyemi",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["consumer", "devtools"]
+        },
+        {
+          "id": "p_13",
+          "name": "Priya Fraser",
+          "title": "Principal",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["consumer", "devtools"]
+        }
+      ]
+    },
+    {
+      "id": "inv_5",
+      "slug": "ravenhill-vc",
+      "name": "Ravenhill VC",
+      "type": "accelerator",
+      "oneLiner": "pre seed fund backing ai & deeptech founders out of Fitzrovia.",
+      "website": "https://ravenhillvc.example",
+      "address": "81 Fitzrovia Street, London W1T 3JH",
+      "lat": 51.51750726242066,
+      "lng": -0.1328897946834564,
+      "stages": ["pre-seed", "seed"],
+      "sectors": ["ai", "deeptech", "devtools", "fintech"],
+      "checkSizeGbp": {
+        "min": 1000000,
+        "max": 10000000
+      },
+      "fundSizeGbpM": 50,
+      "dealsLast12m": 31,
+      "portfolio": ["Kiln", "Parcelry", "Pebble Health", "Stonefruit", "Ledgerlark", "Brightloop"],
+      "partners": [
+        {
+          "id": "p_14",
+          "name": "Freya Okafor",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["deeptech"]
+        },
+        {
+          "id": "p_15",
+          "name": "Elena Doyle",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["deeptech", "fintech"]
+        },
+        {
+          "id": "p_16",
+          "name": "Zara Moreau",
+          "title": "Principal",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["ai", "devtools"]
+        },
+        {
+          "id": "p_17",
+          "name": "Zara Ward",
+          "title": "Investment Manager",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["ai", "deeptech"]
+        }
+      ]
+    },
+    {
+      "id": "inv_6",
+      "slug": "copperline-capital",
+      "name": "Copperline Capital",
+      "type": "angel-network",
+      "oneLiner": "seed fund backing deeptech & ai founders out of Clerkenwell.",
+      "website": "https://copperlinecapital.example",
+      "address": "35 Clerkenwell Street, London EC1M 6EB",
+      "lat": 51.52248986252546,
+      "lng": -0.10816297283172607,
+      "stages": ["seed", "series-a"],
+      "sectors": ["deeptech", "ai", "consumer", "climate"],
+      "checkSizeGbp": {
+        "min": 250000,
+        "max": 1000000
+      },
+      "fundSizeGbpM": 300,
+      "dealsLast12m": 20,
+      "portfolio": ["Parcelry", "Kiln", "Ledgerlark", "Wayfold", "Pebble Health"],
+      "partners": [
+        {
+          "id": "p_18",
+          "name": "Sam Bennett",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["deeptech"]
+        },
+        {
+          "id": "p_19",
+          "name": "Jonah Rossi",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["consumer", "deeptech"]
+        },
+        {
+          "id": "p_20",
+          "name": "Theo Okafor",
+          "title": "Principal",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["climate", "ai"]
+        }
+      ]
+    },
+    {
+      "id": "inv_7",
+      "slug": "hollow-oak-ventures",
+      "name": "Hollow Oak Ventures",
+      "type": "vc",
+      "oneLiner": "seed fund backing deeptech & fintech founders out of Old Street.",
+      "website": "https://hollowoakventures.example",
+      "address": "51 Old Street Street, London EC1V 9NR",
+      "lat": 51.5277621804595,
+      "lng": -0.08883509063720703,
+      "stages": ["seed", "series-a"],
+      "sectors": ["deeptech", "fintech"],
+      "checkSizeGbp": {
+        "min": 500000,
+        "max": 2500000
+      },
+      "fundSizeGbpM": 600,
+      "dealsLast12m": 29,
+      "portfolio": ["Wayfold", "Gridwise", "Cairnly", "Parcelry", "Quillstack", "Kiln"],
+      "partners": [
+        {
+          "id": "p_21",
+          "name": "Priya Kaur",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["fintech"]
+        },
+        {
+          "id": "p_22",
+          "name": "Isla Okafor",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["fintech"]
+        }
+      ]
+    },
+    {
+      "id": "inv_8",
+      "slug": "brick-lane-capital",
+      "name": "Brick Lane Capital",
+      "type": "vc",
+      "oneLiner": "series a fund backing fintech & ai founders out of Covent Garden.",
+      "website": "https://bricklanecapital.example",
+      "address": "153 Covent Garden Street, London WC2E 8RF",
+      "lat": 51.51326300115585,
+      "lng": -0.12475101280212403,
+      "stages": ["series-a", "series-b"],
+      "sectors": ["fintech", "ai"],
+      "checkSizeGbp": {
+        "min": 3000000,
+        "max": 30000000
+      },
+      "fundSizeGbpM": 600,
+      "dealsLast12m": 21,
+      "portfolio": ["Mintbridge", "Lumen", "Pebble Health", "Tessel"],
+      "partners": [
+        {
+          "id": "p_23",
+          "name": "Sam Ellis",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["ai", "fintech"]
+        },
+        {
+          "id": "p_24",
+          "name": "Sam Reyes",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["fintech", "ai"]
+        },
+        {
+          "id": "p_25",
+          "name": "Elena Kaur",
+          "title": "Principal",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["fintech", "ai"]
+        },
+        {
+          "id": "p_26",
+          "name": "Zara Hughes",
+          "title": "Investment Manager",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["fintech", "ai"]
+        }
+      ]
+    },
+    {
+      "id": "inv_9",
+      "slug": "saffron-hill-partners",
+      "name": "Saffron Hill Partners",
+      "type": "vc",
+      "oneLiner": "pre seed fund backing deeptech & b2b-saas founders out of St James's.",
+      "website": "https://saffronhillpartners.example",
+      "address": "59 St James's Street, London SW1Y 4LR",
+      "lat": 51.50713607935905,
+      "lng": -0.13460456523895264,
+      "stages": ["pre-seed", "seed"],
+      "sectors": ["deeptech", "b2b-saas", "climate", "ai"],
+      "checkSizeGbp": {
+        "min": 50000,
+        "max": 200000
+      },
+      "fundSizeGbpM": 25,
+      "dealsLast12m": 5,
+      "portfolio": ["Pebble Health", "Tessel", "Vellum"],
+      "partners": [
+        {
+          "id": "p_27",
+          "name": "Sam Mensah",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["deeptech"]
+        },
+        {
+          "id": "p_28",
+          "name": "Isla Lin",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["b2b-saas", "deeptech"]
+        },
+        {
+          "id": "p_29",
+          "name": "Oliver Ellis",
+          "title": "Principal",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["climate"]
+        }
+      ]
+    },
+    {
+      "id": "inv_10",
+      "slug": "kestrel-fund",
+      "name": "Kestrel Fund",
+      "type": "vc",
+      "oneLiner": "series a fund backing healthtech & deeptech founders out of Marylebone.",
+      "website": "https://kestrelfund.example",
+      "address": "108 Marylebone Street, London W1U 6TQ",
+      "lat": 51.51699408516883,
+      "lng": -0.14917770762443544,
+      "stages": ["series-a", "series-b"],
+      "sectors": ["healthtech", "deeptech", "devtools"],
+      "checkSizeGbp": {
+        "min": 100000,
+        "max": 400000
+      },
+      "fundSizeGbpM": 80,
+      "dealsLast12m": 20,
+      "portfolio": ["Kiln", "Mintbridge", "Gridwise", "Driftwood AI", "Ledgerlark", "Lumen"],
+      "partners": [
+        {
+          "id": "p_30",
+          "name": "Elena Ellis",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["deeptech"]
+        },
+        {
+          "id": "p_31",
+          "name": "Oliver Novak",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["deeptech", "devtools"]
+        }
+      ]
+    },
+    {
+      "id": "inv_11",
+      "slug": "primrose-ventures",
+      "name": "Primrose Ventures",
+      "type": "vc",
+      "oneLiner": "series a fund backing fintech & healthtech founders out of Notting Hill.",
+      "website": "https://primroseventures.example",
+      "address": "127 Notting Hill Street, London W11 2PJ",
+      "lat": 51.51281215071678,
+      "lng": -0.20699169955253602,
+      "stages": ["series-a", "series-b"],
+      "sectors": ["fintech", "healthtech"],
+      "checkSizeGbp": {
+        "min": 50000,
+        "max": 500000
+      },
+      "fundSizeGbpM": 25,
+      "dealsLast12m": 15,
+      "portfolio": ["Driftwood AI", "Quillstack", "Kiln", "Gridwise", "Pebble Health"],
+      "partners": [
+        {
+          "id": "p_32",
+          "name": "Sofia Lin",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["healthtech"]
+        },
+        {
+          "id": "p_33",
+          "name": "Jonah Doyle",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["healthtech", "fintech"]
+        },
+        {
+          "id": "p_34",
+          "name": "Leila Whitfield",
+          "title": "Principal",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["healthtech", "fintech"]
+        },
+        {
+          "id": "p_35",
+          "name": "Elena Ellis",
+          "title": "Investment Manager",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["fintech", "healthtech"]
+        }
+      ]
+    },
+    {
+      "id": "inv_12",
+      "slug": "wharf-co",
+      "name": "Wharf & Co",
+      "type": "vc",
+      "oneLiner": "seed fund backing devtools & ai founders out of Canary Wharf.",
+      "website": "https://wharfco.example",
+      "address": "128 Canary Wharf Street, London E14 5AB",
+      "lat": 51.50419669237137,
+      "lng": -0.02699296760559082,
+      "stages": ["seed", "series-a", "series-b"],
+      "sectors": ["devtools", "ai"],
+      "checkSizeGbp": {
+        "min": 3000000,
+        "max": 12000000
+      },
+      "fundSizeGbpM": 50,
+      "dealsLast12m": 16,
+      "portfolio": ["Orbitly", "Driftwood AI", "Parcelry", "Quillstack"],
+      "partners": [
+        {
+          "id": "p_36",
+          "name": "Tom Moreau",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["ai", "devtools"]
+        },
+        {
+          "id": "p_37",
+          "name": "Priya Lin",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["ai"]
+        },
+        {
+          "id": "p_38",
+          "name": "Priya Hughes",
+          "title": "Principal",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["devtools"]
+        },
+        {
+          "id": "p_39",
+          "name": "Elena Clarke",
+          "title": "Investment Manager",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["ai"]
+        }
+      ]
+    },
+    {
+      "id": "inv_13",
+      "slug": "ironmonger-capital",
+      "name": "Ironmonger Capital",
+      "type": "angel-network",
+      "oneLiner": "pre seed fund backing deeptech & ai founders out of Farringdon.",
+      "website": "https://ironmongercapital.example",
+      "address": "139 Farringdon Street, London EC1M 3HE",
+      "lat": 51.52013997726441,
+      "lng": -0.103001904296875,
+      "stages": ["pre-seed", "seed"],
+      "sectors": ["deeptech", "ai", "healthtech"],
+      "checkSizeGbp": {
+        "min": 50000,
+        "max": 500000
+      },
+      "fundSizeGbpM": 25,
+      "dealsLast12m": 7,
+      "portfolio": ["Driftwood AI", "Heliograph", "Cairnly"],
+      "partners": [
+        {
+          "id": "p_40",
+          "name": "Theo Ellis",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["deeptech", "ai"]
+        },
+        {
+          "id": "p_41",
+          "name": "Isla Moreau",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["ai"]
+        },
+        {
+          "id": "p_42",
+          "name": "Sofia Bennett",
+          "title": "Principal",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["deeptech", "healthtech"]
+        }
+      ]
+    },
+    {
+      "id": "inv_14",
+      "slug": "bloomsbury-seed",
+      "name": "Bloomsbury Seed",
+      "type": "vc",
+      "oneLiner": "pre seed fund backing ai & fintech founders out of Southwark.",
+      "website": "https://bloomsburyseed.example",
+      "address": "15 Southwark Street, London SE1 9PG",
+      "lat": 51.506972692513465,
+      "lng": -0.0932573299407959,
+      "stages": ["pre-seed", "seed"],
+      "sectors": ["ai", "fintech", "consumer", "climate"],
+      "checkSizeGbp": {
+        "min": 3000000,
+        "max": 12000000
+      },
+      "fundSizeGbpM": 80,
+      "dealsLast12m": 2,
+      "portfolio": ["Pebble Health", "Lumen", "Stonefruit", "Ledgerlark", "Haddock"],
+      "partners": [
+        {
+          "id": "p_43",
+          "name": "Isla Ellis",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["consumer", "ai"]
+        },
+        {
+          "id": "p_44",
+          "name": "Priya Ellis",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["ai"]
+        },
+        {
+          "id": "p_45",
+          "name": "Mei Whitfield",
+          "title": "Principal",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["consumer"]
+        },
+        {
+          "id": "p_46",
+          "name": "Amara Adeyemi",
+          "title": "Investment Manager",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["ai"]
+        }
+      ]
+    },
+    {
+      "id": "inv_15",
+      "slug": "tideway-ventures",
+      "name": "Tideway Ventures",
+      "type": "vc",
+      "oneLiner": "seed fund backing b2b-saas & fintech founders out of Liverpool Street.",
+      "website": "https://tidewayventures.example",
+      "address": "154 Liverpool Street Street, London EC2M 7PY",
+      "lat": 51.51633607749939,
+      "lng": -0.0829293472290039,
+      "stages": ["seed", "series-a", "series-b"],
+      "sectors": ["b2b-saas", "fintech", "healthtech"],
+      "checkSizeGbp": {
+        "min": 1000000,
+        "max": 5000000
+      },
+      "fundSizeGbpM": 600,
+      "dealsLast12m": 23,
+      "portfolio": ["Nimbleo", "Vellum", "Gridwise", "Wayfold"],
+      "partners": [
+        {
+          "id": "p_47",
+          "name": "Isla Whitfield",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["b2b-saas", "fintech"]
+        },
+        {
+          "id": "p_48",
+          "name": "Hannah Mensah",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["b2b-saas", "fintech"]
+        }
+      ]
+    },
+    {
+      "id": "inv_16",
+      "slug": "granary-capital",
+      "name": "Granary Capital",
+      "type": "angel-network",
+      "oneLiner": "series a fund backing consumer & ai founders out of Hoxton.",
+      "website": "https://granarycapital.example",
+      "address": "37 Hoxton Street, London N1 6PB",
+      "lat": 51.52990791796446,
+      "lng": -0.07871424121856689,
+      "stages": ["series-a", "series-b", "growth"],
+      "sectors": ["consumer", "ai", "devtools"],
+      "checkSizeGbp": {
+        "min": 1000000,
+        "max": 5000000
+      },
+      "fundSizeGbpM": 50,
+      "dealsLast12m": 4,
+      "portfolio": ["Wayfold", "Orbitly", "Ledgerlark"],
+      "partners": [
+        {
+          "id": "p_49",
+          "name": "Oliver Reyes",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["devtools"]
+        },
+        {
+          "id": "p_50",
+          "name": "Theo Moreau",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["devtools", "ai"]
+        },
+        {
+          "id": "p_51",
+          "name": "Ben Moreau",
+          "title": "Principal",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["consumer"]
+        }
+      ]
+    },
+    {
+      "id": "inv_17",
+      "slug": "albion-fund",
+      "name": "Albion Fund",
+      "type": "accelerator",
+      "oneLiner": "pre seed fund backing healthtech & consumer founders out of King's Cross.",
+      "website": "https://albionfund.example",
+      "address": "178 King's Cross Street, London N1C 4AG",
+      "lat": 51.53516846747399,
+      "lng": -0.1281629873275757,
+      "stages": ["pre-seed", "seed"],
+      "sectors": ["healthtech", "consumer", "b2b-saas"],
+      "checkSizeGbp": {
+        "min": 100000,
+        "max": 400000
+      },
+      "fundSizeGbpM": 600,
+      "dealsLast12m": 23,
+      "portfolio": ["Mintbridge", "Driftwood AI", "Parcelry", "Vellum"],
+      "partners": [
+        {
+          "id": "p_52",
+          "name": "Daniel Fraser",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["b2b-saas"]
+        },
+        {
+          "id": "p_53",
+          "name": "Tom Rossi",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["healthtech", "b2b-saas"]
+        },
+        {
+          "id": "p_54",
+          "name": "Chloe Okafor",
+          "title": "Principal",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["consumer", "b2b-saas"]
+        }
+      ]
+    },
+    {
+      "id": "inv_18",
+      "slug": "meridian-square-vc",
+      "name": "Meridian Square VC",
+      "type": "cvc",
+      "oneLiner": "pre seed fund backing fintech & b2b-saas founders out of Shoreditch.",
+      "website": "https://meridiansquarevc.example",
+      "address": "74 Shoreditch Street, London EC2A 3AY",
+      "lat": 51.52440551767349,
+      "lng": -0.08151217994689942,
+      "stages": ["pre-seed", "seed", "series-a"],
+      "sectors": ["fintech", "b2b-saas", "deeptech"],
+      "checkSizeGbp": {
+        "min": 50000,
+        "max": 250000
+      },
+      "fundSizeGbpM": 150,
+      "dealsLast12m": 15,
+      "portfolio": ["Quillstack", "Driftwood AI", "Gridwise"],
+      "partners": [
+        {
+          "id": "p_55",
+          "name": "Theo Bennett",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["deeptech"]
+        },
+        {
+          "id": "p_56",
+          "name": "Ben Bennett",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["fintech"]
+        },
+        {
+          "id": "p_57",
+          "name": "Tom Clarke",
+          "title": "Principal",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["b2b-saas"]
+        }
+      ]
+    },
+    {
+      "id": "inv_19",
+      "slug": "paddington-ventures",
+      "name": "Paddington Ventures",
+      "type": "accelerator",
+      "oneLiner": "seed fund backing healthtech & consumer founders out of Mayfair.",
+      "website": "https://paddingtonventures.example",
+      "address": "184 Mayfair Street, London W1K 2PE",
+      "lat": 51.511405391788486,
+      "lng": -0.14598203773498536,
+      "stages": ["seed", "series-a"],
+      "sectors": ["healthtech", "consumer", "fintech", "devtools"],
+      "checkSizeGbp": {
+        "min": 1000000,
+        "max": 4000000
+      },
+      "fundSizeGbpM": 25,
+      "dealsLast12m": 8,
+      "portfolio": ["Tessel", "Orbitly", "Pebble Health", "Gridwise", "Fernly", "Lumen"],
+      "partners": [
+        {
+          "id": "p_58",
+          "name": "Amara Doyle",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["consumer"]
+        },
+        {
+          "id": "p_59",
+          "name": "Theo Patel",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["fintech"]
+        },
+        {
+          "id": "p_60",
+          "name": "Hannah Fraser",
+          "title": "Principal",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["healthtech"]
+        }
+      ]
+    },
+    {
+      "id": "inv_20",
+      "slug": "little-venice-capital",
+      "name": "Little Venice Capital",
+      "type": "vc",
+      "oneLiner": "series a fund backing b2b-saas & consumer founders out of Soho.",
+      "website": "https://littlevenicecapital.example",
+      "address": "115 Soho Street, London W1F 9JR",
+      "lat": 51.511803972816466,
+      "lng": -0.13845030570030215,
+      "stages": ["series-a", "series-b"],
+      "sectors": ["b2b-saas", "consumer"],
+      "checkSizeGbp": {
+        "min": 500000,
+        "max": 2500000
+      },
+      "fundSizeGbpM": 300,
+      "dealsLast12m": 11,
+      "portfolio": ["Lumen", "Nimbleo", "Ledgerlark"],
+      "partners": [
+        {
+          "id": "p_61",
+          "name": "Arjun Mensah",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["consumer"]
+        },
+        {
+          "id": "p_62",
+          "name": "Oliver Mensah",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["b2b-saas"]
+        },
+        {
+          "id": "p_63",
+          "name": "Mei Rossi",
+          "title": "Principal",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["b2b-saas", "consumer"]
+        },
+        {
+          "id": "p_64",
+          "name": "Kofi Mensah",
+          "title": "Investment Manager",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["b2b-saas", "consumer"]
+        }
+      ]
+    },
+    {
+      "id": "inv_21",
+      "slug": "mercer-labs",
+      "name": "Mercer Labs",
+      "type": "angel-network",
+      "oneLiner": "pre seed fund backing deeptech & b2b-saas founders out of Fitzrovia.",
+      "website": "https://mercerlabs.example",
+      "address": "46 Fitzrovia Street, London W1T 3JH",
+      "lat": 51.51722347487212,
+      "lng": -0.13309952748417855,
+      "stages": ["pre-seed", "seed"],
+      "sectors": ["deeptech", "b2b-saas"],
+      "checkSizeGbp": {
+        "min": 250000,
+        "max": 2500000
+      },
+      "fundSizeGbpM": 50,
+      "dealsLast12m": 29,
+      "portfolio": ["Lumen", "Ledgerlark", "Kiln", "Pebble Health"],
+      "partners": [
+        {
+          "id": "p_65",
+          "name": "Hannah Rossi",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["deeptech"]
+        },
+        {
+          "id": "p_66",
+          "name": "Chloe Patel",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["b2b-saas"]
+        }
+      ]
+    },
+    {
+      "id": "inv_22",
+      "slug": "highgate-growth",
+      "name": "Highgate Growth",
+      "type": "cvc",
+      "oneLiner": "seed fund backing consumer & healthtech founders out of Clerkenwell.",
+      "website": "https://highgategrowth.example",
+      "address": "84 Clerkenwell Street, London EC1M 6EB",
+      "lat": 51.522309319639206,
+      "lng": -0.1046444257736206,
+      "stages": ["seed", "series-a", "series-b"],
+      "sectors": ["consumer", "healthtech", "climate"],
+      "checkSizeGbp": {
+        "min": 250000,
+        "max": 1000000
+      },
+      "fundSizeGbpM": 80,
+      "dealsLast12m": 19,
+      "portfolio": ["Driftwood AI", "Wayfold", "Lumen"],
+      "partners": [
+        {
+          "id": "p_67",
+          "name": "Kwame Ellis",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["healthtech", "consumer"]
+        },
+        {
+          "id": "p_68",
+          "name": "Freya Kaur",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["healthtech", "climate"]
+        },
+        {
+          "id": "p_69",
+          "name": "Tom Hughes",
+          "title": "Principal",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["climate", "consumer"]
+        }
+      ]
+    },
+    {
+      "id": "inv_23",
+      "slug": "borough-angels",
+      "name": "Borough Angels",
+      "type": "cvc",
+      "oneLiner": "seed fund backing climate & fintech founders out of Old Street.",
+      "website": "https://boroughangels.example",
+      "address": "87 Old Street Street, London EC1V 9NR",
+      "lat": 51.52304916496277,
+      "lng": -0.08958667731285094,
+      "stages": ["seed", "series-a", "series-b"],
+      "sectors": ["climate", "fintech", "healthtech"],
+      "checkSizeGbp": {
+        "min": 3000000,
+        "max": 12000000
+      },
+      "fundSizeGbpM": 80,
+      "dealsLast12m": 26,
+      "portfolio": ["Gridwise", "Orbitly", "Stonefruit", "Pebble Health"],
+      "partners": [
+        {
+          "id": "p_70",
+          "name": "Freya Hughes",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["healthtech"]
+        },
+        {
+          "id": "p_71",
+          "name": "Arjun Adeyemi",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["climate"]
+        },
+        {
+          "id": "p_72",
+          "name": "Daniel Moreau",
+          "title": "Principal",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["climate"]
+        }
+      ]
+    },
+    {
+      "id": "inv_24",
+      "slug": "sterling-pier-ventures",
+      "name": "Sterling Pier Ventures",
+      "type": "vc",
+      "oneLiner": "series a fund backing ai & fintech founders out of Covent Garden.",
+      "website": "https://sterlingpierventures.example",
+      "address": "83 Covent Garden Street, London WC2E 8RF",
+      "lat": 51.511442293357845,
+      "lng": -0.12713496017456055,
+      "stages": ["series-a", "series-b"],
+      "sectors": ["ai", "fintech", "consumer", "deeptech"],
+      "checkSizeGbp": {
+        "min": 1000000,
+        "max": 5000000
+      },
+      "fundSizeGbpM": 80,
+      "dealsLast12m": 8,
+      "portfolio": ["Gridwise", "Driftwood AI", "Lumen"],
+      "partners": [
+        {
+          "id": "p_73",
+          "name": "Leila Patel",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["fintech"]
+        },
+        {
+          "id": "p_74",
+          "name": "Chloe Ellis",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["ai", "deeptech"]
+        },
+        {
+          "id": "p_75",
+          "name": "Isla Clarke",
+          "title": "Principal",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["ai", "deeptech"]
+        }
+      ]
+    },
+    {
+      "id": "inv_25",
+      "slug": "foundry-row-capital",
+      "name": "Foundry Row Capital",
+      "type": "vc",
+      "oneLiner": "series a fund backing ai & consumer founders out of St James's.",
+      "website": "https://foundryrowcapital.example",
+      "address": "132 St James's Street, London SW1Y 4LR",
+      "lat": 51.506671877670286,
+      "lng": -0.14034930572509766,
+      "stages": ["series-a", "series-b", "growth"],
+      "sectors": ["ai", "consumer", "deeptech", "b2b-saas"],
+      "checkSizeGbp": {
+        "min": 100000,
+        "max": 1000000
+      },
+      "fundSizeGbpM": 80,
+      "dealsLast12m": 7,
+      "portfolio": ["Cairnly", "Mintbridge", "Kiln"],
+      "partners": [
+        {
+          "id": "p_76",
+          "name": "Ben Shah",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["consumer"]
+        },
+        {
+          "id": "p_77",
+          "name": "Chloe Adeyemi",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["b2b-saas"]
+        },
+        {
+          "id": "p_78",
+          "name": "Amara Hughes",
+          "title": "Principal",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["b2b-saas"]
+        }
+      ]
+    },
+    {
+      "id": "inv_26",
+      "slug": "quayside-partners",
+      "name": "Quayside Partners",
+      "type": "angel-network",
+      "oneLiner": "pre seed fund backing climate & ai founders out of Marylebone.",
+      "website": "https://quaysidepartners.example",
+      "address": "121 Marylebone Street, London W1U 6TQ",
+      "lat": 51.5189191037178,
+      "lng": -0.149589497756958,
+      "stages": ["pre-seed", "seed", "series-a"],
+      "sectors": ["climate", "ai", "fintech"],
+      "checkSizeGbp": {
+        "min": 1000000,
+        "max": 4000000
+      },
+      "fundSizeGbpM": 50,
+      "dealsLast12m": 7,
+      "portfolio": ["Mintbridge", "Lumen", "Cairnly", "Stonefruit"],
+      "partners": [
+        {
+          "id": "p_79",
+          "name": "Theo Fraser",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["ai"]
+        },
+        {
+          "id": "p_80",
+          "name": "Chloe Ellis",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["fintech"]
+        }
+      ]
+    },
+    {
+      "id": "inv_27",
+      "slug": "cobalt-bridge-vc",
+      "name": "Cobalt Bridge VC",
+      "type": "vc",
+      "oneLiner": "series a fund backing b2b-saas & healthtech founders out of Notting Hill.",
+      "website": "https://cobaltbridgevc.example",
+      "address": "52 Notting Hill Street, London W11 2PJ",
+      "lat": 51.513022538363934,
+      "lng": -0.2043358937263489,
+      "stages": ["series-a", "series-b", "growth"],
+      "sectors": ["b2b-saas", "healthtech", "climate"],
+      "checkSizeGbp": {
+        "min": 250000,
+        "max": 2500000
+      },
+      "fundSizeGbpM": 25,
+      "dealsLast12m": 6,
+      "portfolio": ["Mintbridge", "Orbitly", "Pebble Health", "Driftwood AI", "Haddock"],
+      "partners": [
+        {
+          "id": "p_81",
+          "name": "Zara Bennett",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["climate"]
+        },
+        {
+          "id": "p_82",
+          "name": "Oliver Novak",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["healthtech", "b2b-saas"]
+        }
+      ]
+    },
+    {
+      "id": "inv_28",
+      "slug": "larkspur-ventures",
+      "name": "Larkspur Ventures",
+      "type": "cvc",
+      "oneLiner": "series a fund backing devtools & climate founders out of Canary Wharf.",
+      "website": "https://larkspurventures.example",
+      "address": "23 Canary Wharf Street, London E14 5AB",
+      "lat": 51.50777334674597,
+      "lng": -0.02637104606628418,
+      "stages": ["series-a", "series-b", "growth"],
+      "sectors": ["devtools", "climate", "deeptech", "b2b-saas"],
+      "checkSizeGbp": {
+        "min": 3000000,
+        "max": 15000000
+      },
+      "fundSizeGbpM": 600,
+      "dealsLast12m": 29,
+      "portfolio": ["Brightloop", "Nimbleo", "Gridwise"],
+      "partners": [
+        {
+          "id": "p_83",
+          "name": "Mei Reyes",
+          "title": "General Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["b2b-saas", "devtools"]
+        },
+        {
+          "id": "p_84",
+          "name": "Zara Shah",
+          "title": "Partner",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["climate", "devtools"]
+        },
+        {
+          "id": "p_85",
+          "name": "Daniel Ward",
+          "title": "Principal",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["climate"]
+        },
+        {
+          "id": "p_86",
+          "name": "Freya Adeyemi",
+          "title": "Investment Manager",
+          "linkedinUrl": "https://www.linkedin.com/",
+          "focus": ["b2b-saas", "devtools"]
+        }
+      ]
+    }
+  ],
+  "contacts": [
+    {
+      "id": "c_1",
+      "name": "Arjun Novak",
+      "relation": "Uni friend",
+      "knows": ["p_4", "p_13", "p_32"]
+    },
+    {
+      "id": "c_2",
+      "name": "Mei Kaur",
+      "relation": "Angel in your round",
+      "knows": ["p_73", "p_47"]
+    },
+    {
+      "id": "c_3",
+      "name": "Elena Doyle",
+      "relation": "Met at Founders Forum",
+      "knows": ["p_44"]
+    },
+    {
+      "id": "c_4",
+      "name": "Ben Fraser",
+      "relation": "Uni friend",
+      "knows": ["p_24", "c_14"]
+    },
+    {
+      "id": "c_5",
+      "name": "Arjun Shah",
+      "relation": "Angel in your round",
+      "knows": ["p_7"]
+    },
+    {
+      "id": "c_6",
+      "name": "Kwame Fraser",
+      "relation": "Met at Founders Forum",
+      "knows": ["p_66", "p_13"]
+    },
+    {
+      "id": "c_7",
+      "name": "Marcus Doyle",
+      "relation": "Met at Founders Forum",
+      "knows": ["p_57", "p_77", "p_46"]
+    },
+    {
+      "id": "c_8",
+      "name": "Sam Bennett",
+      "relation": "Ex-colleague",
+      "knows": ["p_18"]
+    },
+    {
+      "id": "c_9",
+      "name": "Chloe Rossi",
+      "relation": "Twitter mutual",
+      "knows": ["p_66", "p_64"]
+    },
+    {
+      "id": "c_10",
+      "name": "Freya Whitfield",
+      "relation": "Ex-colleague",
+      "knows": ["p_67", "p_46", "c_6"]
+    },
+    {
+      "id": "c_11",
+      "name": "Leila Fraser",
+      "relation": "Met at Founders Forum",
+      "knows": ["p_27", "p_39", "c_3"]
+    },
+    {
+      "id": "c_12",
+      "name": "Jonah Lin",
+      "relation": "Fellow founder",
+      "knows": ["p_27", "p_26"]
+    },
+    {
+      "id": "c_13",
+      "name": "Ravi Lin",
+      "relation": "Met at Founders Forum",
+      "knows": ["p_12", "c_2"]
+    },
+    {
+      "id": "c_14",
+      "name": "Isla Bennett",
+      "relation": "Angel in your round",
+      "knows": ["p_57"]
+    },
+    {
+      "id": "c_15",
+      "name": "Kofi Okafor",
+      "relation": "Ex-colleague",
+      "knows": ["p_56", "p_70"]
+    },
+    {
+      "id": "c_16",
+      "name": "Ravi Lin",
+      "relation": "Ex-colleague",
+      "knows": ["p_9", "p_8", "c_9"]
+    },
+    {
+      "id": "c_17",
+      "name": "Leila Reyes",
+      "relation": "Fellow founder",
+      "knows": ["p_75", "p_64", "p_79", "c_18"]
+    },
+    {
+      "id": "c_18",
+      "name": "Isla Doyle",
+      "relation": "Angel in your round",
+      "knows": ["p_17", "p_80"]
+    }
+  ],
+  "reviews": [
+    {
+      "id": "r_1",
+      "investorId": "inv_2",
+      "portfolioCompany": "Driftwood AI",
+      "verified": true,
+      "scores": {
+        "responsiveness": 5,
+        "valueAdd": 5,
+        "fairTerms": 5,
+        "founderFirst": 4
+      },
+      "tags": ["Founder-friendly terms", "Replies in 24h"],
+      "date": "2026-06-08"
+    },
+    {
+      "id": "r_2",
+      "investorId": "inv_2",
+      "reviewerContactId": "c_10",
+      "portfolioCompany": "Driftwood AI",
+      "verified": true,
+      "scores": {
+        "responsiveness": 4,
+        "valueAdd": 4,
+        "fairTerms": 4,
+        "founderFirst": 5
+      },
+      "tags": ["Helped hire"],
+      "date": "2026-09-10"
+    },
+    {
+      "id": "r_3",
+      "investorId": "inv_2",
+      "portfolioCompany": "Gridwise",
+      "verified": true,
+      "scores": {
+        "responsiveness": 4,
+        "valueAdd": 4,
+        "fairTerms": 5,
+        "founderFirst": 4
+      },
+      "tags": ["Pushes for board seat"],
+      "date": "2026-04-12"
+    },
+    {
+      "id": "r_4",
+      "investorId": "inv_2",
+      "portfolioCompany": "Stonefruit",
+      "verified": true,
+      "scores": {
+        "responsiveness": 5,
+        "valueAdd": 4,
+        "fairTerms": 4,
+        "founderFirst": 5
+      },
+      "tags": ["Founder-friendly terms", "Slow to wire"],
+      "date": "2026-08-21"
+    },
+    {
+      "id": "r_5",
+      "investorId": "inv_2",
+      "reviewerContactId": "c_11",
+      "portfolioCompany": "Stonefruit",
+      "verified": true,
+      "scores": {
+        "responsiveness": 4,
+        "valueAdd": 5,
+        "fairTerms": 4,
+        "founderFirst": 4
+      },
+      "tags": ["Pushes for board seat", "Replies in 24h"],
+      "date": "2026-03-09"
+    },
+    {
+      "id": "r_6",
+      "investorId": "inv_3",
+      "portfolioCompany": "Parcelry",
+      "verified": true,
+      "scores": {
+        "responsiveness": 4,
+        "valueAdd": 3,
+        "fairTerms": 3,
+        "founderFirst": 3
+      },
+      "tags": ["Pushes for board seat"],
+      "date": "2026-03-01"
+    },
+    {
+      "id": "r_7",
+      "investorId": "inv_3",
+      "portfolioCompany": "Mintbridge",
+      "verified": true,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 4,
+        "fairTerms": 4,
+        "founderFirst": 3
+      },
+      "tags": ["Slow to wire", "Hands-off"],
+      "date": "2026-06-19"
+    },
+    {
+      "id": "r_8",
+      "investorId": "inv_3",
+      "portfolioCompany": "Fernly",
+      "verified": false,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 4,
+        "fairTerms": 4,
+        "founderFirst": 4
+      },
+      "tags": ["Ghosted after IC"],
+      "date": "2026-06-25"
+    },
+    {
+      "id": "r_9",
+      "investorId": "inv_3",
+      "portfolioCompany": "Parcelry",
+      "verified": false,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 3,
+        "fairTerms": 4,
+        "founderFirst": 4
+      },
+      "tags": ["Founder-friendly terms"],
+      "date": "2026-03-12"
+    },
+    {
+      "id": "r_10",
+      "investorId": "inv_3",
+      "portfolioCompany": "Mintbridge",
+      "verified": true,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 3,
+        "fairTerms": 4,
+        "founderFirst": 3
+      },
+      "tags": ["Slow to wire", "Pushes for board seat"],
+      "date": "2026-09-04"
+    },
+    {
+      "id": "r_11",
+      "investorId": "inv_4",
+      "reviewerContactId": "c_13",
+      "portfolioCompany": "Lumen",
+      "verified": false,
+      "scores": {
+        "responsiveness": 2,
+        "valueAdd": 2,
+        "fairTerms": 2,
+        "founderFirst": 1
+      },
+      "tags": ["Ghosted after IC", "Replies in 24h"],
+      "date": "2026-08-22"
+    },
+    {
+      "id": "r_12",
+      "investorId": "inv_4",
+      "portfolioCompany": "Stonefruit",
+      "verified": true,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 2,
+        "fairTerms": 2,
+        "founderFirst": 1
+      },
+      "tags": ["Replies in 24h"],
+      "date": "2026-09-17"
+    },
+    {
+      "id": "r_13",
+      "investorId": "inv_4",
+      "portfolioCompany": "Driftwood AI",
+      "verified": true,
+      "scores": {
+        "responsiveness": 2,
+        "valueAdd": 3,
+        "fairTerms": 2,
+        "founderFirst": 2
+      },
+      "tags": ["Great intros", "Helped hire"],
+      "date": "2026-07-14"
+    },
+    {
+      "id": "r_14",
+      "investorId": "inv_4",
+      "reviewerContactId": "c_17",
+      "portfolioCompany": "Stonefruit",
+      "verified": true,
+      "scores": {
+        "responsiveness": 2,
+        "valueAdd": 2,
+        "fairTerms": 2,
+        "founderFirst": 1
+      },
+      "tags": ["Hands-off"],
+      "date": "2026-08-13"
+    },
+    {
+      "id": "r_15",
+      "investorId": "inv_5",
+      "portfolioCompany": "Stonefruit",
+      "verified": true,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 2,
+        "fairTerms": 2,
+        "founderFirst": 2
+      },
+      "tags": ["Pushes for board seat"],
+      "date": "2026-08-01"
+    },
+    {
+      "id": "r_16",
+      "investorId": "inv_6",
+      "portfolioCompany": "Kiln",
+      "verified": true,
+      "scores": {
+        "responsiveness": 2,
+        "valueAdd": 4,
+        "fairTerms": 3,
+        "founderFirst": 2
+      },
+      "tags": ["Helped hire", "Slow to wire"],
+      "date": "2026-07-18"
+    },
+    {
+      "id": "r_17",
+      "investorId": "inv_6",
+      "portfolioCompany": "Kiln",
+      "verified": true,
+      "scores": {
+        "responsiveness": 4,
+        "valueAdd": 3,
+        "fairTerms": 4,
+        "founderFirst": 4
+      },
+      "tags": ["Helped hire"],
+      "date": "2026-06-05"
+    },
+    {
+      "id": "r_18",
+      "investorId": "inv_6",
+      "portfolioCompany": "Pebble Health",
+      "verified": true,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 3,
+        "fairTerms": 3,
+        "founderFirst": 3
+      },
+      "tags": ["Great intros", "Hands-off"],
+      "date": "2026-02-17"
+    },
+    {
+      "id": "r_19",
+      "investorId": "inv_6",
+      "reviewerContactId": "c_11",
+      "portfolioCompany": "Ledgerlark",
+      "verified": false,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 3,
+        "fairTerms": 4,
+        "founderFirst": 4
+      },
+      "tags": ["Founder-friendly terms"],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "r_20",
+      "investorId": "inv_7",
+      "portfolioCompany": "Parcelry",
+      "verified": true,
+      "scores": {
+        "responsiveness": 4,
+        "valueAdd": 3,
+        "fairTerms": 4,
+        "founderFirst": 4
+      },
+      "tags": ["Slow to wire", "Pushes for board seat"],
+      "date": "2026-09-14"
+    },
+    {
+      "id": "r_21",
+      "investorId": "inv_8",
+      "reviewerContactId": "c_2",
+      "portfolioCompany": "Mintbridge",
+      "verified": true,
+      "scores": {
+        "responsiveness": 4,
+        "valueAdd": 4,
+        "fairTerms": 5,
+        "founderFirst": 5
+      },
+      "tags": ["Hands-off"],
+      "date": "2026-06-24"
+    },
+    {
+      "id": "r_22",
+      "investorId": "inv_8",
+      "reviewerContactId": "c_10",
+      "portfolioCompany": "Lumen",
+      "verified": true,
+      "scores": {
+        "responsiveness": 4,
+        "valueAdd": 5,
+        "fairTerms": 5,
+        "founderFirst": 4
+      },
+      "tags": ["Slow to wire"],
+      "date": "2026-06-07"
+    },
+    {
+      "id": "r_23",
+      "investorId": "inv_8",
+      "portfolioCompany": "Lumen",
+      "verified": true,
+      "scores": {
+        "responsiveness": 4,
+        "valueAdd": 4,
+        "fairTerms": 4,
+        "founderFirst": 4
+      },
+      "tags": ["Supportive in down round", "Pushes for board seat"],
+      "date": "2026-05-26"
+    },
+    {
+      "id": "r_24",
+      "investorId": "inv_8",
+      "portfolioCompany": "Pebble Health",
+      "verified": true,
+      "scores": {
+        "responsiveness": 5,
+        "valueAdd": 5,
+        "fairTerms": 4,
+        "founderFirst": 4
+      },
+      "tags": ["Replies in 24h", "Pushes for board seat"],
+      "date": "2026-04-20"
+    },
+    {
+      "id": "r_25",
+      "investorId": "inv_9",
+      "reviewerContactId": "c_11",
+      "portfolioCompany": "Pebble Health",
+      "verified": true,
+      "scores": {
+        "responsiveness": 5,
+        "valueAdd": 4,
+        "fairTerms": 4,
+        "founderFirst": 3
+      },
+      "tags": ["Pushes for board seat"],
+      "date": "2026-01-18"
+    },
+    {
+      "id": "r_26",
+      "investorId": "inv_9",
+      "portfolioCompany": "Vellum",
+      "verified": true,
+      "scores": {
+        "responsiveness": 4,
+        "valueAdd": 5,
+        "fairTerms": 4,
+        "founderFirst": 5
+      },
+      "tags": ["Pushes for board seat"],
+      "date": "2026-09-08"
+    },
+    {
+      "id": "r_27",
+      "investorId": "inv_9",
+      "portfolioCompany": "Vellum",
+      "verified": false,
+      "scores": {
+        "responsiveness": 4,
+        "valueAdd": 4,
+        "fairTerms": 4,
+        "founderFirst": 5
+      },
+      "tags": ["Slow to wire", "Great intros"],
+      "date": "2026-04-16"
+    },
+    {
+      "id": "r_28",
+      "investorId": "inv_10",
+      "portfolioCompany": "Kiln",
+      "verified": true,
+      "scores": {
+        "responsiveness": 4,
+        "valueAdd": 3,
+        "fairTerms": 4,
+        "founderFirst": 3
+      },
+      "tags": ["Hands-off", "Helped hire"],
+      "date": "2026-01-19"
+    },
+    {
+      "id": "r_29",
+      "investorId": "inv_10",
+      "portfolioCompany": "Ledgerlark",
+      "verified": true,
+      "scores": {
+        "responsiveness": 4,
+        "valueAdd": 3,
+        "fairTerms": 4,
+        "founderFirst": 3
+      },
+      "tags": ["Helped hire", "Replies in 24h"],
+      "date": "2026-01-18"
+    },
+    {
+      "id": "r_30",
+      "investorId": "inv_11",
+      "portfolioCompany": "Pebble Health",
+      "verified": true,
+      "scores": {
+        "responsiveness": 1,
+        "valueAdd": 1,
+        "fairTerms": 2,
+        "founderFirst": 2
+      },
+      "tags": ["Pushes for board seat"],
+      "date": "2026-08-14"
+    },
+    {
+      "id": "r_31",
+      "investorId": "inv_11",
+      "reviewerContactId": "c_2",
+      "portfolioCompany": "Pebble Health",
+      "verified": false,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 2,
+        "fairTerms": 2,
+        "founderFirst": 3
+      },
+      "tags": ["Supportive in down round", "Slow to wire"],
+      "date": "2026-05-04"
+    },
+    {
+      "id": "r_32",
+      "investorId": "inv_11",
+      "reviewerContactId": "c_11",
+      "portfolioCompany": "Gridwise",
+      "verified": true,
+      "scores": {
+        "responsiveness": 1,
+        "valueAdd": 2,
+        "fairTerms": 3,
+        "founderFirst": 2
+      },
+      "tags": ["Hands-off", "Replies in 24h"],
+      "date": "2026-09-07"
+    },
+    {
+      "id": "r_33",
+      "investorId": "inv_11",
+      "reviewerContactId": "c_1",
+      "portfolioCompany": "Gridwise",
+      "verified": true,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 1,
+        "fairTerms": 3,
+        "founderFirst": 3
+      },
+      "tags": ["Pushes for board seat", "Supportive in down round"],
+      "date": "2026-02-27"
+    },
+    {
+      "id": "r_34",
+      "investorId": "inv_11",
+      "portfolioCompany": "Pebble Health",
+      "verified": true,
+      "scores": {
+        "responsiveness": 1,
+        "valueAdd": 3,
+        "fairTerms": 3,
+        "founderFirst": 1
+      },
+      "tags": ["Ghosted after IC"],
+      "date": "2026-09-07"
+    },
+    {
+      "id": "r_35",
+      "investorId": "inv_12",
+      "portfolioCompany": "Orbitly",
+      "verified": false,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 3,
+        "fairTerms": 2,
+        "founderFirst": 2
+      },
+      "tags": ["Supportive in down round"],
+      "date": "2026-09-22"
+    },
+    {
+      "id": "r_36",
+      "investorId": "inv_12",
+      "portfolioCompany": "Driftwood AI",
+      "verified": true,
+      "scores": {
+        "responsiveness": 2,
+        "valueAdd": 2,
+        "fairTerms": 2,
+        "founderFirst": 2
+      },
+      "tags": ["Pushes for board seat"],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "r_37",
+      "investorId": "inv_12",
+      "portfolioCompany": "Parcelry",
+      "verified": true,
+      "scores": {
+        "responsiveness": 2,
+        "valueAdd": 1,
+        "fairTerms": 2,
+        "founderFirst": 2
+      },
+      "tags": ["Great intros"],
+      "date": "2026-01-08"
+    },
+    {
+      "id": "r_38",
+      "investorId": "inv_12",
+      "reviewerContactId": "c_3",
+      "portfolioCompany": "Orbitly",
+      "verified": false,
+      "scores": {
+        "responsiveness": 2,
+        "valueAdd": 1,
+        "fairTerms": 2,
+        "founderFirst": 3
+      },
+      "tags": ["Replies in 24h", "Hands-off"],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "r_39",
+      "investorId": "inv_12",
+      "portfolioCompany": "Parcelry",
+      "verified": true,
+      "scores": {
+        "responsiveness": 2,
+        "valueAdd": 3,
+        "fairTerms": 2,
+        "founderFirst": 2
+      },
+      "tags": ["Replies in 24h", "Slow to wire"],
+      "date": "2026-02-14"
+    },
+    {
+      "id": "r_40",
+      "investorId": "inv_13",
+      "portfolioCompany": "Cairnly",
+      "verified": true,
+      "scores": {
+        "responsiveness": 4,
+        "valueAdd": 4,
+        "fairTerms": 4,
+        "founderFirst": 3
+      },
+      "tags": ["Slow to wire"],
+      "date": "2026-01-01"
+    },
+    {
+      "id": "r_41",
+      "investorId": "inv_13",
+      "portfolioCompany": "Heliograph",
+      "verified": false,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 4,
+        "fairTerms": 5,
+        "founderFirst": 3
+      },
+      "tags": ["Pushes for board seat"],
+      "date": "2026-08-22"
+    },
+    {
+      "id": "r_42",
+      "investorId": "inv_14",
+      "reviewerContactId": "c_10",
+      "portfolioCompany": "Pebble Health",
+      "verified": false,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 3,
+        "fairTerms": 3,
+        "founderFirst": 4
+      },
+      "tags": ["Slow to wire"],
+      "date": "2026-09-19"
+    },
+    {
+      "id": "r_43",
+      "investorId": "inv_14",
+      "portfolioCompany": "Lumen",
+      "verified": true,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 3,
+        "fairTerms": 4,
+        "founderFirst": 3
+      },
+      "tags": ["Supportive in down round"],
+      "date": "2026-03-08"
+    },
+    {
+      "id": "r_44",
+      "investorId": "inv_15",
+      "reviewerContactId": "c_13",
+      "portfolioCompany": "Wayfold",
+      "verified": true,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 5,
+        "fairTerms": 4,
+        "founderFirst": 5
+      },
+      "tags": ["Replies in 24h", "Helped hire"],
+      "date": "2026-04-04"
+    },
+    {
+      "id": "r_45",
+      "investorId": "inv_16",
+      "reviewerContactId": "c_4",
+      "portfolioCompany": "Ledgerlark",
+      "verified": true,
+      "scores": {
+        "responsiveness": 4,
+        "valueAdd": 2,
+        "fairTerms": 3,
+        "founderFirst": 2
+      },
+      "tags": ["Slow to wire"],
+      "date": "2026-01-26"
+    },
+    {
+      "id": "r_46",
+      "investorId": "inv_16",
+      "reviewerContactId": "c_13",
+      "portfolioCompany": "Wayfold",
+      "verified": false,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 3,
+        "fairTerms": 2,
+        "founderFirst": 2
+      },
+      "tags": ["Replies in 24h", "Founder-friendly terms"],
+      "date": "2026-02-22"
+    },
+    {
+      "id": "r_47",
+      "investorId": "inv_16",
+      "portfolioCompany": "Ledgerlark",
+      "verified": false,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 2,
+        "fairTerms": 3,
+        "founderFirst": 3
+      },
+      "tags": ["Supportive in down round"],
+      "date": "2026-06-21"
+    },
+    {
+      "id": "r_48",
+      "investorId": "inv_16",
+      "portfolioCompany": "Wayfold",
+      "verified": false,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 2,
+        "fairTerms": 2,
+        "founderFirst": 3
+      },
+      "tags": ["Replies in 24h"],
+      "date": "2026-03-14"
+    },
+    {
+      "id": "r_49",
+      "investorId": "inv_17",
+      "reviewerContactId": "c_1",
+      "portfolioCompany": "Mintbridge",
+      "verified": true,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 4,
+        "fairTerms": 4,
+        "founderFirst": 4
+      },
+      "tags": ["Pushes for board seat"],
+      "date": "2026-06-15"
+    },
+    {
+      "id": "r_50",
+      "investorId": "inv_17",
+      "reviewerContactId": "c_16",
+      "portfolioCompany": "Driftwood AI",
+      "verified": true,
+      "scores": {
+        "responsiveness": 4,
+        "valueAdd": 4,
+        "fairTerms": 4,
+        "founderFirst": 3
+      },
+      "tags": ["Slow to wire", "Founder-friendly terms"],
+      "date": "2026-08-18"
+    },
+    {
+      "id": "r_51",
+      "investorId": "inv_17",
+      "portfolioCompany": "Driftwood AI",
+      "verified": true,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 4,
+        "fairTerms": 3,
+        "founderFirst": 5
+      },
+      "tags": ["Ghosted after IC"],
+      "date": "2026-06-20"
+    },
+    {
+      "id": "r_52",
+      "investorId": "inv_17",
+      "portfolioCompany": "Mintbridge",
+      "verified": true,
+      "scores": {
+        "responsiveness": 5,
+        "valueAdd": 3,
+        "fairTerms": 3,
+        "founderFirst": 4
+      },
+      "tags": ["Pushes for board seat"],
+      "date": "2026-04-22"
+    },
+    {
+      "id": "r_53",
+      "investorId": "inv_18",
+      "portfolioCompany": "Gridwise",
+      "verified": false,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 4,
+        "fairTerms": 3,
+        "founderFirst": 4
+      },
+      "tags": ["Hands-off", "Supportive in down round"],
+      "date": "2026-01-24"
+    },
+    {
+      "id": "r_54",
+      "investorId": "inv_18",
+      "portfolioCompany": "Quillstack",
+      "verified": false,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 3,
+        "fairTerms": 4,
+        "founderFirst": 4
+      },
+      "tags": ["Replies in 24h", "Slow to wire"],
+      "date": "2026-03-03"
+    },
+    {
+      "id": "r_55",
+      "investorId": "inv_18",
+      "portfolioCompany": "Driftwood AI",
+      "verified": false,
+      "scores": {
+        "responsiveness": 5,
+        "valueAdd": 5,
+        "fairTerms": 4,
+        "founderFirst": 3
+      },
+      "tags": ["Pushes for board seat", "Replies in 24h"],
+      "date": "2026-03-02"
+    },
+    {
+      "id": "r_56",
+      "investorId": "inv_18",
+      "reviewerContactId": "c_9",
+      "portfolioCompany": "Quillstack",
+      "verified": true,
+      "scores": {
+        "responsiveness": 5,
+        "valueAdd": 3,
+        "fairTerms": 3,
+        "founderFirst": 3
+      },
+      "tags": ["Replies in 24h", "Hands-off"],
+      "date": "2026-08-03"
+    },
+    {
+      "id": "r_57",
+      "investorId": "inv_18",
+      "reviewerContactId": "c_13",
+      "portfolioCompany": "Quillstack",
+      "verified": true,
+      "scores": {
+        "responsiveness": 4,
+        "valueAdd": 4,
+        "fairTerms": 5,
+        "founderFirst": 4
+      },
+      "tags": ["Great intros"],
+      "date": "2026-07-04"
+    },
+    {
+      "id": "r_58",
+      "investorId": "inv_19",
+      "portfolioCompany": "Gridwise",
+      "verified": true,
+      "scores": {
+        "responsiveness": 5,
+        "valueAdd": 5,
+        "fairTerms": 5,
+        "founderFirst": 5
+      },
+      "tags": ["Replies in 24h", "Hands-off"],
+      "date": "2026-08-11"
+    },
+    {
+      "id": "r_59",
+      "investorId": "inv_20",
+      "portfolioCompany": "Ledgerlark",
+      "verified": true,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 3,
+        "fairTerms": 3,
+        "founderFirst": 3
+      },
+      "tags": ["Replies in 24h", "Great intros"],
+      "date": "2026-07-27"
+    },
+    {
+      "id": "r_60",
+      "investorId": "inv_20",
+      "reviewerContactId": "c_14",
+      "portfolioCompany": "Nimbleo",
+      "verified": false,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 2,
+        "fairTerms": 3,
+        "founderFirst": 2
+      },
+      "tags": ["Great intros", "Pushes for board seat"],
+      "date": "2026-04-08"
+    },
+    {
+      "id": "r_61",
+      "investorId": "inv_20",
+      "portfolioCompany": "Lumen",
+      "verified": true,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 4,
+        "fairTerms": 2,
+        "founderFirst": 3
+      },
+      "tags": ["Replies in 24h", "Hands-off"],
+      "date": "2026-07-03"
+    },
+    {
+      "id": "r_62",
+      "investorId": "inv_21",
+      "portfolioCompany": "Kiln",
+      "verified": false,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 4,
+        "fairTerms": 4,
+        "founderFirst": 3
+      },
+      "tags": ["Founder-friendly terms", "Supportive in down round"],
+      "date": "2026-02-22"
+    },
+    {
+      "id": "r_63",
+      "investorId": "inv_21",
+      "portfolioCompany": "Ledgerlark",
+      "verified": true,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 3,
+        "fairTerms": 3,
+        "founderFirst": 2
+      },
+      "tags": ["Pushes for board seat", "Great intros"],
+      "date": "2026-02-14"
+    },
+    {
+      "id": "r_64",
+      "investorId": "inv_21",
+      "portfolioCompany": "Lumen",
+      "verified": true,
+      "scores": {
+        "responsiveness": 4,
+        "valueAdd": 3,
+        "fairTerms": 4,
+        "founderFirst": 4
+      },
+      "tags": ["Slow to wire", "Replies in 24h"],
+      "date": "2026-08-03"
+    },
+    {
+      "id": "r_65",
+      "investorId": "inv_24",
+      "portfolioCompany": "Lumen",
+      "verified": true,
+      "scores": {
+        "responsiveness": 5,
+        "valueAdd": 5,
+        "fairTerms": 5,
+        "founderFirst": 5
+      },
+      "tags": ["Helped hire"],
+      "date": "2026-09-05"
+    },
+    {
+      "id": "r_66",
+      "investorId": "inv_24",
+      "reviewerContactId": "c_7",
+      "portfolioCompany": "Lumen",
+      "verified": false,
+      "scores": {
+        "responsiveness": 4,
+        "valueAdd": 5,
+        "fairTerms": 4,
+        "founderFirst": 4
+      },
+      "tags": ["Slow to wire", "Founder-friendly terms"],
+      "date": "2026-04-11"
+    },
+    {
+      "id": "r_67",
+      "investorId": "inv_24",
+      "portfolioCompany": "Lumen",
+      "verified": true,
+      "scores": {
+        "responsiveness": 5,
+        "valueAdd": 4,
+        "fairTerms": 3,
+        "founderFirst": 4
+      },
+      "tags": ["Replies in 24h"],
+      "date": "2026-03-25"
+    },
+    {
+      "id": "r_68",
+      "investorId": "inv_25",
+      "portfolioCompany": "Mintbridge",
+      "verified": true,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 3,
+        "fairTerms": 3,
+        "founderFirst": 3
+      },
+      "tags": ["Great intros", "Pushes for board seat"],
+      "date": "2026-04-19"
+    },
+    {
+      "id": "r_69",
+      "investorId": "inv_25",
+      "reviewerContactId": "c_9",
+      "portfolioCompany": "Cairnly",
+      "verified": true,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 3,
+        "fairTerms": 3,
+        "founderFirst": 4
+      },
+      "tags": ["Ghosted after IC"],
+      "date": "2026-06-25"
+    },
+    {
+      "id": "r_70",
+      "investorId": "inv_26",
+      "portfolioCompany": "Cairnly",
+      "verified": true,
+      "scores": {
+        "responsiveness": 1,
+        "valueAdd": 1,
+        "fairTerms": 2,
+        "founderFirst": 2
+      },
+      "tags": ["Ghosted after IC"],
+      "date": "2026-07-14"
+    },
+    {
+      "id": "r_71",
+      "investorId": "inv_27",
+      "portfolioCompany": "Orbitly",
+      "verified": false,
+      "scores": {
+        "responsiveness": 4,
+        "valueAdd": 2,
+        "fairTerms": 4,
+        "founderFirst": 4
+      },
+      "tags": ["Pushes for board seat", "Hands-off"],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "r_72",
+      "investorId": "inv_27",
+      "portfolioCompany": "Mintbridge",
+      "verified": true,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 3,
+        "fairTerms": 4,
+        "founderFirst": 4
+      },
+      "tags": ["Replies in 24h"],
+      "date": "2026-05-23"
+    },
+    {
+      "id": "r_73",
+      "investorId": "inv_27",
+      "portfolioCompany": "Orbitly",
+      "verified": true,
+      "scores": {
+        "responsiveness": 2,
+        "valueAdd": 3,
+        "fairTerms": 3,
+        "founderFirst": 3
+      },
+      "tags": ["Replies in 24h", "Hands-off"],
+      "date": "2026-08-24"
+    },
+    {
+      "id": "r_74",
+      "investorId": "inv_28",
+      "reviewerContactId": "c_8",
+      "portfolioCompany": "Brightloop",
+      "verified": true,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 2,
+        "fairTerms": 3,
+        "founderFirst": 1
+      },
+      "tags": ["Great intros"],
+      "date": "2026-01-27"
+    },
+    {
+      "id": "r_75",
+      "investorId": "inv_28",
+      "reviewerContactId": "c_12",
+      "portfolioCompany": "Gridwise",
+      "verified": false,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 2,
+        "fairTerms": 2,
+        "founderFirst": 2
+      },
+      "tags": ["Helped hire"],
+      "date": "2026-01-13"
+    },
+    {
+      "id": "r_76",
+      "investorId": "inv_28",
+      "portfolioCompany": "Gridwise",
+      "verified": true,
+      "scores": {
+        "responsiveness": 3,
+        "valueAdd": 2,
+        "fairTerms": 3,
+        "founderFirst": 3
+      },
+      "tags": ["Hands-off"],
+      "date": "2026-08-03"
+    }
+  ]
+}
