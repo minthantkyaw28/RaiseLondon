@@ -45,7 +45,7 @@ describe("extractProfile", () => {
 
   it("reads company status, treating pre-revenue as not revenue", () => {
     expect(extractProfile("£40k MRR from paying customers").companyStatus).toBe("revenue");
-    expect(extractProfile("Pre-revenue, 2,000 on the waitlist").companyStatus).toBe("has-users");
+    expect(extractProfile("Pre-revenue, 2,000 on the waitlist").companyStatus).toBe("waitlist");
     expect(extractProfile("Just an idea so far").companyStatus).toBe("idea");
   });
 
@@ -97,6 +97,29 @@ function nth(ranked: Match[], i: number): Match {
   if (!m) throw new Error(`expected a match at position ${i}, got ${ranked.length} matches`);
   return m;
 }
+
+describe("extractProfile: neurotech and waitlists", () => {
+  const pitch =
+    "I'm building an EEG headband that tracks focus. 400 users on our waitlist, raising £500k.";
+
+  it("reads an EEG headband as healthtech and deep tech", () => {
+    expect(extractProfile(pitch).sectors).toEqual(
+      expect.arrayContaining(["healthtech", "deeptech"]),
+    );
+  });
+
+  it("treats users on a waitlist as a waitlist, and infers pre-seed", () => {
+    const p = extractProfile(pitch);
+    expect(p.companyStatus).toBe("waitlist");
+    expect(p.stage).toBe("pre-seed");
+  });
+
+  it("still counts real usage alongside a waitlist as users", () => {
+    expect(extractProfile("300 active users and a waitlist of 2,000").companyStatus).toBe(
+      "has-users",
+    );
+  });
+});
 
 describe("matchInvestors", () => {
   it("ranks a perfect fit first with readable reasons", () => {

@@ -1,6 +1,6 @@
 import type { Sector, Stage } from "@/data/types";
 
-export type CompanyStatus = "idea" | "building" | "has-users" | "revenue";
+export type CompanyStatus = "idea" | "building" | "waitlist" | "has-users" | "revenue";
 
 export interface PitchProfile {
   sectors: Sector[];
@@ -14,14 +14,17 @@ export interface PitchProfile {
 const SECTOR_RULES: [Sector, RegExp][] = [
   ["ai", /\b(ai|llms?|machine learning|ml|agents?|artificial intelligence|gpt|genai)\b/],
   ["fintech", /\b(fintech|payments?|banking|bank|lending|loans?|neobank|insurtech|credit)\b/],
-  ["healthtech", /\b(healthtech|health ?care|health|medical|clinic(al|s)?|patients?|nhs)\b/],
+  [
+    "healthtech",
+    /\b(healthtech|health ?care|health|medical|medtech|clinic(al|s)?|patients?|nhs|eeg|neuro\w*|brain|wearables?|mental health|sleep|wellbeing|diagnostics?)\b/,
+  ],
   ["climate", /\b(climate|carbon|net zero|renewables?|solar|energy|emissions|sustainab\w*)\b/],
   ["devtools", /\b(devtools|developer tools?|developers?|sdks?|apis?|open source|ci\/cd)\b/],
   ["consumer", /\b(consumer|d2c|dtc|social app|shoppers|e-?commerce|creators?|gen z)\b/],
   ["b2b-saas", /\b(saas|b2b|enterprise|smbs?|smes?|workflow software)\b/],
   [
     "deeptech",
-    /\b(deep ?tech|quantum|robotics?|semiconductors?|hardware|photonics|space ?tech|satellites?)\b/,
+    /\b(deep ?tech|quantum|robotics?|semiconductors?|hardware|photonics|space ?tech|satellites?|neurotech|eeg|bci|brain[- ]computer|headbands?|headsets?|sensors?)\b/,
   ],
 ];
 
@@ -62,8 +65,13 @@ export function parseRaise(text: string): number | null {
 function detectStatus(text: string): CompanyStatus | null {
   const withoutPreRevenue = text.replace(/\b(pre-?revenue|no revenue|not yet revenue)\b/g, "");
   if (/\b(revenue|arr|mrr|paying|paid customers)\b/.test(withoutPreRevenue)) return "revenue";
-  if (/\b(users|waitlist|wait list|customers|pilots?|beta testers|signups|sign-ups)\b/.test(text))
+  // "400 users on our waitlist" is a waitlist, not usage.
+  const withoutWaitlist = text
+    .replace(/\b(users|people|founders) (on|in) (our|the|a) wait ?list\b/g, "waitlist")
+    .replace(/\bwait ?list (users|sign-?ups)\b/g, "waitlist");
+  if (/\b(users|customers|pilots?|beta testers|dau|mau)\b/.test(withoutWaitlist))
     return "has-users";
+  if (/\b(wait ?list|sign-?ups|pre-?orders)\b/.test(text)) return "waitlist";
   if (/\b(building|built|mvp|prototype|beta|launched|launching)\b/.test(text)) return "building";
   if (/\b(idea|concept|pre-?product|exploring)\b/.test(text)) return "idea";
   return null;
@@ -98,7 +106,7 @@ export function inferStage(status: CompanyStatus | null, raise: number | null): 
   if (status === "has-users" && (raise === null || raise < 2_000_000)) return "seed";
   if (status === "revenue" && raise !== null && raise >= 2_000_000) return "series-a";
   if (status === "revenue") return "seed";
-  if (status === "building") return "pre-seed";
+  if (status === "building" || status === "waitlist") return "pre-seed";
   return null;
 }
 
