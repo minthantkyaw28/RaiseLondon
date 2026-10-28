@@ -22,8 +22,9 @@ interface Look {
 export interface MapView {
   id: MapViewId;
   label: string;
-  // Rendering below device resolution and upscaling with hard edges gives the pixel-art look.
-  pixelRatio?: number;
+  // Fraction of device resolution to draw the base at; upscaling with hard edges gives the
+  // pixel look. Relative to the device, so retina screens get finer pixels than 1x screens.
+  pixelScale?: number;
   pin: { warm: string; cold: string; cluster: string; stroke: string; label: string; halo: string };
   look: Look;
 }
@@ -32,7 +33,7 @@ export const MAP_VIEWS: MapView[] = [
   {
     id: "pixel",
     label: "Pixel",
-    pixelRatio: 0.5,
+    pixelScale: 0.5,
     pin: {
       warm: "#ff5a36",
       cold: "#5b4bdb",
