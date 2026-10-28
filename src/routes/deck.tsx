@@ -75,7 +75,7 @@ function DeckPage() {
           draggable={false}
         />
       </div>
-      <div className="flex items-center justify-between gap-3 px-4 py-2 text-sm">
+      <div className="flex items-center justify-between gap-3 py-2 pl-4 pr-48 text-sm">
         <a href="/" className="font-pixel text-base leading-none text-white/80 hover:text-white">
           Raise
         </a>
