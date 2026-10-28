@@ -32,7 +32,10 @@ function InvestorProfile() {
   const investor = dataset.investors.find((item) => item.uuid === id);
   const deals = dataset.deals
     .filter((deal) => deal.investorUuid === id)
-    .sort((a, b) => (b.roundYear ?? 0) - (a.roundYear ?? 0) || (b.roundMonth ?? 0) - (a.roundMonth ?? 0))
+    .sort(
+      (a, b) =>
+        (b.roundYear ?? 0) - (a.roundYear ?? 0) || (b.roundMonth ?? 0) - (a.roundMonth ?? 0),
+    )
     .slice(0, 8);
   const people = dataset.people.filter((person) => person.investorUuid === id);
   const [reviews, setReviews] = useState<PublicReview[]>([]);
@@ -83,7 +86,12 @@ function InvestorProfile() {
 
   return (
     <Shell>
-      <div className="space-y-8" data-investor-id={investor.uuid} data-lat={investor.lat ?? ""} data-lon={investor.lon ?? ""}>
+      <div
+        className="space-y-8"
+        data-investor-id={investor.uuid}
+        data-lat={investor.lat ?? ""}
+        data-lon={investor.lon ?? ""}
+      >
         <div className="space-y-3">
           <Link to="/investors" className="text-sm text-muted-foreground hover:text-foreground">
             All investors
@@ -122,7 +130,9 @@ function InvestorProfile() {
         <section className="space-y-2">
           <h2 className="text-lg font-semibold">What they invest in</h2>
           {investor.thesis ? <p>{investor.thesis}</p> : null}
-          <p className="text-sm text-muted-foreground">{investor.about || "No Dealroom description."}</p>
+          <p className="text-sm text-muted-foreground">
+            {investor.about || "No Dealroom description."}
+          </p>
           <p className="text-sm">{investor.sectors.join(", ") || "No sector tags"}</p>
         </section>
 
@@ -167,45 +177,77 @@ function InvestorProfile() {
           >
             <div className="grid gap-1">
               <Label htmlFor="thesis">Current interest</Label>
-              <Textarea id="thesis" value={thesis} onChange={(event) => setThesis(event.target.value)} />
+              <Textarea
+                id="thesis"
+                value={thesis}
+                onChange={(event) => setThesis(event.target.value)}
+              />
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="grid gap-1">
                 <Label htmlFor="cheque-min">Cheque min</Label>
-                <Input id="cheque-min" inputMode="numeric" value={chequeMin} onChange={(event) => setChequeMin(event.target.value)} />
+                <Input
+                  id="cheque-min"
+                  inputMode="numeric"
+                  value={chequeMin}
+                  onChange={(event) => setChequeMin(event.target.value)}
+                />
               </div>
               <div className="grid gap-1">
                 <Label htmlFor="cheque-max">Cheque max</Label>
-                <Input id="cheque-max" inputMode="numeric" value={chequeMax} onChange={(event) => setChequeMax(event.target.value)} />
+                <Input
+                  id="cheque-max"
+                  inputMode="numeric"
+                  value={chequeMax}
+                  onChange={(event) => setChequeMax(event.target.value)}
+                />
               </div>
             </div>
             <div className="grid gap-1">
               <Label htmlFor="stages">Stages, comma separated</Label>
-              <Input id="stages" value={stages} onChange={(event) => setStages(event.target.value)} />
+              <Input
+                id="stages"
+                value={stages}
+                onChange={(event) => setStages(event.target.value)}
+              />
             </div>
             <div className="grid gap-1">
               <Label htmlFor="sectors">Sectors, comma separated</Label>
-              <Input id="sectors" value={sectors} onChange={(event) => setSectors(event.target.value)} />
+              <Input
+                id="sectors"
+                value={sectors}
+                onChange={(event) => setSectors(event.target.value)}
+              />
             </div>
             <label className="flex items-center gap-2 text-sm">
-              <input type="checkbox" checked={isActive} onChange={(event) => setIsActive(event.target.checked)} />
+              <input
+                type="checkbox"
+                checked={isActive}
+                onChange={(event) => setIsActive(event.target.checked)}
+              />
               Show in the directory
             </label>
             <Button type="submit">Save override</Button>
-            {overrideMessage ? <p className="text-sm text-muted-foreground">{overrideMessage}</p> : null}
+            {overrideMessage ? (
+              <p className="text-sm text-muted-foreground">{overrideMessage}</p>
+            ) : null}
           </form>
         </section>
 
         <section className="space-y-3">
           <h2 className="text-lg font-semibold">Recent London rounds</h2>
-          {deals.length === 0 ? <p className="text-sm text-muted-foreground">No stored London rounds.</p> : null}
+          {deals.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No stored London rounds.</p>
+          ) : null}
           <ul className="space-y-2 text-sm">
             {deals.map((deal) => (
               <li key={deal.id} className="rounded-md border px-3 py-2">
                 <span className="font-medium">{deal.companyName}</span>
                 {" · "}
                 {deal.standardizedRound || deal.roundType || "Round"}
-                {deal.roundYear ? ` · ${deal.roundYear}${deal.roundMonth ? `-${String(deal.roundMonth).padStart(2, "0")}` : ""}` : ""}
+                {deal.roundYear
+                  ? ` · ${deal.roundYear}${deal.roundMonth ? `-${String(deal.roundMonth).padStart(2, "0")}` : ""}`
+                  : ""}
                 {deal.amount != null ? ` · ${formatMoney(deal.amount, deal.currency)}` : ""}
                 {deal.isLead ? " · lead" : ""}
               </li>
@@ -215,7 +257,9 @@ function InvestorProfile() {
 
         <section className="space-y-3">
           <h2 className="text-lg font-semibold">People</h2>
-          {people.length === 0 ? <p className="text-sm text-muted-foreground">No people stored.</p> : null}
+          {people.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No people stored.</p>
+          ) : null}
           <ul className="space-y-2 text-sm">
             {people.map((person) => (
               <li key={person.id}>
@@ -237,8 +281,8 @@ function InvestorProfile() {
         <section className="space-y-4">
           <h2 className="text-lg font-semibold">Rate this investor</h2>
           <p className="text-sm text-muted-foreground">
-            A review is anonymous on the public list. Verified means the writer was signed in. It does
-            not prove this investor funded the company.
+            A review is anonymous on the public list. Verified means the writer was signed in. It
+            does not prove this investor funded the company.
           </p>
           <AuthPanel />
           <ul className="space-y-3">
@@ -320,10 +364,17 @@ function InvestorProfile() {
             </div>
             <div className="grid gap-1">
               <Label htmlFor="review-body">What happened</Label>
-              <Textarea id="review-body" value={body} onChange={(event) => setBody(event.target.value)} required />
+              <Textarea
+                id="review-body"
+                value={body}
+                onChange={(event) => setBody(event.target.value)}
+                required
+              />
             </div>
             <Button type="submit">Submit review</Button>
-            {reviewMessage ? <p className="text-sm text-muted-foreground">{reviewMessage}</p> : null}
+            {reviewMessage ? (
+              <p className="text-sm text-muted-foreground">{reviewMessage}</p>
+            ) : null}
           </form>
         </section>
       </div>

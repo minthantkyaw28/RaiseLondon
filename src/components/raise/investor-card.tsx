@@ -9,7 +9,11 @@ import type { Investor } from "@/lib/raise/types";
 export function InvestorCard({ investor, note }: { investor: Investor; note?: string }) {
   const stages = investorStages(investor).slice(0, 3).join(", ");
   return (
-    <Card data-investor-id={investor.uuid} data-lat={investor.lat ?? ""} data-lon={investor.lon ?? ""}>
+    <Card
+      data-investor-id={investor.uuid}
+      data-lat={investor.lat ?? ""}
+      data-lon={investor.lon ?? ""}
+    >
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-3">
           <CardTitle className="text-base">

@@ -95,17 +95,27 @@ function MatchPage() {
                   setMessage(error ? error.message : "Profile saved to Supabase.");
                 });
             } else {
-              setMessage("Ranked from the dataset in the browser. Sign in to keep the startup profile.");
+              setMessage(
+                "Ranked from the dataset in the browser. Sign in to keep the startup profile.",
+              );
             }
           }}
         >
           <div className="grid gap-1">
             <Label htmlFor="startup-name">Startup name</Label>
-            <Input id="startup-name" value={name} onChange={(event) => setName(event.target.value)} />
+            <Input
+              id="startup-name"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+            />
           </div>
           <div className="grid gap-1">
             <Label htmlFor="startup-description">What you are building</Label>
-            <Textarea id="startup-description" value={description} onChange={(event) => setDescription(event.target.value)} />
+            <Textarea
+              id="startup-description"
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
+            />
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="grid gap-1">
@@ -139,15 +149,29 @@ function MatchPage() {
             </div>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
-            <NumberField id="raise" label="Raise amount (GBP)" value={raiseAmount} onChange={setRaiseAmount} />
+            <NumberField
+              id="raise"
+              label="Raise amount (GBP)"
+              value={raiseAmount}
+              onChange={setRaiseAmount}
+            />
             <NumberField id="mrr" label="MRR (GBP)" value={mrr} onChange={setMrr} />
             <NumberField id="arr" label="ARR (GBP)" value={arr} onChange={setArr} />
             <NumberField id="lois" label="Letters of intent" value={lois} onChange={setLois} />
-            <NumberField id="orders" label="Pre-purchase orders" value={preOrders} onChange={setPreOrders} />
+            <NumberField
+              id="orders"
+              label="Pre-purchase orders"
+              value={preOrders}
+              onChange={setPreOrders}
+            />
           </div>
           <div className="grid gap-1">
             <Label htmlFor="traction">Traction notes</Label>
-            <Textarea id="traction" value={tractionNotes} onChange={(event) => setTractionNotes(event.target.value)} />
+            <Textarea
+              id="traction"
+              value={tractionNotes}
+              onChange={(event) => setTractionNotes(event.target.value)}
+            />
           </div>
           <Button type="submit">Rate and rank</Button>
         </form>
@@ -193,7 +217,12 @@ function NumberField({
   return (
     <div className="grid gap-1">
       <Label htmlFor={id}>{label}</Label>
-      <Input id={id} inputMode="decimal" value={value} onChange={(event) => onChange(event.target.value)} />
+      <Input
+        id={id}
+        inputMode="decimal"
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+      />
     </div>
   );
 }

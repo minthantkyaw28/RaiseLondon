@@ -167,17 +167,22 @@ export function applyOverrides(investors: Investor[], overrides: InvestorOverrid
   });
 }
 
-export async function loadRaiseData(): Promise<{ dataset: Dataset; source: "bundle" | "supabase" }> {
+export async function loadRaiseData(): Promise<{
+  dataset: Dataset;
+  source: "bundle" | "supabase";
+}> {
   if (!supabase) return { dataset: bundled, source: "bundle" };
-  const [investorsRes, dealsRes, newsRes, peopleRes, companiesRes, overridesRes] = await Promise.all([
-    supabase.from("investors").select("*"),
-    supabase.from("deals").select("*"),
-    supabase.from("news").select("*"),
-    supabase.from("people").select("*"),
-    supabase.from("companies").select("*"),
-    supabase.from("investor_overrides").select("*"),
-  ]);
-  if (investorsRes.error || !investorsRes.data?.length) return { dataset: bundled, source: "bundle" };
+  const [investorsRes, dealsRes, newsRes, peopleRes, companiesRes, overridesRes] =
+    await Promise.all([
+      supabase.from("investors").select("*"),
+      supabase.from("deals").select("*"),
+      supabase.from("news").select("*"),
+      supabase.from("people").select("*"),
+      supabase.from("companies").select("*"),
+      supabase.from("investor_overrides").select("*"),
+    ]);
+  if (investorsRes.error || !investorsRes.data?.length)
+    return { dataset: bundled, source: "bundle" };
   const investors = applyOverrides(
     investorsRes.data.map((row) => investorFromRow(row as Record<string, unknown>)),
     (overridesRes.data ?? []).map((row) => overrideFromRow(row as Record<string, unknown>)),

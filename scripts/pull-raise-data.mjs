@@ -24,7 +24,8 @@ const env = Object.fromEntries(
 );
 const clientId = env.DEALROOM_CLIENT_ID;
 const clientSecret = env.DEALROOM_CLIENT_SECRET;
-if (!clientId || !clientSecret) throw new Error("Missing Dealroom credentials in the local env file");
+if (!clientId || !clientSecret)
+  throw new Error("Missing Dealroom credentials in the local env file");
 
 const tokenRes = await fetch("https://accounts.dealroom.co/oauth/token", {
   method: "POST",
@@ -59,7 +60,9 @@ async function get(path) {
     }
     const text = await res.text();
     if (!res.ok) {
-      const error = new Error(`GET ${path.split("?")[0]} failed (${res.status}): ${text.slice(0, 220)}`);
+      const error = new Error(
+        `GET ${path.split("?")[0]} failed (${res.status}): ${text.slice(0, 220)}`,
+      );
       error.status = res.status;
       throw error;
     }
@@ -299,7 +302,9 @@ function insertChunks(table, columns, literalRows, conflict) {
 const investorFilter = `and(hq_location[in_any]:${LONDON},investor_type[in_any]:venture_capital|angel|angel_fund,last_investor_round_date[gte]:2024)`;
 let currencyQuery = "&currency=GBP";
 try {
-  await get(`/data/investors?limit=1&view=summary${currencyQuery}&filter=${encodeURIComponent(investorFilter)}`);
+  await get(
+    `/data/investors?limit=1&view=summary${currencyQuery}&filter=${encodeURIComponent(investorFilter)}`,
+  );
   console.log("using currency=GBP");
 } catch (error) {
   console.log(`GBP request failed (${error.status ?? "unknown"}), using API default currency`);
@@ -391,7 +396,9 @@ for (const investor of eligible) {
   investor.stages = stageNames;
 }
 
-const vcs = eligible.filter((investor) => investor.investorType === "venture_capital").sort(compareInvestors);
+const vcs = eligible
+  .filter((investor) => investor.investorType === "venture_capital")
+  .sort(compareInvestors);
 const angels = eligible
   .filter((investor) => investor.investorType === "angel" || investor.investorType === "angel_fund")
   .sort(compareInvestors);
@@ -399,20 +406,31 @@ const cohort = [...vcs.slice(0, VC_TARGET), ...angels.slice(0, ANGEL_TARGET)];
 console.log(
   `cohort ${cohort.length} (vc pool ${vcs.length} -> ${Math.min(VC_TARGET, vcs.length)}, angel pool ${angels.length} -> ${Math.min(ANGEL_TARGET, angels.length)})`,
 );
-console.log(`top names: ${cohort.slice(0, 12).map((investor) => investor.name).join(", ")}`);
-const known = cohort.filter((investor) => /index ventures|seedcamp/i.test(investor.name)).map((investor) => investor.name);
+console.log(
+  `top names: ${cohort
+    .slice(0, 12)
+    .map((investor) => investor.name)
+    .join(", ")}`,
+);
+const known = cohort
+  .filter((investor) => /index ventures|seedcamp/i.test(investor.name))
+  .map((investor) => investor.name);
 console.log(`known funds in cohort: ${known.join(", ") || "(none)"}`);
 
 const cohortIds = new Set(cohort.map((investor) => investor.uuid));
 let deals = [];
 for (const investor of cohort) {
-  const list = (dealsByInvestor.get(investor.uuid) ?? []).sort((a, b) => roundStamp(b) - roundStamp(a));
+  const list = (dealsByInvestor.get(investor.uuid) ?? []).sort(
+    (a, b) => roundStamp(b) - roundStamp(a),
+  );
   deals.push(...list);
 }
 if (deals.length > 6000) {
   deals = [];
   for (const investor of cohort) {
-    const list = (dealsByInvestor.get(investor.uuid) ?? []).sort((a, b) => roundStamp(b) - roundStamp(a));
+    const list = (dealsByInvestor.get(investor.uuid) ?? []).sort(
+      (a, b) => roundStamp(b) - roundStamp(a),
+    );
     deals.push(...list.slice(0, 20));
   }
   console.log(`deal rows capped at 20 most recent per investor (${deals.length})`);
@@ -480,7 +498,8 @@ const cohortNews = [];
 const ukNews = [];
 function collectUuids(value, into) {
   if (!value || typeof value !== "object") return;
-  if (typeof value.uuid === "string" && cohortIds.has(value.uuid) && !into.includes(value.uuid)) into.push(value.uuid);
+  if (typeof value.uuid === "string" && cohortIds.has(value.uuid) && !into.includes(value.uuid))
+    into.push(value.uuid);
   for (const child of Object.values(value)) collectUuids(child, into);
 }
 for (const article of newsPage.rows) {
@@ -500,7 +519,8 @@ for (const article of newsPage.rows) {
   };
   const ukFiltered = newsPath.includes("hq_country");
   const country = String(article.hq_country ?? "").toLowerCase();
-  const isUk = ukFiltered || country === "uk" || country === "gb" || country.includes("united kingdom");
+  const isUk =
+    ukFiltered || country === "uk" || country === "gb" || country.includes("united kingdom");
   if (related.length) cohortNews.push(item);
   else if (isUk) ukNews.push(item);
 }
@@ -587,77 +607,81 @@ writeCsv(
   })),
 );
 
-writeCsv(resolve(ROOT, "data/deals.csv"), [
-  "id",
-  "transaction_id",
-  "investor_uuid",
-  "company_uuid",
-  "company_name",
-  "round_year",
-  "round_month",
-  "standardized_round",
-  "round_type",
-  "amount",
-  "currency",
-  "is_lead",
-  "source_url",
-], deals.map((deal) => ({
-  id: deal.id,
-  transaction_id: deal.transactionId,
-  investor_uuid: deal.investorUuid,
-  company_uuid: deal.companyUuid,
-  company_name: deal.companyName,
-  round_year: deal.roundYear,
-  round_month: deal.roundMonth,
-  standardized_round: deal.standardizedRound,
-  round_type: deal.roundType,
-  amount: deal.amount,
-  currency: deal.currency,
-  is_lead: deal.isLead == null ? "" : deal.isLead ? "true" : "false",
-  source_url: deal.sourceUrl,
-})));
+writeCsv(
+  resolve(ROOT, "data/deals.csv"),
+  [
+    "id",
+    "transaction_id",
+    "investor_uuid",
+    "company_uuid",
+    "company_name",
+    "round_year",
+    "round_month",
+    "standardized_round",
+    "round_type",
+    "amount",
+    "currency",
+    "is_lead",
+    "source_url",
+  ],
+  deals.map((deal) => ({
+    id: deal.id,
+    transaction_id: deal.transactionId,
+    investor_uuid: deal.investorUuid,
+    company_uuid: deal.companyUuid,
+    company_name: deal.companyName,
+    round_year: deal.roundYear,
+    round_month: deal.roundMonth,
+    standardized_round: deal.standardizedRound,
+    round_type: deal.roundType,
+    amount: deal.amount,
+    currency: deal.currency,
+    is_lead: deal.isLead == null ? "" : deal.isLead ? "true" : "false",
+    source_url: deal.sourceUrl,
+  })),
+);
 
-writeCsv(resolve(ROOT, "data/news.csv"), [
-  "id",
-  "title",
-  "summary",
-  "url",
-  "published_at",
-  "article_type",
-  "amount",
-  "sector",
-  "hq_country",
-  "related_investor_uuids",
-], news.map((item) => ({
-  id: item.id,
-  title: item.title,
-  summary: item.summary,
-  url: item.url,
-  published_at: item.publishedAt,
-  article_type: item.articleType,
-  amount: item.amount,
-  sector: item.sector,
-  hq_country: item.hqCountry,
-  related_investor_uuids: pipe(item.relatedInvestorUuids),
-})));
+writeCsv(
+  resolve(ROOT, "data/news.csv"),
+  [
+    "id",
+    "title",
+    "summary",
+    "url",
+    "published_at",
+    "article_type",
+    "amount",
+    "sector",
+    "hq_country",
+    "related_investor_uuids",
+  ],
+  news.map((item) => ({
+    id: item.id,
+    title: item.title,
+    summary: item.summary,
+    url: item.url,
+    published_at: item.publishedAt,
+    article_type: item.articleType,
+    amount: item.amount,
+    sector: item.sector,
+    hq_country: item.hqCountry,
+    related_investor_uuids: pipe(item.relatedInvestorUuids),
+  })),
+);
 
-writeCsv(resolve(ROOT, "data/people.csv"), [
-  "id",
-  "person_uuid",
-  "investor_uuid",
-  "name",
-  "role",
-  "linkedin",
-  "image",
-], people.map((person) => ({
-  id: person.id,
-  person_uuid: person.personUuid,
-  investor_uuid: person.investorUuid,
-  name: person.name,
-  role: person.role,
-  linkedin: person.linkedin,
-  image: person.image,
-})));
+writeCsv(
+  resolve(ROOT, "data/people.csv"),
+  ["id", "person_uuid", "investor_uuid", "name", "role", "linkedin", "image"],
+  people.map((person) => ({
+    id: person.id,
+    person_uuid: person.personUuid,
+    investor_uuid: person.investorUuid,
+    name: person.name,
+    role: person.role,
+    linkedin: person.linkedin,
+    image: person.image,
+  })),
+);
 
 const investorLiterals = cohort.map((investor) => ({
   uuid: sqlText(investor.uuid),
@@ -761,7 +785,21 @@ begin;
 ${insertChunks("investors", investorColumns, investorLiterals, investorConflict)}
 ${insertChunks(
   "deals",
-  ["id", "transaction_id", "investor_uuid", "company_uuid", "company_name", "round_year", "round_month", "standardized_round", "round_type", "amount", "currency", "is_lead", "source_url"],
+  [
+    "id",
+    "transaction_id",
+    "investor_uuid",
+    "company_uuid",
+    "company_name",
+    "round_year",
+    "round_month",
+    "standardized_round",
+    "round_type",
+    "amount",
+    "currency",
+    "is_lead",
+    "source_url",
+  ],
   dealLiterals,
   `(id) do update set
   transaction_id = excluded.transaction_id,
@@ -779,7 +817,18 @@ ${insertChunks(
 )}
 ${insertChunks(
   "news",
-  ["id", "title", "summary", "url", "published_at", "article_type", "amount", "sector", "hq_country", "related_investor_uuids"],
+  [
+    "id",
+    "title",
+    "summary",
+    "url",
+    "published_at",
+    "article_type",
+    "amount",
+    "sector",
+    "hq_country",
+    "related_investor_uuids",
+  ],
   newsLiterals,
   `(id) do update set
   title = excluded.title,
@@ -841,7 +890,8 @@ for (const file of [
 ]) {
   const body = readFileSync(resolve(ROOT, file), "utf8");
   for (const marker of secretMarkers) {
-    if (marker && body.includes(marker)) throw new Error(`Refusing to leave a credential in ${file}`);
+    if (marker && body.includes(marker))
+      throw new Error(`Refusing to leave a credential in ${file}`);
   }
 }
 

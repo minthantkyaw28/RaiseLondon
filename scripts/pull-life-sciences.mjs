@@ -93,7 +93,10 @@ async function pageAll(basePath, maxPages) {
 
 function clean(value, max = 1500) {
   if (value == null) return null;
-  const text = String(value).replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  const text = String(value)
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
   if (!text) return null;
   return text.length > max ? `${text.slice(0, max - 1)}…` : text;
 }
@@ -111,7 +114,8 @@ function sectorsOf(row) {
   const names = ["Life sciences"];
   for (const tag of row.taxonomy ?? []) {
     if (!SECTOR_TYPES.has(tag.type) || !tag.name) continue;
-    if (!names.some((name) => name.toLowerCase() === String(tag.name).toLowerCase())) names.push(tag.name);
+    if (!names.some((name) => name.toLowerCase() === String(tag.name).toLowerCase()))
+      names.push(tag.name);
   }
   return names;
 }
@@ -325,10 +329,18 @@ for (const row of investorRows) {
   const investor = toInvestor(row, currency, stats);
   if (investor) lifeInvestors.push(investor);
 }
-lifeInvestors.sort((a, b) => b.londonRoundsSince2024 - a.londonRoundsSince2024 || b.investmentsCount - a.investmentsCount);
+lifeInvestors.sort(
+  (a, b) =>
+    b.londonRoundsSince2024 - a.londonRoundsSince2024 || b.investmentsCount - a.investmentsCount,
+);
 const chosen = lifeInvestors.slice(0, 100);
 const chosenIds = new Set(chosen.map((investor) => investor.uuid));
-console.log(`life-sciences investors kept ${chosen.length}: ${chosen.slice(0, 8).map((investor) => investor.name).join(", ")}`);
+console.log(
+  `life-sciences investors kept ${chosen.length}: ${chosen
+    .slice(0, 8)
+    .map((investor) => investor.name)
+    .join(", ")}`,
+);
 
 const companyIds = [...companyHits.entries()]
   .sort((a, b) => b[1] - a[1])
@@ -360,7 +372,12 @@ const peopleLists = await mapPool(needTeam, 5, async (investor) => {
   }
   if (investor.investorType === "angel") {
     const self = personFromMember(
-      { uuid: investor.uuid, name: investor.name, links: { linkedin: investor.linkedin }, raw_title: "Angel" },
+      {
+        uuid: investor.uuid,
+        name: investor.name,
+        links: { linkedin: investor.linkedin },
+        raw_title: "Angel",
+      },
       investor.uuid,
     );
     if (self && !people.some((person) => person.name === self.name)) people.unshift(self);
@@ -422,7 +439,33 @@ function mixText(mix) {
 
 writeCsv(
   resolve(ROOT, "data/investors.csv"),
-  ["uuid", "name", "investor_type", "investor_types", "record_type", "tagline", "about", "website", "linkedin", "image", "dealroom_url", "hq_city", "hq_country", "lat", "lon", "cheque_min", "cheque_max", "cheque_currency", "preferred_round", "stages", "stage_mix", "sectors", "last_round_date", "investments_count", "london_rounds_since_2024"],
+  [
+    "uuid",
+    "name",
+    "investor_type",
+    "investor_types",
+    "record_type",
+    "tagline",
+    "about",
+    "website",
+    "linkedin",
+    "image",
+    "dealroom_url",
+    "hq_city",
+    "hq_country",
+    "lat",
+    "lon",
+    "cheque_min",
+    "cheque_max",
+    "cheque_currency",
+    "preferred_round",
+    "stages",
+    "stage_mix",
+    "sectors",
+    "last_round_date",
+    "investments_count",
+    "london_rounds_since_2024",
+  ],
   dataset.investors.map((investor) => ({
     uuid: investor.uuid,
     name: investor.name,
@@ -453,7 +496,21 @@ writeCsv(
 );
 writeCsv(
   resolve(ROOT, "data/deals.csv"),
-  ["id", "transaction_id", "investor_uuid", "company_uuid", "company_name", "round_year", "round_month", "standardized_round", "round_type", "amount", "currency", "is_lead", "source_url"],
+  [
+    "id",
+    "transaction_id",
+    "investor_uuid",
+    "company_uuid",
+    "company_name",
+    "round_year",
+    "round_month",
+    "standardized_round",
+    "round_type",
+    "amount",
+    "currency",
+    "is_lead",
+    "source_url",
+  ],
   dataset.deals.map((deal) => ({
     id: deal.id,
     transaction_id: deal.transactionId,
@@ -485,7 +542,25 @@ writeCsv(
 );
 writeCsv(
   resolve(ROOT, "data/companies.csv"),
-  ["uuid", "name", "tagline", "about", "website", "linkedin", "image", "dealroom_url", "hq_city", "hq_country", "lat", "lon", "sectors", "launch_year", "employees", "total_funding", "focus"],
+  [
+    "uuid",
+    "name",
+    "tagline",
+    "about",
+    "website",
+    "linkedin",
+    "image",
+    "dealroom_url",
+    "hq_city",
+    "hq_country",
+    "lat",
+    "lon",
+    "sectors",
+    "launch_year",
+    "employees",
+    "total_funding",
+    "focus",
+  ],
   dataset.companies.map((company) => ({
     uuid: company.uuid,
     name: company.name,
@@ -527,14 +602,25 @@ function insertChunks(table, columns, literalRows, conflict) {
   const parts = [];
   for (let i = 0; i < literalRows.length; i += 40) {
     const slice = literalRows.slice(i, i + 40);
-    const values = slice.map((row) => `(${columns.map((column) => row[column]).join(", ")})`).join(",\n");
-    parts.push(`insert into public.${table} (${columns.join(", ")}) values\n${values}\non conflict ${conflict};\n`);
+    const values = slice
+      .map((row) => `(${columns.map((column) => row[column]).join(", ")})`)
+      .join(",\n");
+    parts.push(
+      `insert into public.${table} (${columns.join(", ")}) values\n${values}\non conflict ${conflict};\n`,
+    );
   }
   return parts.join("\n");
 }
 
-const newInvestorRows = chosen.filter((investor) => !new Set((JSON.parse(readFileSync(datasetPath, "utf8")).investors ?? []).map((item) => item.uuid)).has(investor.uuid) || addedInvestors);
-const freshInvestors = chosen.filter((investor) => dataset.investors.find((item) => item.uuid === investor.uuid));
+const newInvestorRows = chosen.filter(
+  (investor) =>
+    !new Set(
+      (JSON.parse(readFileSync(datasetPath, "utf8")).investors ?? []).map((item) => item.uuid),
+    ).has(investor.uuid) || addedInvestors,
+);
+const freshInvestors = chosen.filter((investor) =>
+  dataset.investors.find((item) => item.uuid === investor.uuid),
+);
 const investorLiterals = freshInvestors.map((investor) => ({
   uuid: sqlText(investor.uuid),
   name: sqlText(investor.name),
@@ -560,23 +646,25 @@ const investorLiterals = freshInvestors.map((investor) => ({
   sectors: sqlText(pipe(byInvestor.get(investor.uuid)?.sectors ?? investor.sectors)),
   last_round_date: sqlText(investor.lastRoundDate),
   investments_count: sqlNum(investor.investmentsCount),
-  london_rounds_since_2024: sqlNum(byInvestor.get(investor.uuid)?.londonRoundsSince2024 ?? investor.londonRoundsSince2024),
+  london_rounds_since_2024: sqlNum(
+    byInvestor.get(investor.uuid)?.londonRoundsSince2024 ?? investor.londonRoundsSince2024,
+  ),
 }));
 const dealLiterals = addedDealRows.map((deal) => ({
-    id: sqlText(deal.id),
-    transaction_id: sqlText(deal.transactionId),
-    investor_uuid: sqlText(deal.investorUuid),
-    company_uuid: sqlText(deal.companyUuid),
-    company_name: sqlText(deal.companyName),
-    round_year: sqlNum(deal.roundYear),
-    round_month: sqlNum(deal.roundMonth),
-    standardized_round: sqlText(deal.standardizedRound),
-    round_type: sqlText(deal.roundType),
-    amount: sqlNum(deal.amount),
-    currency: sqlText(deal.currency),
-    is_lead: sqlBool(deal.isLead),
-    source_url: sqlText(deal.sourceUrl),
-  }));
+  id: sqlText(deal.id),
+  transaction_id: sqlText(deal.transactionId),
+  investor_uuid: sqlText(deal.investorUuid),
+  company_uuid: sqlText(deal.companyUuid),
+  company_name: sqlText(deal.companyName),
+  round_year: sqlNum(deal.roundYear),
+  round_month: sqlNum(deal.roundMonth),
+  standardized_round: sqlText(deal.standardizedRound),
+  round_type: sqlText(deal.roundType),
+  amount: sqlNum(deal.amount),
+  currency: sqlText(deal.currency),
+  is_lead: sqlBool(deal.isLead),
+  source_url: sqlText(deal.sourceUrl),
+}));
 const peopleLiterals = newPeople.map((person) => ({
   id: sqlText(person.id),
   person_uuid: sqlText(person.personUuid),
@@ -609,13 +697,53 @@ const companyLiterals = dataset.companies.map((company) => ({
 const extra = `-- Life sciences add-on ${dataset.generatedAt}. Upserts only. Does not touch investor_overrides.
 ${insertChunks(
   "investors",
-  ["uuid", "name", "investor_type", "investor_types", "record_type", "tagline", "about", "website", "linkedin", "image", "dealroom_url", "hq_city", "hq_country", "lat", "lon", "cheque_min", "cheque_max", "cheque_currency", "preferred_round", "stages", "stage_mix", "sectors", "last_round_date", "investments_count", "london_rounds_since_2024"],
+  [
+    "uuid",
+    "name",
+    "investor_type",
+    "investor_types",
+    "record_type",
+    "tagline",
+    "about",
+    "website",
+    "linkedin",
+    "image",
+    "dealroom_url",
+    "hq_city",
+    "hq_country",
+    "lat",
+    "lon",
+    "cheque_min",
+    "cheque_max",
+    "cheque_currency",
+    "preferred_round",
+    "stages",
+    "stage_mix",
+    "sectors",
+    "last_round_date",
+    "investments_count",
+    "london_rounds_since_2024",
+  ],
   investorLiterals,
   `(uuid) do update set sectors = excluded.sectors, about = coalesce(public.investors.about, excluded.about), updated_at = now()`,
 )}
 ${insertChunks(
   "deals",
-  ["id", "transaction_id", "investor_uuid", "company_uuid", "company_name", "round_year", "round_month", "standardized_round", "round_type", "amount", "currency", "is_lead", "source_url"],
+  [
+    "id",
+    "transaction_id",
+    "investor_uuid",
+    "company_uuid",
+    "company_name",
+    "round_year",
+    "round_month",
+    "standardized_round",
+    "round_type",
+    "amount",
+    "currency",
+    "is_lead",
+    "source_url",
+  ],
   dealLiterals,
   `(id) do update set company_name = excluded.company_name, amount = excluded.amount, round_year = excluded.round_year, round_month = excluded.round_month`,
 )}
@@ -627,7 +755,25 @@ ${insertChunks(
 )}
 ${insertChunks(
   "companies",
-  ["uuid", "name", "tagline", "about", "website", "linkedin", "image", "dealroom_url", "hq_city", "hq_country", "lat", "lon", "sectors", "launch_year", "employees", "total_funding", "focus"],
+  [
+    "uuid",
+    "name",
+    "tagline",
+    "about",
+    "website",
+    "linkedin",
+    "image",
+    "dealroom_url",
+    "hq_city",
+    "hq_country",
+    "lat",
+    "lon",
+    "sectors",
+    "launch_year",
+    "employees",
+    "total_funding",
+    "focus",
+  ],
   companyLiterals,
   `(uuid) do update set name = excluded.name, tagline = excluded.tagline, about = excluded.about, sectors = excluded.sectors, total_funding = excluded.total_funding`,
 )}
@@ -640,10 +786,22 @@ writeFileSync(datasetPath, JSON.stringify(dataset));
 
 const note = `\n## Life sciences\n\nAdded ${dataset.generatedAt}. ${chosen.length} life-sciences investors were taken from who actually shows up on London health VC rounds since 2023 (Dealroom health industry ${HEALTH}), capped at 100. ${addedInvestors} were new and ${taggedExisting} were already in the London cohort, now also tagged Life sciences. ${companies.length} startup profiles are in \`data/companies.csv\`. ${addedDealRows.length} health-round participations were added. New team profiles: ${newPeople.length}.\n`;
 const readmePath = resolve(ROOT, "data/README.md");
-writeFileSync(readmePath, readFileSync(readmePath, "utf8").replace(/\n## Life sciences[\s\S]*$/, "\n") + note);
+writeFileSync(
+  readmePath,
+  readFileSync(readmePath, "utf8").replace(/\n## Life sciences[\s\S]*$/, "\n") + note,
+);
 
-for (const file of ["data/investors.csv", "data/companies.csv", "data/deals.csv", "src/lib/raise/dataset.json", "supabase/seed.sql"]) {
+for (const file of [
+  "data/investors.csv",
+  "data/companies.csv",
+  "data/deals.csv",
+  "src/lib/raise/dataset.json",
+  "supabase/seed.sql",
+]) {
   const body = readFileSync(resolve(ROOT, file), "utf8");
-  if (body.includes(clientSecret) || body.includes(clientId)) throw new Error(`Credential leaked into ${file}`);
+  if (body.includes(clientSecret) || body.includes(clientId))
+    throw new Error(`Credential leaked into ${file}`);
 }
-console.log(`done investors=${dataset.investors.length} new=${addedInvestors} companies=${dataset.companies.length} deals=${dataset.deals.length} people=${dataset.people.length}`);
+console.log(
+  `done investors=${dataset.investors.length} new=${addedInvestors} companies=${dataset.companies.length} deals=${dataset.deals.length} people=${dataset.people.length}`,
+);

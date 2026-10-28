@@ -27,7 +27,9 @@ describe("linkedin intro matching", () => {
   ];
 
   it("normalizes linkedin hosts and trailing slashes", () => {
-    expect(normalizeLinkedin("HTTP://LinkedIn.com/in/Ada-Lovelace/")).toBe("linkedin.com/in/ada-lovelace");
+    expect(normalizeLinkedin("HTTP://LinkedIn.com/in/Ada-Lovelace/")).toBe(
+      "linkedin.com/in/ada-lovelace",
+    );
   });
 
   it("matches a LinkedIn export by URL before name, and skips ambiguous names", () => {

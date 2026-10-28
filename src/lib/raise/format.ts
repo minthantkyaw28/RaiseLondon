@@ -1,4 +1,7 @@
-export function orderedCheque(min: number | null, max: number | null): {
+export function orderedCheque(
+  min: number | null,
+  max: number | null,
+): {
   low: number | null;
   high: number | null;
 } {

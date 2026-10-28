@@ -2,7 +2,10 @@ import { formatCheque, orderedCheque } from "./format";
 import { STAGE_ORDER, canonicalStage, investorStages, type CanonicalStage } from "./stages";
 import type { Investor, MatchResult, StartupInput, StartupRating } from "./types";
 
-function sectorPoints(sectors: string[], wanted: string): { points: number; reason: string | null } {
+function sectorPoints(
+  sectors: string[],
+  wanted: string,
+): { points: number; reason: string | null } {
   const target = wanted.trim().toLowerCase();
   if (!target) return { points: 0, reason: "No sector was entered, so sector fit is not scored." };
   const exact = sectors.some((sector) => {
@@ -22,10 +25,12 @@ function stagePoints(
   stages: CanonicalStage[],
   wanted: string,
 ): { points: number; reason: string | null } {
-  if (!wanted.trim()) return { points: 0, reason: "No stage was entered, so stage fit is not scored." };
+  if (!wanted.trim())
+    return { points: 0, reason: "No stage was entered, so stage fit is not scored." };
   const target = canonicalStage(wanted);
   if (!target) return { points: 0, reason: null };
-  if (stages.includes(target)) return { points: 30, reason: `Their recent rounds include ${target}.` };
+  if (stages.includes(target))
+    return { points: 30, reason: `Their recent rounds include ${target}.` };
   const targetIndex = STAGE_ORDER.indexOf(target);
   const adjacent = stages.some((stage) => Math.abs(STAGE_ORDER.indexOf(stage) - targetIndex) === 1);
   if (adjacent) return { points: 15, reason: `They invest next to ${target}, not exactly on it.` };
@@ -55,19 +60,28 @@ function chequePoints(
 function activityPoints(rounds: number): { points: number; reason: string } {
   if (rounds >= 6) return { points: 10, reason: `${rounds} London VC rounds since 2024.` };
   if (rounds >= 3) return { points: 7, reason: `${rounds} London VC rounds since 2024.` };
-  if (rounds >= 1) return { points: 4, reason: `${rounds} London VC round${rounds === 1 ? "" : "s"} since 2024.` };
+  if (rounds >= 1)
+    return { points: 4, reason: `${rounds} London VC round${rounds === 1 ? "" : "s"} since 2024.` };
   return { points: 0, reason: "No London VC round in this dataset since 2024." };
 }
 
-function tractionFit(band: StartupRating["band"], stages: CanonicalStage[]): { points: number; reason: string } {
+function tractionFit(
+  band: StartupRating["band"],
+  stages: CanonicalStage[],
+): { points: number; reason: string } {
   const target: CanonicalStage =
-    band === "later" || band === "series a ready" ? "Series A" : band === "seed" ? "Seed" : "Pre-Seed";
+    band === "later" || band === "series a ready"
+      ? "Series A"
+      : band === "seed"
+        ? "Seed"
+        : "Pre-Seed";
   if (stages.includes(target)) {
     return { points: 10, reason: `Traction band “${band}” lines up with ${target}.` };
   }
   const targetIndex = STAGE_ORDER.indexOf(target);
   const adjacent = stages.some((stage) => Math.abs(STAGE_ORDER.indexOf(stage) - targetIndex) === 1);
-  if (adjacent) return { points: 4, reason: `Traction band “${band}” is adjacent to where they invest.` };
+  if (adjacent)
+    return { points: 4, reason: `Traction band “${band}” is adjacent to where they invest.` };
   return { points: 0, reason: `Traction band “${band}” does not match where they invest.` };
 }
 
@@ -91,7 +105,9 @@ export function rankInvestors(investors: Investor[], input: StartupInput): Match
       return {
         investor,
         score,
-        reasons: parts.map((part) => part.reason).filter((reason): reason is string => Boolean(reason)),
+        reasons: parts
+          .map((part) => part.reason)
+          .filter((reason): reason is string => Boolean(reason)),
       };
     });
   ranked.sort(
@@ -141,9 +157,7 @@ export function rateStartup(input: StartupInput): StartupRating {
     reasons.push(`${input.lois} letters of intent is a real pipeline.`);
   } else if (input.lois >= 1) {
     points += 8;
-    reasons.push(
-      `${input.lois} letter${input.lois === 1 ? "" : "s"} of intent on file.`,
-    );
+    reasons.push(`${input.lois} letter${input.lois === 1 ? "" : "s"} of intent on file.`);
   } else {
     reasons.push("No letters of intent entered.");
   }
