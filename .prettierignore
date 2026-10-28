@@ -9,3 +9,4 @@ routeTree.gen.ts
 data
 supabase/seed.sql
 src/lib/raise/dataset.json
+src/integrations/

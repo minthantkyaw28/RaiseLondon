@@ -10,9 +10,12 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as IndexDotmdRouteImport } from './routes/index[.]md'
 import { Route as IntrosRouteImport } from './routes/intros'
+import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as MatchRouteImport } from './routes/match'
 import { Route as NewsRouteImport } from './routes/news'
+import { Route as InvestorChar123slugChar125DotmdRouteImport } from './routes/investor/{$slug}[.]md'
 import { Route as InvestorsIndexRouteImport } from './routes/investors/index'
 import { Route as InvestorsIdRouteImport } from './routes/investors/$id'
 
@@ -21,9 +24,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IndexDotmdRoute = IndexDotmdRouteImport.update({
+  id: '/index.md',
+  path: '/index.md',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IntrosRoute = IntrosRouteImport.update({
   id: '/intros',
   path: '/intros',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
+  id: '/llms.txt',
+  path: '/llms.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MatchRoute = MatchRouteImport.update({
@@ -36,6 +49,12 @@ const NewsRoute = NewsRouteImport.update({
   path: '/news',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InvestorChar123slugChar125DotmdRoute =
+  InvestorChar123slugChar125DotmdRouteImport.update({
+    id: '/investor/{$slug}.md',
+    path: '/investor/{$slug}.md',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const InvestorsIndexRoute = InvestorsIndexRouteImport.update({
   id: '/investors/',
   path: '/investors/',
@@ -49,50 +68,82 @@ const InvestorsIdRoute = InvestorsIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/index.md': typeof IndexDotmdRoute
   '/intros': typeof IntrosRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/match': typeof MatchRoute
   '/news': typeof NewsRoute
+  '/investor/{$slug}.md': typeof InvestorChar123slugChar125DotmdRoute
   '/investors/$id': typeof InvestorsIdRoute
   '/investors/': typeof InvestorsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/index.md': typeof IndexDotmdRoute
   '/intros': typeof IntrosRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/match': typeof MatchRoute
   '/news': typeof NewsRoute
+  '/investor/{$slug}.md': typeof InvestorChar123slugChar125DotmdRoute
   '/investors/$id': typeof InvestorsIdRoute
   '/investors': typeof InvestorsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/index.md': typeof IndexDotmdRoute
   '/intros': typeof IntrosRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/match': typeof MatchRoute
   '/news': typeof NewsRoute
+  '/investor/{$slug}.md': typeof InvestorChar123slugChar125DotmdRoute
   '/investors/$id': typeof InvestorsIdRoute
   '/investors/': typeof InvestorsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/intros' | '/match' | '/news' | '/investors/$id' | '/investors/'
+    | '/'
+    | '/index.md'
+    | '/intros'
+    | '/llms.txt'
+    | '/match'
+    | '/news'
+    | '/investor/{$slug}.md'
+    | '/investors/$id'
+    | '/investors/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/intros' | '/match' | '/news' | '/investors/$id' | '/investors'
+  to:
+    | '/'
+    | '/index.md'
+    | '/intros'
+    | '/llms.txt'
+    | '/match'
+    | '/news'
+    | '/investor/{$slug}.md'
+    | '/investors/$id'
+    | '/investors'
   id:
     | '__root__'
     | '/'
+    | '/index.md'
     | '/intros'
+    | '/llms.txt'
     | '/match'
     | '/news'
+    | '/investor/{$slug}.md'
     | '/investors/$id'
     | '/investors/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  IndexDotmdRoute: typeof IndexDotmdRoute
   IntrosRoute: typeof IntrosRoute
+  LlmsDottxtRoute: typeof LlmsDottxtRoute
   MatchRoute: typeof MatchRoute
   NewsRoute: typeof NewsRoute
+  InvestorChar123slugChar125DotmdRoute: typeof InvestorChar123slugChar125DotmdRoute
   InvestorsIdRoute: typeof InvestorsIdRoute
   InvestorsIndexRoute: typeof InvestorsIndexRoute
 }
@@ -106,11 +157,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/index.md': {
+      id: '/index.md'
+      path: '/index.md'
+      fullPath: '/index.md'
+      preLoaderRoute: typeof IndexDotmdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/intros': {
       id: '/intros'
       path: '/intros'
       fullPath: '/intros'
       preLoaderRoute: typeof IntrosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llms.txt': {
+      id: '/llms.txt'
+      path: '/llms.txt'
+      fullPath: '/llms.txt'
+      preLoaderRoute: typeof LlmsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/match': {
@@ -125,6 +190,13 @@ declare module '@tanstack/react-router' {
       path: '/news'
       fullPath: '/news'
       preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/investor/{$slug}.md': {
+      id: '/investor/{$slug}.md'
+      path: '/investor/{$slug}.md'
+      fullPath: '/investor/{$slug}.md'
+      preLoaderRoute: typeof InvestorChar123slugChar125DotmdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/investors/': {
@@ -146,9 +218,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  IndexDotmdRoute: IndexDotmdRoute,
   IntrosRoute: IntrosRoute,
+  LlmsDottxtRoute: LlmsDottxtRoute,
   MatchRoute: MatchRoute,
   NewsRoute: NewsRoute,
+  InvestorChar123slugChar125DotmdRoute: InvestorChar123slugChar125DotmdRoute,
   InvestorsIdRoute: InvestorsIdRoute,
   InvestorsIndexRoute: InvestorsIndexRoute,
 }
