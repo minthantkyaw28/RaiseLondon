@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { InvestorDetail } from "@/components/vc-map/InvestorDetail";
 import { PIPELINE, type PipelineStatus } from "@/components/vc-map/pipeline";
 import { MAP_VIEWS, type MapViewId } from "@/components/vc-map/map-styles";
+import { PitchMatcher } from "@/components/vc-map/PitchMatcher";
 import { VcMap } from "@/components/vc-map/VcMap";
 import { dataset } from "@/data/source";
 import type { Sector, Stage } from "@/data/types";
@@ -144,7 +145,10 @@ function Index() {
             {investors.length} investors · {warmIds.size} reachable through your network
           </p>
         </div>
-        {dataset.source === "mock" && <Badge variant="outline">Mock data</Badge>}
+        <div className="flex items-center gap-2">
+          {dataset.source === "mock" && <Badge variant="outline">Mock data</Badge>}
+          <PitchMatcher investors={investors} warmIds={warmIds} onSelect={setSelectedId} />
+        </div>
       </header>
 
       <div className="relative flex min-h-0 flex-1 flex-col md:flex-row">
