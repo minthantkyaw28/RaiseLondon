@@ -12,7 +12,7 @@ import { PitchMatcher } from "@/components/vc-map/PitchMatcher";
 import { ScoreBadge } from "@/components/vc-map/ScoreBadge";
 import { VcMap } from "@/components/vc-map/VcMap";
 import { loadDataset } from "@/data/source";
-import type { Sector, Stage } from "@/data/types";
+import type { Investor, Sector, Stage } from "@/data/types";
 import { summarizeReviews } from "@/lib/ratings";
 import { SECTOR_LABEL, STAGE_LABEL } from "@/lib/labels";
 import type { Match } from "@/lib/match";
@@ -55,6 +55,9 @@ const SECTORS: Sector[] = [
 ];
 const PIPELINE_KEY = "lvm-pipeline";
 const VIEW_KEY = "lvm-map-view";
+
+// Individual angels are private people with no published office; a pin would imply where they are.
+const onMap = (v: Investor) => v.type !== "angel";
 
 function toggle<T>(list: T[], item: T): T[] {
   return list.includes(item) ? list.filter((x) => x !== item) : [...list, item];
@@ -312,7 +315,9 @@ function Index() {
           </div>
           <VcMap
             view={view}
-            investors={pitchMatches ? pitchMatches.map((m) => m.investor) : filtered}
+            investors={(pitchMatches ? pitchMatches.map((m) => m.investor) : filtered).filter(
+              onMap,
+            )}
             selectedId={selectedId}
             onSelect={setSelectedId}
           />
