@@ -43,7 +43,9 @@ function IntrosPage() {
               const found = matchIntros(connections, dataset.people);
               setMatches(found);
               if (!supabase || !userId) {
-                setMessage(`${found.length} matches from ${connections.length} connections. Sign in to store the import.`);
+                setMessage(
+                  `${found.length} matches from ${connections.length} connections. Sign in to store the import.`,
+                );
                 return;
               }
               const rows = connections.slice(0, 5000).map((connection) => ({
@@ -52,7 +54,10 @@ function IntrosPage() {
                 company: connection.company,
                 linkedin: connection.linkedin,
               }));
-              const removed = await supabase.from("connection_imports").delete().eq("user_id", userId);
+              const removed = await supabase
+                .from("connection_imports")
+                .delete()
+                .eq("user_id", userId);
               if (removed.error) {
                 setMessage(removed.error.message);
                 return;
@@ -68,7 +73,13 @@ function IntrosPage() {
         >
           <div className="grid gap-1">
             <Label htmlFor="connections">Connections CSV</Label>
-            <input id="connections" name="connections" type="file" accept=".csv,text/csv" className="text-sm" />
+            <input
+              id="connections"
+              name="connections"
+              type="file"
+              accept=".csv,text/csv"
+              className="text-sm"
+            />
           </div>
           <Button type="submit">Find overlaps</Button>
         </form>
@@ -78,15 +89,23 @@ function IntrosPage() {
           {matches.map((match) => {
             const investor = investors.get(match.investorUuid);
             return (
-              <li key={`${match.person.id}:${match.via}:${match.connection.name}`} className="rounded-xl border p-4 text-sm">
+              <li
+                key={`${match.person.id}:${match.via}:${match.connection.name}`}
+                className="rounded-xl border p-4 text-sm"
+              >
                 <p className="font-medium">{match.connection.name}</p>
                 <p className="text-muted-foreground">
-                  {match.via === "linkedin" ? "LinkedIn URL match" : "Exact name match"} with {match.person.name}
+                  {match.via === "linkedin" ? "LinkedIn URL match" : "Exact name match"} with{" "}
+                  {match.person.name}
                   {match.person.role ? `, ${match.person.role}` : ""}
                   {investor ? (
                     <>
                       {" at "}
-                      <Link to="/investors/$id" params={{ id: investor.uuid }} className="underline">
+                      <Link
+                        to="/investors/$id"
+                        params={{ id: investor.uuid }}
+                        className="underline"
+                      >
                         {investor.name}
                       </Link>
                     </>

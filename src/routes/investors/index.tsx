@@ -35,8 +35,8 @@ function InvestorsPage() {
         <div>
           <h1 className="text-3xl font-semibold tracking-tight">Investors</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            {rows.length} of {dataset.investors.length}. Coordinates sit on each card as data-lat and
-            data-lon for the map.
+            {rows.length} of {dataset.investors.length}. Coordinates sit on each card as data-lat
+            and data-lon for the map.
           </p>
         </div>
         <div className="grid gap-3 md:grid-cols-4">
@@ -47,7 +47,12 @@ function InvestorsPage() {
             onChange={(event) => setQuery(event.target.value)}
             aria-label="Search investors"
           />
-          <select className={fieldClass} value={sector} onChange={(event) => setSector(event.target.value)} aria-label="Sector">
+          <select
+            className={fieldClass}
+            value={sector}
+            onChange={(event) => setSector(event.target.value)}
+            aria-label="Sector"
+          >
             <option value="">Any sector</option>
             {sectors.map((name) => (
               <option key={name} value={name}>
@@ -55,7 +60,12 @@ function InvestorsPage() {
               </option>
             ))}
           </select>
-          <select className={fieldClass} value={stage} onChange={(event) => setStage(event.target.value)} aria-label="Stage">
+          <select
+            className={fieldClass}
+            value={stage}
+            onChange={(event) => setStage(event.target.value)}
+            aria-label="Stage"
+          >
             <option value="">Any stage</option>
             {STAGE_ORDER.map((name) => (
               <option key={name} value={name}>
@@ -63,7 +73,12 @@ function InvestorsPage() {
               </option>
             ))}
           </select>
-          <select className={fieldClass} value={cheque} onChange={(event) => setCheque(event.target.value)} aria-label="Cheque size">
+          <select
+            className={fieldClass}
+            value={cheque}
+            onChange={(event) => setCheque(event.target.value)}
+            aria-label="Cheque size"
+          >
             {CHEQUE_BUCKETS.map((bucket) => (
               <option key={bucket.id} value={bucket.id}>
                 {bucket.label}

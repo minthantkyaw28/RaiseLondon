@@ -115,12 +115,23 @@ describe("rateStartup", () => {
 
 describe("filterInvestors", () => {
   const rows = [
-    investor({ uuid: "a", name: "Alpha", sectors: ["Fintech"], chequeMin: 100_000, chequeMax: 400_000 }),
+    investor({
+      uuid: "a",
+      name: "Alpha",
+      sectors: ["Fintech"],
+      chequeMin: 100_000,
+      chequeMax: 400_000,
+    }),
     investor({ uuid: "b", name: "Beta", sectors: ["Health"], chequeMin: null, chequeMax: null }),
   ];
 
   it("filters by sector and drops unknown cheques from a size bucket", () => {
-    const fintech = filterInvestors(rows, { query: "", sector: "Fintech", stage: "", cheque: "any" });
+    const fintech = filterInvestors(rows, {
+      query: "",
+      sector: "Fintech",
+      stage: "",
+      cheque: "any",
+    });
     expect(fintech.map((row) => row.uuid)).toEqual(["a"]);
     const sized = filterInvestors(rows, { query: "", sector: "", stage: "", cheque: "under-250k" });
     expect(sized.map((row) => row.uuid)).toEqual(["a"]);

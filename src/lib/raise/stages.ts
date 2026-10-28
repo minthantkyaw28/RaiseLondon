@@ -1,16 +1,19 @@
 import type { Investor } from "./types";
 
-export const STAGE_ORDER = ["Pre-Seed", "Seed", "Series A", "Series B", "Series C", "Growth"] as const;
+export const STAGE_ORDER = [
+  "Pre-Seed",
+  "Seed",
+  "Series A",
+  "Series B",
+  "Series C",
+  "Growth",
+] as const;
 
 export type CanonicalStage = (typeof STAGE_ORDER)[number];
 
 export function canonicalStage(raw: string | null | undefined): CanonicalStage | null {
   if (!raw) return null;
-  const normalized = raw
-    .toLowerCase()
-    .replace(/[_-]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+  const normalized = raw.toLowerCase().replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim();
   if (!normalized) return null;
   if (normalized.includes("pre seed") || normalized.includes("preseed") || normalized === "angel") {
     return "Pre-Seed";

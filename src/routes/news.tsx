@@ -10,7 +10,9 @@ export const Route = createFileRoute("/news")({
 
 function NewsPage() {
   const { dataset } = useRaiseData();
-  const articles = [...dataset.news].sort((a, b) => String(b.publishedAt ?? "").localeCompare(String(a.publishedAt ?? "")));
+  const articles = [...dataset.news].sort((a, b) =>
+    String(b.publishedAt ?? "").localeCompare(String(a.publishedAt ?? "")),
+  );
 
   return (
     <Shell>
@@ -37,9 +39,13 @@ function NewsPage() {
               <p className="mt-1 text-sm text-muted-foreground">
                 {article.publishedAt ? article.publishedAt.slice(0, 10) : "Date unknown"}
                 {article.hqCountry ? ` · ${article.hqCountry}` : ""}
-                {article.amount != null ? ` · ${formatMoney(article.amount, dataset.currency)}` : ""}
+                {article.amount != null
+                  ? ` · ${formatMoney(article.amount, dataset.currency)}`
+                  : ""}
               </p>
-              {article.summary ? <p className="mt-2 text-sm">{stripHtml(article.summary)}</p> : null}
+              {article.summary ? (
+                <p className="mt-2 text-sm">{stripHtml(article.summary)}</p>
+              ) : null}
             </li>
           ))}
         </ul>

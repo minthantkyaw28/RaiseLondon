@@ -98,7 +98,9 @@ export function AuthPanel() {
           onClick={() => {
             setMessage(null);
             void supabase?.auth.signUp({ email: address, password }).then(({ error }) => {
-              setMessage(error ? error.message : "Account created. Check your email if confirmation is on.");
+              setMessage(
+                error ? error.message : "Account created. Check your email if confirmation is on.",
+              );
             });
           }}
         >
