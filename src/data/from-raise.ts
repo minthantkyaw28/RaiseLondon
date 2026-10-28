@@ -391,6 +391,15 @@ function spreadPoint(i: number): { lat: number; lng: number } {
   };
 }
 
+function lastRoundOf(deals: RaiseDeal[]): { lastRound?: string } {
+  const dated = deals.filter((d) => d.roundYear != null);
+  if (!dated.length) return {};
+  const latest = dated.reduce((a, b) =>
+    monthIndex(b.roundYear!, b.roundMonth ?? 1) > monthIndex(a.roundYear!, a.roundMonth ?? 1) ? b : a,
+  );
+  return { lastRound: `${latest.roundYear}-${String(latest.roundMonth ?? 1).padStart(2, "0")}` };
+}
+
 function groupBy<T>(items: T[], key: (item: T) => string): Map<string, T[]> {
   const out = new Map<string, T[]>();
   for (const item of items) out.set(key(item), [...(out.get(key(item)) ?? []), item]);
@@ -430,6 +439,7 @@ export function fromRaise(
     .sort((a, b) => a.v.uuid.localeCompare(b.v.uuid));
   centred.forEach((k, i) => Object.assign(k, spreadPoint(i)));
 
+  const approximate = new Set(centred.map((k) => k.v.uuid));
   const investors: Investor[] = kept.map(({ v, type, lat, lng }) => {
     const deals = dealsBy.get(v.uuid) ?? [];
     const stated = statedChequeGbp(v);
@@ -458,7 +468,15 @@ export function fromRaise(
     if (filled.sources?.cheque) enriched.cheques++;
     if (filled.sectors.length > draft.sectors.length) enriched.sectors++;
     if (filled.generalist) enriched.generalists++;
-    return { ...filled, checkSizeGbp: filled.checkSizeGbp ?? DEFAULT_CHEQUE_GBP[type] };
+    return {
+      ...filled,
+      checkSizeGbp: filled.checkSizeGbp ?? DEFAULT_CHEQUE_GBP[type],
+      chequeEstimated: filled.checkSizeGbp == null,
+      approximateLocation: approximate.has(v.uuid),
+      leadsRounds: deals.some((d) => d.isLead === true),
+      ...lastRoundOf(deals),
+      ...(v.dealroomUrl ? { sourceUrl: v.dealroomUrl } : {}),
+    };
   });
 
   return {

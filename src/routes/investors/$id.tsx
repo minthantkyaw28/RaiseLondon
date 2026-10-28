@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
-import { AuthPanel, useAuth } from "@/components/raise/auth-panel";
+import { AuthPanel, useAuth, useIsAdmin } from "@/components/raise/auth-panel";
 import { Shell } from "@/components/raise/shell";
 import { useRaiseData } from "@/components/raise/use-raise-data";
 import { Badge } from "@/components/ui/badge";
@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { parseGbpAmount } from "@/lib/cheque";
 import { formatCheque, formatMoney, investorKind } from "@/lib/raise/format";
 import { investorStages } from "@/lib/raise/stages";
 import { supabase } from "@/lib/raise/supabase";
@@ -29,6 +30,7 @@ function InvestorProfile() {
   const { id } = Route.useParams();
   const { dataset } = useRaiseData();
   const { userId } = useAuth();
+  const isAdmin = useIsAdmin(userId);
   const investor = dataset.investors.find((item) => item.uuid === id);
   const deals = dataset.deals
     .filter((deal) => deal.investorUuid === id)
@@ -136,103 +138,111 @@ function InvestorProfile() {
           <p className="text-sm">{investor.sectors.join(", ") || "No sector tags"}</p>
         </section>
 
-        <section className="space-y-3">
-          <h2 className="text-lg font-semibold">Update the profile</h2>
-          <p className="text-sm text-muted-foreground">
-            Edits go to investor_overrides and stay put when the Dealroom seed is run again. A blank
-            cheque field keeps the Dealroom number.
-          </p>
-          <form
-            className="grid gap-3"
-            onSubmit={(event) => {
-              event.preventDefault();
-              if (!supabase || !userId) {
-                setOverrideMessage("Sign in with Supabase to save an override.");
-                return;
-              }
-              const pipe = (value: string) =>
-                value
-                  .split(",")
-                  .map((part) => part.trim())
-                  .filter(Boolean)
-                  .join("|");
-              void supabase
-                .from("investor_overrides")
-                .upsert(
-                  {
-                    investor_uuid: investor.uuid,
-                    thesis: thesis.trim() || null,
-                    cheque_min: chequeMin.trim() ? Number(chequeMin) : null,
-                    cheque_max: chequeMax.trim() ? Number(chequeMax) : null,
-                    stages: pipe(stages),
-                    sectors: pipe(sectors),
-                    is_active: isActive,
-                  },
-                  { onConflict: "investor_uuid" },
-                )
-                .then(({ error }) => {
-                  setOverrideMessage(error ? error.message : "Saved.");
-                });
-            }}
-          >
-            <div className="grid gap-1">
-              <Label htmlFor="thesis">Current interest</Label>
-              <Textarea
-                id="thesis"
-                value={thesis}
-                onChange={(event) => setThesis(event.target.value)}
-              />
-            </div>
-            <div className="grid gap-3 sm:grid-cols-2">
+        {isAdmin ? (
+          <section className="space-y-3">
+            <h2 className="text-lg font-semibold">Update the profile</h2>
+            <p className="text-sm text-muted-foreground">
+              Edits go to investor_overrides and stay put when the Dealroom seed is run again. A
+              blank cheque field keeps the Dealroom number.
+            </p>
+            <form
+              className="grid gap-3"
+              onSubmit={(event) => {
+                event.preventDefault();
+                if (!supabase || !userId) {
+                  setOverrideMessage("Sign in with Supabase to save an override.");
+                  return;
+                }
+                const min = parseGbpAmount(chequeMin);
+                const max = parseGbpAmount(chequeMax);
+                if (Number.isNaN(min) || Number.isNaN(max)) {
+                  setOverrideMessage("Write cheques as numbers, like 250000, 250k or 1.5m.");
+                  return;
+                }
+                const pipe = (value: string) =>
+                  value
+                    .split(",")
+                    .map((part) => part.trim())
+                    .filter(Boolean)
+                    .join("|");
+                void supabase
+                  .from("investor_overrides")
+                  .upsert(
+                    {
+                      investor_uuid: investor.uuid,
+                      thesis: thesis.trim() || null,
+                      cheque_min: min,
+                      cheque_max: max,
+                      stages: pipe(stages),
+                      sectors: pipe(sectors),
+                      is_active: isActive,
+                    },
+                    { onConflict: "investor_uuid" },
+                  )
+                  .then(({ error }) => {
+                    setOverrideMessage(error ? error.message : "Saved.");
+                  });
+              }}
+            >
               <div className="grid gap-1">
-                <Label htmlFor="cheque-min">Cheque min</Label>
+                <Label htmlFor="thesis">Current interest</Label>
+                <Textarea
+                  id="thesis"
+                  value={thesis}
+                  onChange={(event) => setThesis(event.target.value)}
+                />
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div className="grid gap-1">
+                  <Label htmlFor="cheque-min">Cheque min</Label>
+                  <Input
+                    id="cheque-min"
+                    inputMode="numeric"
+                    value={chequeMin}
+                    onChange={(event) => setChequeMin(event.target.value)}
+                  />
+                </div>
+                <div className="grid gap-1">
+                  <Label htmlFor="cheque-max">Cheque max</Label>
+                  <Input
+                    id="cheque-max"
+                    inputMode="numeric"
+                    value={chequeMax}
+                    onChange={(event) => setChequeMax(event.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="grid gap-1">
+                <Label htmlFor="stages">Stages, comma separated</Label>
                 <Input
-                  id="cheque-min"
-                  inputMode="numeric"
-                  value={chequeMin}
-                  onChange={(event) => setChequeMin(event.target.value)}
+                  id="stages"
+                  value={stages}
+                  onChange={(event) => setStages(event.target.value)}
                 />
               </div>
               <div className="grid gap-1">
-                <Label htmlFor="cheque-max">Cheque max</Label>
+                <Label htmlFor="sectors">Sectors, comma separated</Label>
                 <Input
-                  id="cheque-max"
-                  inputMode="numeric"
-                  value={chequeMax}
-                  onChange={(event) => setChequeMax(event.target.value)}
+                  id="sectors"
+                  value={sectors}
+                  onChange={(event) => setSectors(event.target.value)}
                 />
               </div>
-            </div>
-            <div className="grid gap-1">
-              <Label htmlFor="stages">Stages, comma separated</Label>
-              <Input
-                id="stages"
-                value={stages}
-                onChange={(event) => setStages(event.target.value)}
-              />
-            </div>
-            <div className="grid gap-1">
-              <Label htmlFor="sectors">Sectors, comma separated</Label>
-              <Input
-                id="sectors"
-                value={sectors}
-                onChange={(event) => setSectors(event.target.value)}
-              />
-            </div>
-            <label className="flex items-center gap-2 text-sm">
-              <input
-                type="checkbox"
-                checked={isActive}
-                onChange={(event) => setIsActive(event.target.checked)}
-              />
-              Show in the directory
-            </label>
-            <Button type="submit">Save override</Button>
-            {overrideMessage ? (
-              <p className="text-sm text-muted-foreground">{overrideMessage}</p>
-            ) : null}
-          </form>
-        </section>
+              <label className="flex items-center gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={isActive}
+                  onChange={(event) => setIsActive(event.target.checked)}
+                />
+                Show in the directory
+              </label>
+              <Button type="submit">Save override</Button>
+              {overrideMessage ? (
+                <p className="text-sm text-muted-foreground">{overrideMessage}</p>
+              ) : null}
+            </form>
+          </section>
+        ) : null}
 
         <section className="space-y-3">
           <h2 className="text-lg font-semibold">Recent London rounds</h2>
@@ -281,8 +291,8 @@ function InvestorProfile() {
         <section className="space-y-4">
           <h2 className="text-lg font-semibold">Rate this investor</h2>
           <p className="text-sm text-muted-foreground">
-            A review is anonymous on the public list. Verified means the writer was signed in. It
-            does not prove this investor funded the company.
+            Reviews are anonymous. Only reviews the Raise team has verified appear here, so each one
+            comes from a founder who really dealt with this investor.
           </p>
           <AuthPanel />
           <ul className="space-y-3">
@@ -316,19 +326,12 @@ function InvestorProfile() {
                   { onConflict: "user_id,investor_uuid" },
                 )
                 .then(({ error }) => {
-                  setReviewMessage(error ? error.message : "Review saved.");
-                  if (!error) {
-                    setReviews((current) => [
-                      {
-                        id: `${userId}-${investor.uuid}`,
-                        rating: Number(rating),
-                        body: body.trim(),
-                        relationship,
-                        created_at: new Date().toISOString(),
-                      },
-                      ...current.filter((review) => review.id !== `${userId}-${investor.uuid}`),
-                    ]);
-                  }
+                  setReviewMessage(
+                    error
+                      ? error.message
+                      : "Thanks. Your review appears once the Raise team has verified it.",
+                  );
+                  if (!error) setBody("");
                 });
             }}
           >
@@ -368,8 +371,10 @@ function InvestorProfile() {
                 id="review-body"
                 value={body}
                 onChange={(event) => setBody(event.target.value)}
+                maxLength={1000}
                 required
               />
+              <p className="text-xs text-muted-foreground">{body.length}/1000</p>
             </div>
             <Button type="submit">Submit review</Button>
             {reviewMessage ? (

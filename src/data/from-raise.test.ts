@@ -107,6 +107,11 @@ describe("fromRaise", () => {
         stages: ["seed", "series-a"],
         sectors: ["b2b-saas"],
         checkSizeGbp: { min: 250_000, max: 1_500_000 },
+        chequeEstimated: false,
+        approximateLocation: false,
+        leadsRounds: true,
+        lastRound: "2026-09",
+        sourceUrl: "https://app.dealroom.co/investors/northfield",
         // Nov 2025 to Oct 2026: t1, t2 and t4; t3 (Oct 2025) is 13 months back.
         dealsLast12m: 3,
         portfolio: ["Acme", "Beta", "Old Co"],
@@ -122,6 +127,15 @@ describe("fromRaise", () => {
         ],
       },
     ]);
+  });
+
+  it("flags a cheque range that is the default for the investor type", () => {
+    const { dataset } = fromRaise(
+      raw({ investors: [raiseInvestor({ chequeMin: null, chequeMax: null })] }),
+    );
+    const investor = dataset.investors[0]!;
+    expect(investor.chequeEstimated).toBe(true);
+    expect(investor.checkSizeGbp).toEqual(DEFAULT_CHEQUE_GBP.vc);
   });
 
   it("maps angels and angel funds, and counts the stages and sectors it drops", () => {

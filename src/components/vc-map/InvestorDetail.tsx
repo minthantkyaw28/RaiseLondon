@@ -19,9 +19,18 @@ interface Props {
   status: PipelineStatus;
   onStatus: (s: PipelineStatus) => void;
   onClose: () => void;
+  /** Date of the data export, shown with the source; null for mock data. */
+  dataDate?: string | null;
 }
 
-export function InvestorDetail({ investor, reviews, status, onStatus, onClose }: Props) {
+export function InvestorDetail({
+  investor,
+  reviews,
+  status,
+  onStatus,
+  onClose,
+  dataDate = null,
+}: Props) {
   const summary = summarizeReviews(reviews);
   const [ownDebriefs, addDebrief] = useDebriefs();
   const dataset = useDataset();
@@ -48,18 +57,21 @@ export function InvestorDetail({ investor, reviews, status, onStatus, onClose }:
         <div className="flex items-start gap-2 text-muted-foreground">
           <MapPin className="mt-0.5 h-4 w-4 shrink-0" />
           <span>
-            {investor.address} <SourceLink href={investor.sources?.office} />
+            {investor.address}
+            {investor.approximateLocation ? " (office not known; the pin is approximate)" : ""}{" "}
+            <SourceLink href={investor.sources?.office} />
           </span>
         </div>
         <dl className="grid grid-cols-3 gap-3">
           <Stat
             label="Cheque"
-            value={`${formatGbp(investor.checkSizeGbp.min)}–${formatGbp(investor.checkSizeGbp.max)}`}
+            value={`${formatGbp(investor.checkSizeGbp.min)}–${formatGbp(investor.checkSizeGbp.max)}${investor.chequeEstimated ? " (typical, not stated)" : ""}`}
             source={investor.sources?.cheque}
           />
           <Stat label="Fund" value={investor.fundSizeGbpM ? `£${investor.fundSizeGbpM}m` : "—"} />
           <Stat label="Deals 12m" value={String(investor.dealsLast12m)} />
         </dl>
+        <Evidence investor={investor} dataDate={dataDate} />
         <div className="flex flex-wrap items-center gap-1.5">
           {investor.stages.map((s) => (
             <Badge key={s} variant="secondary">
@@ -332,6 +344,58 @@ function Stat({
     </div>
   );
 }
+
+// Where each fact comes from and how sure we are, so a founder can judge the record before
+// acting on it. Idea from outreachr's evidence fields and fundraise-crm's research_confidence.
+function Evidence({ investor, dataDate }: { investor: Investor; dataDate: string | null }) {
+  const gaps = [
+    investor.chequeEstimated ? "cheque size is a typical range, not stated" : null,
+    investor.approximateLocation ? "office address not known" : null,
+  ].filter((g): g is string => g !== null);
+  const confidence = gaps.length === 0 ? "High" : gaps.length === 1 ? "Medium" : "Low";
+  const facts = [
+    investor.leadsRounds ? "Has led rounds" : null,
+    investor.lastRound ? `Last round ${formatMonth(investor.lastRound)}` : null,
+  ].filter(Boolean);
+  return (
+    <div className="space-y-1 rounded-md border bg-muted/40 p-2.5 text-xs">
+      {facts.length > 0 && <p className="font-medium">{facts.join(" · ")}</p>}
+      <p className="text-muted-foreground">
+        Data confidence: <span className="font-medium text-foreground">{confidence}</span>
+        {gaps.length ? ` (${gaps.join("; ")})` : ""}
+      </p>
+      {dataDate && (
+        <p className="text-muted-foreground">
+          Source: Dealroom, {dataDate}
+          {investor.sources ? ", plus web research where marked Source" : ""}
+          {investor.sourceUrl ? (
+            <>
+              {" · "}
+              <a
+                href={investor.sourceUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="underline underline-offset-2"
+              >
+                Check on Dealroom
+              </a>
+            </>
+          ) : null}
+        </p>
+      )}
+    </div>
+  );
+}
+
+const formatMonth = (ym: string) => {
+  const [year, month] = ym.split("-").map(Number);
+  if (!year || !month) return ym;
+  return new Date(Date.UTC(year, month - 1, 1)).toLocaleDateString("en-GB", {
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+};
 
 /** Where a value from the web enrichment came from; nothing for Dealroom's own values. */
 function SourceLink({ href }: { href: string | undefined }) {

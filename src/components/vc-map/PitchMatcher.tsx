@@ -1,5 +1,5 @@
 import { useServerFn } from "@tanstack/react-start";
-import { Check, Loader2, Mic, Sparkles, Square } from "lucide-react";
+import { Check, Copy, Loader2, Mail, Mic, Sparkles, Square } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
@@ -29,6 +29,7 @@ import {
   pickMimeType,
 } from "@/lib/recording";
 import { SECTOR_LABEL, STAGE_LABEL } from "@/lib/labels";
+import { draftIntroEmail } from "@/lib/intro-email";
 import { transcribePitch } from "@/lib/transcribe.functions";
 
 import { ScoreBadge } from "./ScoreBadge";
@@ -56,6 +57,8 @@ export function PitchMatcher({ investors, onSelect, onResults }: Props) {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const discardRef = useRef(false);
   const transcribe = useServerFn(transcribePitch);
+  const [draftFor, setDraftFor] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const releaseMic = () => {
     if (timerRef.current) clearInterval(timerRef.current);
@@ -166,6 +169,7 @@ export function PitchMatcher({ investors, onSelect, onResults }: Props) {
     const profile = extractProfile(transcript);
     const matches = matchInvestors(profile, investors, scoring, transcript).slice(0, TOP_N);
     setResult({ profile, matches });
+    setDraftFor(null);
     onResults(matches);
   };
 
@@ -262,6 +266,24 @@ export function PitchMatcher({ investors, onSelect, onResults }: Props) {
                       ))}
                     </ul>
                   </button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="mt-1 h-7 text-xs"
+                    onClick={() => {
+                      setCopied(false);
+                      setDraftFor(draftFor === m.investor.id ? null : m.investor.id);
+                    }}
+                  >
+                    <Mail className="h-3.5 w-3.5" /> Draft intro email
+                  </Button>
+                  {draftFor === m.investor.id && (
+                    <IntroDraft
+                      email={draftIntroEmail(m.investor, result.profile, transcript, m.reasons)}
+                      copied={copied}
+                      onCopied={() => setCopied(true)}
+                    />
+                  )}
                 </li>
               ))}
             </ol>
@@ -269,6 +291,42 @@ export function PitchMatcher({ investors, onSelect, onResults }: Props) {
         )}
       </DialogContent>
     </Dialog>
+  );
+}
+
+// Editable draft the founder copies into their own email; Raise never sends anything.
+function IntroDraft({
+  email,
+  copied,
+  onCopied,
+}: {
+  email: { subject: string; body: string };
+  copied: boolean;
+  onCopied: () => void;
+}) {
+  const [text, setText] = useState(`Subject: ${email.subject}\n\n${email.body}`);
+  return (
+    <div className="mt-1 space-y-1.5 rounded-lg border bg-muted/40 p-2">
+      <Textarea
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        className="min-h-[180px] text-xs"
+        aria-label="Intro email draft"
+      />
+      <div className="flex items-center justify-between gap-2">
+        <p className="text-[11px] text-muted-foreground">
+          A starting point from your pitch. Edit it, then send it yourself.
+        </p>
+        <Button
+          size="sm"
+          variant="outline"
+          className="h-7 text-xs"
+          onClick={() => void navigator.clipboard?.writeText(text).then(onCopied)}
+        >
+          <Copy className="h-3.5 w-3.5" /> {copied ? "Copied" : "Copy"}
+        </Button>
+      </div>
+    </div>
   );
 }
 

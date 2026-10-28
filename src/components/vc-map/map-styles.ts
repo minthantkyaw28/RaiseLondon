@@ -26,7 +26,8 @@ export interface MapView {
   // pixel look. Relative to the device, so retina screens get finer pixels than 1x screens.
   pixelScale?: number;
   // The pin carries the colour; label is the firm name's text colour.
-  pin: { fill: string; label: string; stroke: string };
+  // network colours angel networks, so they stand apart from VC funds.
+  pin: { fill: string; network: string; label: string; stroke: string };
   look: Look;
 }
 
@@ -37,6 +38,7 @@ export const MAP_VIEWS: MapView[] = [
     pixelScale: 0.5,
     pin: {
       fill: "#ff5a36",
+      network: "#0f766e",
       label: "#2a2140",
       stroke: "#ffffff",
     },
@@ -62,6 +64,7 @@ export const MAP_VIEWS: MapView[] = [
     label: "Chalk",
     pin: {
       fill: "#ff5a36",
+      network: "#0f766e",
       label: "#2a2140",
       stroke: "#ffffff",
     },
@@ -86,6 +89,7 @@ export const MAP_VIEWS: MapView[] = [
     label: "Night",
     pin: {
       fill: "#ff8a3d",
+      network: "#f9e46b",
       label: "#f2eeff",
       stroke: "#f2eeff",
     },

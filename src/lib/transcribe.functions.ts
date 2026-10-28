@@ -2,8 +2,9 @@ import { createServerFn } from "@tanstack/react-start";
 
 import { transcribeAudio } from "./transcribe.server";
 
-// ~25 minutes of compressed speech; far beyond any pitch.
-const MAX_AUDIO_BYTES = 25 * 1024 * 1024;
+// ~5 MB is several minutes of compressed speech, enough for any pitch, and caps what one
+// request can spend on ElevenLabs credits.
+const MAX_AUDIO_BYTES = 5 * 1024 * 1024;
 
 export const transcribePitch = createServerFn({ method: "POST" })
   .validator((data: FormData) => {

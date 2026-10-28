@@ -41,6 +41,8 @@ function MatchPage() {
   const [rating, setRating] = useState<StartupRating | null>(null);
   const [matches, setMatches] = useState<MatchResult[]>([]);
   const [message, setMessage] = useState<string | null>(null);
+  // Off by default: a pitch is only stored when the founder asks for it.
+  const [saveProfile, setSaveProfile] = useState(false);
 
   return (
     <Shell>
@@ -49,8 +51,8 @@ function MatchPage() {
           <h1 className="text-3xl font-semibold tracking-tight">Rate the startup, then match</h1>
           <p className="max-w-2xl text-sm text-muted-foreground">
             The rank is a fixed score: sector, stage, stated ticket, London activity, and how the
-            traction band lines up. Figures are GBP. The description is stored for a later written
-            blurb and is not scored. No language model is required.
+            traction band lines up. Figures are GBP. Nothing is stored unless you tick "Save to my
+            account". The description is not scored. No language model is required.
           </p>
         </div>
         <form
@@ -71,7 +73,7 @@ function MatchPage() {
             };
             setRating(rateStartup(input));
             setMatches(rankInvestors(dataset.investors, input).slice(0, 20));
-            if (supabase && userId) {
+            if (supabase && userId && saveProfile) {
               void supabase
                 .from("startup_profiles")
                 .upsert(
@@ -96,7 +98,9 @@ function MatchPage() {
                 });
             } else {
               setMessage(
-                "Ranked from the dataset in the browser. Sign in to keep the startup profile.",
+                userId
+                  ? "Ranked in your browser. Nothing was saved."
+                  : "Ranked in your browser. Nothing was saved. Sign in to keep the startup profile.",
               );
             }
           }}
@@ -173,6 +177,16 @@ function MatchPage() {
               onChange={(event) => setTractionNotes(event.target.value)}
             />
           </div>
+          {userId ? (
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={saveProfile}
+                onChange={(event) => setSaveProfile(event.target.checked)}
+              />
+              Save to my account
+            </label>
+          ) : null}
           <Button type="submit">Rate and rank</Button>
         </form>
         <AuthPanel />
