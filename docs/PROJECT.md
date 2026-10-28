@@ -120,18 +120,19 @@ in the browser's localStorage. With accounts it moves into the database.
 
 "Match my pitch" in the header opens `PitchMatcher.tsx`:
 
-1. The founder records their pitch (browser Web Speech API, en-GB, live transcript) or pastes it.
-   The textarea is always editable. Browsers without Web Speech (Firefox, some Safari) get paste
-   only.
+1. The founder records their pitch (MediaRecorder in the browser, with a Stop button and timer) or
+   pastes it. On stop the audio goes to the `transcribePitch` server function
+   (`src/lib/transcribe.functions.ts`), which calls ElevenLabs Scribe (`scribe_v2`) with the
+   connector's `ELEVENLABS_API_KEY`. The transcript is appended to the textarea, which is always
+   editable.
 2. `extractProfile` turns the text into a profile: sectors, stage, company status, raise, solo or
    co-founders, technical or not. If the stage isn't said, it's inferred from status and raise.
 3. `matchInvestors` scores every firm out of 100: stage 35, sector overlap 30, raise inside the
    cheque range 20 (half within 2x), deals in the last 12 months 5, warm intro 10. The top 8 show
    with reasons and misses; clicking one selects it on the map.
 
-The pitch never leaves the browser. v1 extraction is keyword rules, no network. The upgrade is
-Lovable AI (Lovable Cloud) for extraction and ElevenLabs Scribe or Whisper for transcription, both
-called from an edge function that holds the key. Never put a model or speech key in the browser.
+Neither audio nor transcript is stored or logged anywhere: no database, no storage, no transcript
+in logs. Extraction is still keyword rules in the browser. The speech key lives only on the server.
 
 ## Code map
 
