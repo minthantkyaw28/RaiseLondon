@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { dataset } from "@/data/source";
 import {
   AGENT_CACHE_CONTROL,
   renderInvestorNotFound,
@@ -10,8 +9,9 @@ import {
 export const Route = createFileRoute("/investor/{$slug}.md")({
   server: {
     handlers: {
-      GET: ({ params }) => {
-        const page = renderInvestorPage(dataset, params.slug);
+      GET: async ({ params }) => {
+        const { fetchDataset } = await import("@/data/source.server");
+        const page = renderInvestorPage(await fetchDataset(), params.slug);
         return new Response(page ?? renderInvestorNotFound(params.slug), {
           status: page ? 200 : 404,
           headers: {

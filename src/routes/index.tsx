@@ -9,23 +9,34 @@ import { PIPELINE, type PipelineStatus } from "@/components/vc-map/pipeline";
 import { MAP_VIEWS, type MapViewId } from "@/components/vc-map/map-styles";
 import { PitchMatcher } from "@/components/vc-map/PitchMatcher";
 import { VcMap } from "@/components/vc-map/VcMap";
-import { dataset } from "@/data/source";
+import { loadDataset } from "@/data/source";
 import type { Sector, Stage } from "@/data/types";
 import { summarizeReviews } from "@/lib/ratings";
 import { SECTOR_LABEL, STAGE_LABEL } from "@/lib/labels";
 import { cn } from "@/lib/utils";
 
+const TITLE = "Raise";
+const DESCRIPTION = "Every London investor on a map, matched to your pitch.";
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Raise" },
-      {
-        name: "description",
-        content: "Every London investor on a map, matched to your pitch.",
-      },
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  loader: () => loadDataset(),
   component: Index,
+  errorComponent: ({ error }) => (
+    <div role="alert" className="p-6 text-sm text-muted-foreground">
+      {error instanceof Error ? error.message : String(error)}
+    </div>
+  ),
+  notFoundComponent: () => <div className="p-6 text-sm">No investors found.</div>,
 });
 
 const STAGES: Stage[] = ["pre-seed", "seed", "series-a", "series-b", "growth"];
@@ -93,6 +104,7 @@ function useMapView() {
 }
 
 function Index() {
+  const dataset = Route.useLoaderData();
   const { investors, reviews } = dataset;
   const [q, setQ] = useState("");
   const [stages, setStages] = useState<Stage[]>([]);
