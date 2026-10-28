@@ -86,7 +86,10 @@ describe("database rows → Dataset", () => {
 });
 
 describe("fetchDataset fallback", () => {
-  afterEach(() => vi.unstubAllEnvs());
+  afterEach(() => {
+    vi.unstubAllEnvs();
+    vi.unstubAllGlobals();
+  });
 
   it("serves the bundled data and logs when the database settings are missing", async () => {
     vi.stubEnv("SUPABASE_URL", "");
@@ -100,11 +103,12 @@ describe("fetchDataset fallback", () => {
   it("serves the bundled data when the database is unreachable", async () => {
     vi.stubEnv("SUPABASE_URL", "http://127.0.0.1:9");
     vi.stubEnv("SUPABASE_PUBLISHABLE_KEY", "sb_publishable_test");
+    vi.stubGlobal("fetch", () => Promise.reject(new TypeError("fetch failed")));
     const log = vi.spyOn(console, "error").mockImplementation(() => {});
     const ds = await fetchDataset();
     expect(ds.investors).toHaveLength(28);
     expect(ds).toBe(fallbackDataset);
     expect(log).toHaveBeenCalled();
     log.mockRestore();
-  });
+  }, 15_000);
 });
