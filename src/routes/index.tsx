@@ -1,10 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Flame, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
 import { InvestorDetail } from "@/components/vc-map/InvestorDetail";
 import { PIPELINE, type PipelineStatus } from "@/components/vc-map/pipeline";
 import { MAP_VIEWS, type MapViewId } from "@/components/vc-map/map-styles";
@@ -14,7 +13,6 @@ import { dataset } from "@/data/source";
 import type { Sector, Stage } from "@/data/types";
 import { summarizeReviews } from "@/lib/ratings";
 import { SECTOR_LABEL, STAGE_LABEL } from "@/lib/labels";
-import { findWarmPaths } from "@/lib/warm-paths";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -23,7 +21,7 @@ export const Route = createFileRoute("/")({
       { title: "Raise" },
       {
         name: "description",
-        content: "Every London investor on a map, with warm intro paths through your network.",
+        content: "Every London investor on a map, matched to your pitch.",
       },
     ],
   }),
@@ -95,24 +93,14 @@ function useMapView() {
 }
 
 function Index() {
-  const { investors, contacts, reviews } = dataset;
+  const { investors, reviews } = dataset;
   const [q, setQ] = useState("");
   const [stages, setStages] = useState<Stage[]>([]);
   const [sectors, setSectors] = useState<Sector[]>([]);
-  const [warmOnly, setWarmOnly] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [pipeline, setStatus] = usePipeline();
   const [view, setView] = useMapView();
 
-  const networkIds = useMemo(() => new Set(contacts.map((c) => c.id)), [contacts]);
-  const pathsById = useMemo(
-    () => new Map(investors.map((v) => [v.id, findWarmPaths(v, contacts)])),
-    [investors, contacts],
-  );
-  const warmIds = useMemo(
-    () => new Set([...pathsById].filter(([, p]) => p.length > 0).map(([id]) => id)),
-    [pathsById],
-  );
   const reviewsById = useMemo(() => {
     const m = new Map<string, typeof reviews>();
     for (const r of reviews) m.set(r.investorId, [...(m.get(r.investorId) ?? []), r]);
@@ -124,7 +112,6 @@ function Index() {
     return investors
       .filter((v) => !stages.length || v.stages.some((s) => stages.includes(s)))
       .filter((v) => !sectors.length || v.sectors.some((s) => sectors.includes(s)))
-      .filter((v) => !warmOnly || warmIds.has(v.id))
       .filter(
         (v) =>
           !needle ||
@@ -133,8 +120,8 @@ function Index() {
             .toLowerCase()
             .includes(needle),
       )
-      .sort((a, b) => Number(warmIds.has(b.id)) - Number(warmIds.has(a.id)));
-  }, [investors, q, stages, sectors, warmOnly, warmIds]);
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }, [investors, q, stages, sectors]);
 
   const selected = investors.find((v) => v.id === selectedId) ?? null;
 
@@ -143,13 +130,11 @@ function Index() {
       <header className="flex items-center justify-between gap-4 border-b px-4 py-3">
         <div>
           <h1 className="font-pixel text-lg leading-none">Raise</h1>
-          <p className="text-xs text-muted-foreground">
-            {investors.length} investors · {warmIds.size} reachable through your network
-          </p>
+          <p className="text-xs text-muted-foreground">{investors.length} London investors</p>
         </div>
         <div className="flex items-center gap-2">
           {dataset.source === "mock" && <Badge variant="outline">Mock data</Badge>}
-          <PitchMatcher investors={investors} warmIds={warmIds} onSelect={setSelectedId} />
+          <PitchMatcher investors={investors} onSelect={setSelectedId} />
         </div>
       </header>
 
@@ -181,18 +166,10 @@ function Index() {
                 onToggle={(s) => setSectors(toggle(sectors, s))}
               />
             </FilterGroup>
-            <label className="flex cursor-pointer items-center justify-between rounded-md bg-warm/10 px-3 py-2 text-sm">
-              <span className="flex items-center gap-2 font-medium">
-                <Flame className="h-4 w-4 text-warm" /> Warm intro only
-                <span className="text-xs font-normal text-muted-foreground">{warmIds.size}</span>
-              </span>
-              <Switch checked={warmOnly} onCheckedChange={setWarmOnly} />
-            </label>
           </div>
           <ul className="min-h-0 flex-1 overflow-y-auto">
             {filtered.map((v) => {
-              const bestPath = pathsById.get(v.id)?.[0];
-              const rating = summarizeReviews(reviewsById.get(v.id) ?? [], networkIds).overall;
+              const rating = summarizeReviews(reviewsById.get(v.id) ?? []).overall;
               const status = pipeline[v.id];
               return (
                 <li key={v.id}>
@@ -215,12 +192,6 @@ function Index() {
                       {v.oneLiner}
                     </p>
                     <div className="mt-1.5 flex flex-wrap gap-1">
-                      {bestPath && (
-                        <Badge className="bg-warm text-white hover:bg-warm">
-                          <Flame className="mr-1 h-3 w-3" />
-                          {bestPath.via.length === 1 ? "1st" : "2nd"}° via {bestPath.via[0]?.name}
-                        </Badge>
-                      )}
                       {status && status !== "none" && (
                         <Badge variant="secondary">
                           {PIPELINE.find((p) => p.key === status)?.label}
@@ -262,7 +233,6 @@ function Index() {
             view={view}
             investors={filtered}
             selectedId={selectedId}
-            warmIds={warmIds}
             onSelect={setSelectedId}
           />
         </main>
@@ -271,9 +241,7 @@ function Index() {
           <div className="absolute inset-0 z-10 bg-background md:inset-y-0 md:left-auto md:right-0 md:w-[420px] md:border-l md:shadow-xl">
             <InvestorDetail
               investor={selected}
-              paths={pathsById.get(selected.id) ?? []}
               reviews={reviewsById.get(selected.id) ?? []}
-              contacts={contacts}
               status={pipeline[selected.id] ?? "none"}
               onStatus={(s) => setStatus(selected.id, s)}
               onClose={() => setSelectedId(null)}

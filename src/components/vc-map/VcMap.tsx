@@ -16,12 +16,11 @@ const baseRatio = (view: MapView) => window.devicePixelRatio * (view.pixelScale 
 interface Props {
   investors: Investor[];
   selectedId: string | null;
-  warmIds: Set<string>;
   view: MapView;
   onSelect: (id: string) => void;
 }
 
-function toGeoJSON(investors: Investor[], warmIds: Set<string>, selectedId: string | null) {
+function toGeoJSON(investors: Investor[], selectedId: string | null) {
   return {
     type: "FeatureCollection" as const,
     features: investors.map((v) => ({
@@ -30,7 +29,6 @@ function toGeoJSON(investors: Investor[], warmIds: Set<string>, selectedId: stri
       properties: {
         id: v.id,
         name: v.name,
-        warm: warmIds.has(v.id),
         selected: v.id === selectedId,
       },
     })),
@@ -72,7 +70,7 @@ function addInvestorLayers(m: MapLibreMap, data: ReturnType<typeof toGeoJSON>, v
     source: "investors",
     filter: ["!", ["has", "point_count"]],
     paint: {
-      "circle-color": ["case", ["get", "warm"], pin.warm, pin.cold],
+      "circle-color": pin.fill,
       "circle-radius": ["case", ["get", "selected"], 13, 9],
       "circle-stroke-width": ["case", ["get", "selected"], 4, 2],
       "circle-stroke-color": pin.stroke,
@@ -96,15 +94,15 @@ function addInvestorLayers(m: MapLibreMap, data: ReturnType<typeof toGeoJSON>, v
 }
 
 // maplibre touches `window` on import, so it is loaded inside the effect to keep SSR happy.
-export function VcMap({ investors, selectedId, warmIds, view, onSelect }: Props) {
+export function VcMap({ investors, selectedId, view, onSelect }: Props) {
   const baseContainer = useRef<HTMLDivElement>(null);
   const container = useRef<HTMLDivElement>(null);
   const baseMap = useRef<MapLibreMap | null>(null);
   const map = useRef<MapLibreMap | null>(null);
   const onSelectRef = useRef(onSelect);
   onSelectRef.current = onSelect;
-  const dataRef = useRef(toGeoJSON(investors, warmIds, selectedId));
-  dataRef.current = toGeoJSON(investors, warmIds, selectedId);
+  const dataRef = useRef(toGeoJSON(investors, selectedId));
+  dataRef.current = toGeoJSON(investors, selectedId);
   const viewRef = useRef(view);
 
   useEffect(() => {
@@ -176,7 +174,7 @@ export function VcMap({ investors, selectedId, warmIds, view, onSelect }: Props)
   useEffect(() => {
     const source = map.current?.getSource("investors") as GeoJSONSource | undefined;
     source?.setData(dataRef.current);
-  }, [investors, warmIds, selectedId]);
+  }, [investors, selectedId]);
 
   useEffect(() => {
     const v = investors.find((i) => i.id === selectedId);

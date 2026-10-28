@@ -7,10 +7,9 @@ export const DIMENSIONS: { key: RatingDimension; label: string }[] = [
   { key: "founderFirst", label: "Founder-first" },
 ];
 
-// Unverified reviews count for little; a verified founder from your own network counts most.
-export function reviewWeight(review: Review, networkIds: Set<string>): number {
-  if (!review.verified) return 0.25;
-  return review.reviewerContactId && networkIds.has(review.reviewerContactId) ? 2 : 1;
+// Unverified reviews count for little; only a verified portfolio founder counts fully.
+export function reviewWeight(review: Review): number {
+  return review.verified ? 1 : 0.25;
 }
 
 export interface RatingSummary {
@@ -18,14 +17,13 @@ export interface RatingSummary {
   byDimension: Record<RatingDimension, number | null>;
   count: number;
   verifiedCount: number;
-  fromNetwork: number;
 }
 
-export function summarizeReviews(reviews: Review[], networkIds: Set<string>): RatingSummary {
+export function summarizeReviews(reviews: Review[]): RatingSummary {
   const totals = { responsiveness: 0, valueAdd: 0, fairTerms: 0, founderFirst: 0 };
   let weightSum = 0;
   for (const r of reviews) {
-    const w = reviewWeight(r, networkIds);
+    const w = reviewWeight(r);
     weightSum += w;
     for (const d of DIMENSIONS) totals[d.key] += r.scores[d.key] * w;
   }
@@ -44,7 +42,5 @@ export function summarizeReviews(reviews: Review[], networkIds: Set<string>): Ra
     byDimension,
     count: reviews.length,
     verifiedCount: reviews.filter((r) => r.verified).length,
-    fromNetwork: reviews.filter((r) => r.reviewerContactId && networkIds.has(r.reviewerContactId))
-      .length,
   };
 }
