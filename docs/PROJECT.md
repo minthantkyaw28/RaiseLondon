@@ -30,6 +30,23 @@ Only London. Not a fundraising CRM, not live valuations.
 | Agents     | `llms.txt` and a `.md` version of every page                                | Later, cheap win                                                 |
 | Revenue    | £99/30 days sponsored card slots                                            | Later                                                            |
 
+## Look and feel
+
+- **Map style:** inspired by [tiny.london](https://tiny.london), an isometric pixel-art map of
+  London. We do **not** use their tiles. They're the author's artwork built from Google map data
+  ("Map data ©2026 Google"), and tiny.london is one huge OpenSeadragon deep-zoom image, not a
+  slippy map. We recreate the look ourselves:
+  - our own bright style (`src/components/vc-map/pixel-style.ts`) on OpenFreeMap vector tiles;
+  - a pitched, rotated camera (pitch 55, bearing -30) with 3D buildings from zoom 14.5;
+  - the map rendered at half resolution (`pixelRatio: 0.5`) and upscaled with
+    `image-rendering: pixelated`, which gives the chunky pixels.
+- **Palette:** cream land, sky-blue water, bright greens, yellow main roads, peach buildings.
+  Orange-red pins = warm intro available; violet pins = no path yet.
+- **Fonts:** Host Grotesk for the UI (clean, not widely used) and Silkscreen for pixel touches
+  (wordmark, map labels). Loaded from Google Fonts in `__root.tsx`.
+- Keep it clean: no gradients, no glow, no emoji. Bright colour lives on the map; the panels stay
+  light and quiet.
+
 ## Data: Dealroom → JSON → Lovable
 
 The Dealroom API key must never reach Lovable or the browser. The flow is:
@@ -106,7 +123,7 @@ in the browser's localStorage. With accounts it moves into the database.
   `main` working. Never force-push or rewrite pushed history (see `AGENTS.md`).
 - Gate before pushing: `bunx prettier --check src`, `bunx tsc --noEmit`, `bun run lint`,
   `bun run test`, `bun run build`.
-- Map tiles come from OpenFreeMap (free, no key). Use the `Noto Sans` font stack for map labels.
+- Map tiles come from OpenFreeMap (free, no key). Use `Noto Sans` font stacks for map labels;
   OpenFreeMap doesn't serve the default font.
 - MapLibre needs its worker URL set explicitly (`setWorkerUrl`) because Vite pre-bundling moves it.
 - No secrets in the repo. The Dealroom key stays with Min.

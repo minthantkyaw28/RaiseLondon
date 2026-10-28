@@ -4,10 +4,13 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?url";
 
 import type { Investor } from "@/data/types";
+import { pixelStyle } from "./pixel-style";
 
-const STYLE_URL = "https://tiles.openfreemap.org/styles/positron";
 const LONDON: [number, number] = [-0.11, 51.515];
-const FONT = ["Noto Sans Regular"];
+const FONT = ["Noto Sans Bold"];
+// Rendering below device resolution and upscaling with hard edges gives the pixel-art look.
+const PIXEL_RATIO = 0.5;
+const PIN = { warm: "#ff5a36", cold: "#5b4bdb", cluster: "#3b2f4a" };
 
 interface Props {
   investors: Investor[];
@@ -49,9 +52,13 @@ export function VcMap({ investors, selectedId, warmIds, onSelect }: Props) {
       maplibregl.setWorkerUrl(workerUrl);
       const m = new maplibregl.Map({
         container: container.current,
-        style: STYLE_URL,
+        style: pixelStyle,
         center: LONDON,
-        zoom: 12.3,
+        zoom: 13.2,
+        pitch: 55,
+        bearing: -30,
+        maxPitch: 60,
+        pixelRatio: PIXEL_RATIO,
         attributionControl: { compact: true },
       });
       m.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
@@ -71,7 +78,7 @@ export function VcMap({ investors, selectedId, warmIds, onSelect }: Props) {
           source: "investors",
           filter: ["has", "point_count"],
           paint: {
-            "circle-color": "#1e293b",
+            "circle-color": PIN.cluster,
             "circle-radius": ["step", ["get", "point_count"], 16, 5, 20, 10, 26],
             "circle-stroke-width": 3,
             "circle-stroke-color": "#ffffff",
@@ -91,8 +98,8 @@ export function VcMap({ investors, selectedId, warmIds, onSelect }: Props) {
           source: "investors",
           filter: ["!", ["has", "point_count"]],
           paint: {
-            "circle-color": ["case", ["get", "warm"], "#ea580c", "#334155"],
-            "circle-radius": ["case", ["get", "selected"], 11, 7],
+            "circle-color": ["case", ["get", "warm"], PIN.warm, PIN.cold],
+            "circle-radius": ["case", ["get", "selected"], 13, 9],
             "circle-stroke-width": ["case", ["get", "selected"], 4, 2],
             "circle-stroke-color": "#ffffff",
           },
@@ -106,11 +113,11 @@ export function VcMap({ investors, selectedId, warmIds, onSelect }: Props) {
           layout: {
             "text-field": ["get", "name"],
             "text-font": FONT,
-            "text-size": 11,
-            "text-offset": [0, 1.3],
+            "text-size": 13,
+            "text-offset": [0, 1.4],
             "text-anchor": "top",
           },
-          paint: { "text-color": "#0f172a", "text-halo-color": "#ffffff", "text-halo-width": 1.5 },
+          paint: { "text-color": PIN.cluster, "text-halo-color": "#ffffff", "text-halo-width": 2 },
         });
 
         m.on("click", "points", (e: MapLayerMouseEvent) => {
@@ -150,5 +157,5 @@ export function VcMap({ investors, selectedId, warmIds, onSelect }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedId]);
 
-  return <div ref={container} className="h-full w-full" />;
+  return <div ref={container} className="pixel-map h-full w-full" />;
 }
