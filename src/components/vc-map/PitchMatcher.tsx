@@ -13,6 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
+import { useDataset } from "@/data/source";
 import type { Investor } from "@/data/types";
 import { formatGbp, matchInvestors, type Match } from "@/lib/match";
 import { extractProfile, type PitchProfile } from "@/lib/pitch-profile";
@@ -43,6 +44,7 @@ interface Props {
 }
 
 export function PitchMatcher({ investors, onSelect, onResults }: Props) {
+  const { scoring = [] } = useDataset();
   const [open, setOpen] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [phase, setPhase] = useState<Phase>("idle");
@@ -162,7 +164,7 @@ export function PitchMatcher({ investors, onSelect, onResults }: Props) {
 
   const findMatches = () => {
     const profile = extractProfile(transcript);
-    const matches = matchInvestors(profile, investors).slice(0, TOP_N);
+    const matches = matchInvestors(profile, investors, scoring, transcript).slice(0, TOP_N);
     setResult({ profile, matches });
     onResults(matches);
   };
