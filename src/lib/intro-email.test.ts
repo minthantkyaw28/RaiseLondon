@@ -51,6 +51,16 @@ describe("draftIntroEmail", () => {
     expect(body).not.toContain("£250k–£2m");
   });
 
+  it("joins sentence-style reasons without doubled punctuation", () => {
+    const { body } = draftIntroEmail(investor, profile, "Pitch", [
+      "Sector overlap on health.",
+      "Their recent rounds include Pre-Seed.",
+    ]);
+    expect(body).toContain("sector overlap on health; their recent rounds include Pre-Seed.");
+    expect(body).not.toContain("..");
+    expect(body).not.toContain(".;");
+  });
+
   it("shortens a long pitch", () => {
     const { body } = draftIntroEmail(investor, profile, "word ".repeat(200), []);
     expect(body).toContain("...");

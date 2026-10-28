@@ -37,7 +37,8 @@ export function draftIntroEmail(
   const stated = reasons.filter((r) => !r.includes("not stated"));
   const fit = stated.length
     ? `I'm writing because ${investor.name} looks like a good fit: ${stated
-        .map((r) => r.charAt(0).toLowerCase() + r.slice(1))
+        // Min's scorer writes reasons as full sentences; drop their full stops before joining.
+        .map((r) => r.charAt(0).toLowerCase() + r.slice(1).replace(/[.\s]+$/, ""))
         .join("; ")}.`
     : `I'm writing because ${investor.name} backs founders at our stage in London.`;
 
