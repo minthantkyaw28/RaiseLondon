@@ -35,6 +35,9 @@ import { transcribePitch } from "@/lib/transcribe.functions";
 import { ScoreBadge } from "./ScoreBadge";
 
 const TOP_N = 8;
+// Demo fallback when the presenting machine has no microphone: clicking the title fills this in.
+const DEMO_PITCH =
+  "building EEG headband company with 1 co founder, 500 people on waitlist, trying to raise 500k pre seed";
 
 type Phase = "idle" | "recording" | "transcribing";
 
@@ -192,7 +195,7 @@ export function PitchMatcher({ investors, onSelect, onResults }: Props) {
       </DialogTrigger>
       <DialogContent className="max-h-[90dvh] overflow-y-auto sm:max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Match my pitch</DialogTitle>
+          <DialogTitle onClick={() => setTranscript(DEMO_PITCH)}>Match my pitch</DialogTitle>
           <DialogDescription>
             Say or paste your pitch: what you build, your stage, how much you're raising, who's on
             the team.
