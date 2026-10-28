@@ -2,8 +2,7 @@
 // Privacy rule: never log, store or cache the audio or the transcript.
 
 export type TranscribeResult =
-  | { ok: true; text: string }
-  | { ok: false; reason: "not-configured" | "failed" };
+  { ok: true; text: string } | { ok: false; reason: "not-configured" | "failed" };
 
 const ELEVENLABS_STT_URL = "https://api.elevenlabs.io/v1/speech-to-text";
 

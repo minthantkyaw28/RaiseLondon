@@ -80,7 +80,9 @@ export function PitchMatcher({ investors, warmIds, onSelect }: Props) {
       form.append("audio", new File([audio], fileNameFor(mimeType), { type: mimeType }));
       const res = await transcribe({ data: form });
       if (!res.ok) {
-        setMicError(res.reason === "not-configured" ? TRANSCRIBE_NOT_CONFIGURED : TRANSCRIBE_FAILED);
+        setMicError(
+          res.reason === "not-configured" ? TRANSCRIBE_NOT_CONFIGURED : TRANSCRIBE_FAILED,
+        );
       } else if (!res.text) {
         setMicError(NOTHING_HEARD);
       } else {
@@ -220,8 +222,7 @@ export function PitchMatcher({ investors, warmIds, onSelect }: Props) {
           />
           <div className="flex items-center justify-between gap-3">
             <p className="text-xs text-muted-foreground">
-              Raise doesn't store your pitch. Recordings are transcribed by ElevenLabs and not
-              kept.
+              Raise doesn't store your pitch. Recordings are transcribed by ElevenLabs and not kept.
             </p>
             <Button size="sm" onClick={findMatches} disabled={!transcript.trim()}>
               Find my VCs
