@@ -27,6 +27,23 @@ describe("extractProfile", () => {
     expect(parseRaise("two founders, 3 years in")).toBeNull();
   });
 
+  it("treats a past round as history, not the ask", () => {
+    const p = extractProfile("We raised £1m pre-seed last year and now seek £4m");
+    expect(p.raiseGbp).toBe(4_000_000);
+    expect(p.stage).toBe("series-a");
+  });
+
+  it("infers a stage from the raise alone", () => {
+    expect(extractProfile("Raising £750k at a £6m valuation for our fintech").stage).toBe("seed");
+    expect(extractProfile("raising £300k for our consumer app").stage).toBe("pre-seed");
+  });
+
+  it("doesn't call an app devtools just because it uses APIs", () => {
+    const p = extractProfile("We use APIs to help clinics book patients. Raising £500k");
+    expect(p.sectors).toEqual(["healthtech"]);
+    expect(extractProfile("An SDK for developers").sectors).toContain("devtools");
+  });
+
   it("detects founders and technical background", () => {
     expect(extractProfile("My co-founder and I met at Monzo").founders).toBe("co-founders");
     expect(extractProfile("We are two engineers").founders).toBe("co-founders");
