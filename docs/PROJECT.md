@@ -54,36 +54,99 @@ Only London. Not a fundraising CRM, not live valuations.
 - Keep it clean: no gradients, no glow, no emoji. Bright colour lives on the map; the panels stay
   light and quiet.
 
-## Data: Dealroom → Make → database → app
+## Data: Min's Dealroom export → adapter → app
 
-The directory lives in three Lovable Cloud tables: `investors`, `reviews` and `debriefs`. A Make
-(Integromat) scenario pulls London investors from the Dealroom API and upserts them into those
-tables. The Dealroom API key stays in Make; it never reaches Lovable or the browser.
+The home page (map, list, profiles, pitch matcher) and the agent endpoints show **real** London
+investors from Min's Dealroom export, `src/lib/raise/dataset.json` (generated 2026-10-28, see
+`data/README.md`). `src/data/from-raise.ts` `fromRaise()` is a pure adapter from his `Dataset`
+(`src/lib/raise/types.ts`) to ours (`src/data/types.ts`). Min's files are his; don't edit them.
 
 How the app reads it (`src/data/`):
 
-- `source.server.ts` `fetchDataset()` reads all three tables with the **public read-only** key on
-  the server (paged 1000 rows at a time, 5 s timeout) and maps the rows to the `Dataset` shape
-  (`rows.ts`). Rows are sorted by natural id (`inv_2` before `inv_10`).
+- `source.server.ts` `fetchDataset()` runs the adapter once per server process over the bundled
+  export. It is server-only, so the 2.4 MB JSON stays out of the home page's browser bundle.
 - The home page loader calls it through the `getDataset` server function; the agent endpoints
   (`/llms.txt`, `/index.md`, `/investor/<slug>.md`) call it directly.
-- **Fallback:** if the database can't be read, or `investors` is empty, it logs the reason on the
-  server (`[dataset] …`) and serves the bundled `src/data/investors.mock.json`, so the demo never
-  breaks.
-- The "Mock data" badge shows while any row in any table has `source = 'mock'`.
+- `source` is `"dealroom"`, so the "Mock data" badge is gone and the agent markdown says the data
+  is real.
+- **Why not Supabase:** the Lovable `investors`/`reviews`/`debriefs` tables hold only the 28 mock
+  firms, in our shape. Min's migration (`supabase/migrations/20261028190000_raise.sql`) creates
+  its own `public.investors` with a different shape, which clashes with the Lovable table of the
+  same name. Until that is settled, the bundled export is the one source that has the real data.
+- **No ratings or debriefs on real firms.** The adapter always returns `reviews: []` and
+  `debriefs: []`. Mock reviews and debriefs are never attached to real companies.
+- The mock (`src/data/investors.mock.json`, 28 **fictional** firms, 76 reviews, 40 debriefs) is now
+  only a test fixture (`source.test.ts` checks none of its firms leak into the served data).
+
+### What the adapter keeps and drops (2026-10-28 export)
+
+334 investors in the export, **281 shown**. Skipped: 4 with no coordinates, 49 headquartered
+outside London (mostly the life-sciences add-on: Paris, Boston, Oxford…).
+
+- **id / slug:** id is the Dealroom uuid. Slug is the name in kebab-case; firms sharing a name
+  (Founders Capital, Velocity Capital) all get `-<first 8 of uuid>`, so no slug depends on order.
+- **type:** `venture_capital` → `vc` (182), `angel` → `angel` (93, one person; new type),
+  `angel_fund` → `angel-network` (6). Anything else is skipped.
+- **oneLiner:** tagline, else the first sentence of about, else a factual line
+  ("Venture capital firm in London, 2 London rounds since 2024.").
+- **website:** website, else LinkedIn, else the Dealroom page. **address:** "London" (no street
+  address in the export).
+- **lat/lng:** Dealroom's coordinates. 161 sit on the city centroid (Dealroom only knew "London")
+  or carry a broken latitude of 1; those are fanned out on a spiral of about 1 km round the centre
+  so every pin can be clicked (a `debt:` marker in the adapter). Their profile says only "London".
+- **checkSizeGbp:** `cheque_min`/`cheque_max` converted at fixed rates (GBP 1, USD 0.79,
+  EUR 0.85; all of this export is GBP). A floor of 0 or 1 counts as unknown. Missing floor = a
+  tenth of the ceiling, missing ceiling = 10x the floor. No ticket at all (195 of 281) gets a
+  default by type (`debt:` marker): VC £250k–£2m, angel £10k–£100k, angel network £25k–£250k.
+- **dealsLast12m:** distinct rounds in `deals` dated in the 12 calendar months up to the export
+  month (Nov 2025 to Oct 2026). `london_rounds_since_2024` covers about 22 months, so it isn't used.
+- **portfolio:** company names from that investor's deals, newest first, up to 12, without
+  "Undisclosed company". **partners:** that investor's `people` (name + role, "Team member" when
+  the role is missing), LinkedIn when present, no sector focus.
+
+**Stages** (matched upper-cased; the export mixes "Seed" and "SEED"):
+
+| Dealroom                                                             | Ours       |
+| -------------------------------------------------------------------- | ---------- |
+| Angel, Pre-Seed                                                      | `pre-seed` |
+| Seed                                                                 | `seed`     |
+| Early VC, Series A                                                   | `series-a` |
+| Series B                                                             | `series-b` |
+| Series C, D, E, F+, Growth, Growth Equity, Growth Equity VC, Late VC | `growth`   |
+| Dropped: Other (45), Media for Equity (2), Bridge (1), Debt (1)      |            |
+
+**Sectors** (matched lower-cased). Dealroom leaves sector tags empty on most of this cohort, so 207
+of 281 firms have no sector and the matcher's sector points only reach the rest.
+
+| Dealroom                                                                                                                                                                                                                                                                    | Ours         |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| Generative AI, AI Safety, AI Computing Infrastructure                                                                                                                                                                                                                       | `ai`         |
+| Insurance, Financial Service, Bitcoin, Climate Fintech                                                                                                                                                                                                                      | `fintech`    |
+| Life sciences, Life Science, Biotechnology, Pharmaceutical, Medical / Healthcare, Medical & Healthcare, Medical Technology, Health Care, Healthcare, Health, Health Services Industry, Digital Health and Medical Technologies                                              | `healthtech` |
+| Agritech                                                                                                                                                                                                                                                                    | `climate`    |
+| Developer Tools, PaaS, Cloud Services                                                                                                                                                                                                                                       | `devtools`   |
+| Social Media, Social, Messaging, Wellness / Beauty, Wellness, Consumer Electronics, Consumer Goods, Consumer Internet, Apparel, Wearable, Music, Video, Entertainment, Media Production, On-Demand, Retail, Travel, Accommodation, Classifieds, Sharing Economy, Mutiplayer | `consumer`   |
+| SaaS, Analytics, Data Analytics, Business Intelligence, CRM, Content Management, Mobile Enterprise, Lead Generation, Adtech, Targeting, Security                                                                                                                            | `b2b-saas`   |
+| Aerospace, Space Tech, Scientific                                                                                                                                                                                                                                           | `deeptech`   |
+
+Dropped sector tags (they describe the investor, or fit no sector of ours): Techstars 501
+Investors (29), B Corp (10), Automotive (8), Investing (5), Investing in Startups (3), Information
+Technology, Alternative Investments, Equity Research (2 each), Platform, Social Entrepreneurship,
+Crowdsourcing, Communication, Telecommunications, Capital Market, Partners (1 each).
 
 ### Dataset shape (`src/data/types.ts`)
 
-- `Investor`: name, type, one-liner, website, building-level address + lat/lng, stages, sectors,
-  cheque size (GBP), fund size, deals in the last 12 months, portfolio, partners.
+- `Investor`: name, type, one-liner, website, address + lat/lng, stages, sectors, cheque size
+  (GBP), fund size, deals in the last 12 months, portfolio, partners.
 - `Partner`: name, title, LinkedIn, sector focus.
 - `Review`: investor id, portfolio company, verified flag, four 1–5 scores, tags and date.
 
-The mock (`src/data/investors.mock.json`) holds **fictional** firms and people at real London
-locations: 28 investors, 76 reviews and 40 meeting debriefs. The tables are seeded with the same
-rows (`source = 'mock'`). Never mix real firm names with made-up people or ratings.
+Never mix real firm names with made-up people or ratings.
 
 ## Data import (for the Make scenario)
+
+The home page no longer reads these tables (see above). This describes the Lovable tables as they
+stand, for if the Make import is picked up again.
 
 **Access.** Everyone can read the three tables; nobody can write with the public key. Inserts and
 updates only work with the **service role** key, which bypasses row security. It belongs only in
@@ -99,26 +162,26 @@ and debriefs, which reference `investors.id`. Set `source = 'dealroom'` on impor
 
 **`investors`**
 
-| Column               | Type             | Notes                                                                   |
-| -------------------- | ---------------- | ----------------------------------------------------------------------- |
-| `id`                 | text, primary key | Stable id, e.g. the Dealroom id                                         |
-| `slug`               | text, unique     | URL name, e.g. `northbank-ventures`                                     |
-| `name`               | text             |                                                                         |
-| `type`               | text             | `vc`, `cvc`, `angel-network` or `accelerator`                           |
-| `one_liner`          | text             | Default `''`                                                            |
-| `website`            | text             | Default `''`                                                            |
-| `address`            | text             | Building level only, never floor or unit                                |
-| `lat`, `lng`         | double precision | Building coordinates                                                    |
-| `stages`             | text[]           | Any of `pre-seed`, `seed`, `series-a`, `series-b`, `growth`             |
-| `sectors`            | text[]           | Any of `ai`, `fintech`, `healthtech`, `climate`, `devtools`, `consumer`, `b2b-saas`, `deeptech` |
-| `check_size_min_gbp` | integer          | ≥ 0                                                                     |
-| `check_size_max_gbp` | integer          | ≥ min                                                                   |
-| `fund_size_gbp_m`    | numeric, nullable | Fund size in £ millions                                                 |
-| `deals_last_12m`     | integer          | Default 0                                                               |
-| `portfolio`          | text[]           | Company names                                                           |
-| `partners`           | jsonb array      | `[{ "id", "name", "title", "linkedinUrl"?, "focus": [sectors] }]`       |
-| `source`             | text             | Default `'mock'`; use `'dealroom'`                                      |
-| `updated_at`         | timestamptz      | Automatic                                                               |
+| Column               | Type              | Notes                                                                                           |
+| -------------------- | ----------------- | ----------------------------------------------------------------------------------------------- |
+| `id`                 | text, primary key | Stable id, e.g. the Dealroom id                                                                 |
+| `slug`               | text, unique      | URL name, e.g. `northbank-ventures`                                                             |
+| `name`               | text              |                                                                                                 |
+| `type`               | text              | `vc`, `cvc`, `angel-network` or `accelerator`                                                   |
+| `one_liner`          | text              | Default `''`                                                                                    |
+| `website`            | text              | Default `''`                                                                                    |
+| `address`            | text              | Building level only, never floor or unit                                                        |
+| `lat`, `lng`         | double precision  | Building coordinates                                                                            |
+| `stages`             | text[]            | Any of `pre-seed`, `seed`, `series-a`, `series-b`, `growth`                                     |
+| `sectors`            | text[]            | Any of `ai`, `fintech`, `healthtech`, `climate`, `devtools`, `consumer`, `b2b-saas`, `deeptech` |
+| `check_size_min_gbp` | integer           | ≥ 0                                                                                             |
+| `check_size_max_gbp` | integer           | ≥ min                                                                                           |
+| `fund_size_gbp_m`    | numeric, nullable | Fund size in £ millions                                                                         |
+| `deals_last_12m`     | integer           | Default 0                                                                                       |
+| `portfolio`          | text[]            | Company names                                                                                   |
+| `partners`           | jsonb array       | `[{ "id", "name", "title", "linkedinUrl"?, "focus": [sectors] }]`                               |
+| `source`             | text              | Default `'mock'`; use `'dealroom'`                                                              |
+| `updated_at`         | timestamptz       | Automatic                                                                                       |
 
 **`reviews`**: `id` (text, primary key), `investor_id` (→ `investors.id`), `portfolio_company`,
 `verified` (boolean), `responsiveness`, `value_add`, `fair_terms`, `founder_first` (1–5 each),
@@ -166,7 +229,6 @@ topic, or a score outside 1–5), so map Dealroom's values onto them in Make.
 
 The schema and seed are in `drizzle/migrations/0000_investor_directory.sql`.
 
-
 ## Rate My VC: trust rules (`src/lib/ratings.ts`)
 
 The tension: founders need to speak honestly ("this guy is a tool") without the site turning into
@@ -199,7 +261,7 @@ an investor passed, and no other directory collects it. After a meeting the foun
   yet", so a single founder can't be identified. Above it: an outcome breakdown and the top 3
   reasons and topics.
 - **Browser-only storage for now.** `useDebriefs()` keeps the founder's own debriefs in
-  localStorage (`raise-debriefs`); a firm shows the mock debriefs plus the browser's own. With
+  localStorage (`raise-debriefs`); a firm shows only the browser's own (real firms carry no seeded debriefs). With
   accounts they move into the database.
 - **Verification later works like reviews:** a debrief from a founder we can tie to a real meeting
   counts fully, the rest weigh less.
@@ -244,7 +306,8 @@ Read-only markdown endpoints, rendered by `src/lib/agent-markdown.ts`, cached fo
 | `src/routes/index.tsx`                     | Page: filters, list, map, detail panel                          |
 | `src/components/vc-map/VcMap.tsx`          | MapLibre map, clusters, pins (client-only, loaded in an effect) |
 | `src/components/vc-map/InvestorDetail.tsx` | Firm profile, pipeline, ratings                                 |
-| `src/data/source.ts`                       | The single place the dataset is loaded; swap mock → real here   |
+| `src/data/source.ts`                       | The single place the dataset is loaded (real Dealroom data)     |
+| `src/data/from-raise.ts`                   | Adapter: Min's Dealroom export → our `Dataset`                  |
 | `src/lib/*.test.ts`                        | Tests for rating weights and the pitch matcher                  |
 
 ## Guidelines
@@ -274,6 +337,7 @@ Read-only markdown endpoints, rendered by `src/lib/agent-markdown.ts`, cached fo
 
 ## Next up
 
-1. Real Dealroom data from Min (swap `source.ts`).
+1. Settle the `investors` table clash between the Lovable tables and Min's migration, then decide
+   whether the home page reads Supabase again.
 2. Accounts and a review submission flow with portfolio verification.
 3. Upcoming investor events (Luma), like londonstartupmap.

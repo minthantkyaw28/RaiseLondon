@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useDataset } from "@/data/source";
 import type { Debrief, Investor, MeetingOutcome, Review } from "@/data/types";
 import { MIN_DEBRIEFS_TO_SHOW, summarizeDebriefs } from "@/lib/debriefs";
+import { formatGbp } from "@/lib/match";
 import { OUTCOME_LABEL, PICKY_LABEL, REASON_LABEL, SECTOR_LABEL, STAGE_LABEL } from "@/lib/labels";
 import { DIMENSIONS, summarizeReviews } from "@/lib/ratings";
 import { useDebriefs } from "@/lib/use-debriefs";
@@ -19,8 +20,6 @@ interface Props {
   onStatus: (s: PipelineStatus) => void;
   onClose: () => void;
 }
-
-const gbp = (n: number) => (n >= 1_000_000 ? `£${n / 1_000_000}m` : `£${n / 1000}k`);
 
 export function InvestorDetail({ investor, reviews, status, onStatus, onClose }: Props) {
   const summary = summarizeReviews(reviews);
@@ -52,7 +51,7 @@ export function InvestorDetail({ investor, reviews, status, onStatus, onClose }:
         <dl className="grid grid-cols-3 gap-3">
           <Stat
             label="Cheque"
-            value={`${gbp(investor.checkSizeGbp.min)}–${gbp(investor.checkSizeGbp.max)}`}
+            value={`${formatGbp(investor.checkSizeGbp.min)}–${formatGbp(investor.checkSizeGbp.max)}`}
           />
           <Stat label="Fund" value={investor.fundSizeGbpM ? `£${investor.fundSizeGbpM}m` : "—"} />
           <Stat label="Deals 12m" value={String(investor.dealsLast12m)} />
@@ -97,6 +96,9 @@ export function InvestorDetail({ investor, reviews, status, onStatus, onClose }:
 
       <section className="border-b p-5">
         <h3 className="text-sm font-semibold">Partners</h3>
+        {investor.partners.length === 0 && (
+          <p className="mt-2 text-sm text-muted-foreground">None listed.</p>
+        )}
         <ul className="mt-2 space-y-2 text-sm">
           {investor.partners.map((p) => (
             <li key={p.id} className="flex items-center justify-between gap-2">

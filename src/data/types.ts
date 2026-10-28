@@ -3,7 +3,7 @@ export type Stage = "pre-seed" | "seed" | "series-a" | "series-b" | "growth";
 export type Sector =
   "ai" | "fintech" | "healthtech" | "climate" | "devtools" | "consumer" | "b2b-saas" | "deeptech";
 
-export type InvestorType = "vc" | "cvc" | "angel-network" | "accelerator";
+export type InvestorType = "vc" | "cvc" | "angel-network" | "angel" | "accelerator";
 
 export interface Partner {
   id: string;
