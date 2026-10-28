@@ -4,18 +4,16 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?url";
 
 import type { Investor } from "@/data/types";
-import { pixelStyle } from "./pixel-style";
+import { buildStyle, type MapView } from "./map-styles";
 
 const LONDON: [number, number] = [-0.11, 51.515];
 const FONT = ["Noto Sans Bold"];
-// Rendering below device resolution and upscaling with hard edges gives the pixel-art look.
-const PIXEL_RATIO = 0.5;
-const PIN = { warm: "#ff5a36", cold: "#5b4bdb", cluster: "#3b2f4a" };
 
 interface Props {
   investors: Investor[];
   selectedId: string | null;
   warmIds: Set<string>;
+  view: MapView;
   onSelect: (id: string) => void;
 }
 
@@ -35,14 +33,73 @@ function toGeoJSON(investors: Investor[], warmIds: Set<string>, selectedId: stri
   };
 }
 
+function addInvestorLayers(m: MapLibreMap, data: ReturnType<typeof toGeoJSON>, view: MapView) {
+  const { pin } = view;
+  m.addSource("investors", {
+    type: "geojson",
+    data,
+    cluster: true,
+    clusterRadius: 40,
+    clusterMaxZoom: 14,
+  });
+  m.addLayer({
+    id: "clusters",
+    type: "circle",
+    source: "investors",
+    filter: ["has", "point_count"],
+    paint: {
+      "circle-color": pin.cluster,
+      "circle-radius": ["step", ["get", "point_count"], 16, 5, 20, 10, 26],
+      "circle-stroke-width": 3,
+      "circle-stroke-color": pin.stroke,
+    },
+  });
+  m.addLayer({
+    id: "cluster-count",
+    type: "symbol",
+    source: "investors",
+    filter: ["has", "point_count"],
+    layout: { "text-field": "{point_count_abbreviated}", "text-size": 12, "text-font": FONT },
+    paint: { "text-color": pin.stroke },
+  });
+  m.addLayer({
+    id: "points",
+    type: "circle",
+    source: "investors",
+    filter: ["!", ["has", "point_count"]],
+    paint: {
+      "circle-color": ["case", ["get", "warm"], pin.warm, pin.cold],
+      "circle-radius": ["case", ["get", "selected"], 13, 9],
+      "circle-stroke-width": ["case", ["get", "selected"], 4, 2],
+      "circle-stroke-color": pin.stroke,
+    },
+  });
+  m.addLayer({
+    id: "labels",
+    type: "symbol",
+    source: "investors",
+    filter: ["!", ["has", "point_count"]],
+    minzoom: 13,
+    layout: {
+      "text-field": ["get", "name"],
+      "text-font": FONT,
+      "text-size": 13,
+      "text-offset": [0, 1.4],
+      "text-anchor": "top",
+    },
+    paint: { "text-color": pin.label, "text-halo-color": pin.halo, "text-halo-width": 2 },
+  });
+}
+
 // maplibre touches `window` on import, so it is loaded inside the effect to keep SSR happy.
-export function VcMap({ investors, selectedId, warmIds, onSelect }: Props) {
+export function VcMap({ investors, selectedId, warmIds, view, onSelect }: Props) {
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<MapLibreMap | null>(null);
   const onSelectRef = useRef(onSelect);
   onSelectRef.current = onSelect;
   const dataRef = useRef(toGeoJSON(investors, warmIds, selectedId));
   dataRef.current = toGeoJSON(investors, warmIds, selectedId);
+  const viewRef = useRef(view);
 
   useEffect(() => {
     let cancelled = false;
@@ -52,74 +109,21 @@ export function VcMap({ investors, selectedId, warmIds, onSelect }: Props) {
       maplibregl.setWorkerUrl(workerUrl);
       const m = new maplibregl.Map({
         container: container.current,
-        style: pixelStyle,
+        style: buildStyle(viewRef.current),
         center: LONDON,
         zoom: 13.2,
         pitch: 55,
         bearing: -30,
         maxPitch: 60,
-        pixelRatio: PIXEL_RATIO,
+        pixelRatio: viewRef.current.pixelRatio ?? window.devicePixelRatio,
         attributionControl: { compact: true },
       });
       m.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
       map.current = m;
 
-      m.on("load", () => {
-        m.addSource("investors", {
-          type: "geojson",
-          data: dataRef.current,
-          cluster: true,
-          clusterRadius: 40,
-          clusterMaxZoom: 14,
-        });
-        m.addLayer({
-          id: "clusters",
-          type: "circle",
-          source: "investors",
-          filter: ["has", "point_count"],
-          paint: {
-            "circle-color": PIN.cluster,
-            "circle-radius": ["step", ["get", "point_count"], 16, 5, 20, 10, 26],
-            "circle-stroke-width": 3,
-            "circle-stroke-color": "#ffffff",
-          },
-        });
-        m.addLayer({
-          id: "cluster-count",
-          type: "symbol",
-          source: "investors",
-          filter: ["has", "point_count"],
-          layout: { "text-field": "{point_count_abbreviated}", "text-size": 12, "text-font": FONT },
-          paint: { "text-color": "#ffffff" },
-        });
-        m.addLayer({
-          id: "points",
-          type: "circle",
-          source: "investors",
-          filter: ["!", ["has", "point_count"]],
-          paint: {
-            "circle-color": ["case", ["get", "warm"], PIN.warm, PIN.cold],
-            "circle-radius": ["case", ["get", "selected"], 13, 9],
-            "circle-stroke-width": ["case", ["get", "selected"], 4, 2],
-            "circle-stroke-color": "#ffffff",
-          },
-        });
-        m.addLayer({
-          id: "labels",
-          type: "symbol",
-          source: "investors",
-          filter: ["!", ["has", "point_count"]],
-          minzoom: 13,
-          layout: {
-            "text-field": ["get", "name"],
-            "text-font": FONT,
-            "text-size": 13,
-            "text-offset": [0, 1.4],
-            "text-anchor": "top",
-          },
-          paint: { "text-color": PIN.cluster, "text-halo-color": "#ffffff", "text-halo-width": 2 },
-        });
+      m.on("style.load", () => addInvestorLayers(m, dataRef.current, viewRef.current));
 
+      m.once("load", () => {
         m.on("click", "points", (e: MapLayerMouseEvent) => {
           const id = e.features?.[0]?.properties?.["id"];
           if (typeof id === "string") onSelectRef.current(id);
@@ -157,5 +161,19 @@ export function VcMap({ investors, selectedId, warmIds, onSelect }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedId]);
 
-  return <div ref={container} className="pixel-map h-full w-full" />;
+  useEffect(() => {
+    if (viewRef.current === view) return;
+    viewRef.current = view;
+    const m = map.current;
+    if (!m) return;
+    m.setPixelRatio(view.pixelRatio ?? window.devicePixelRatio);
+    m.setStyle(buildStyle(view));
+  }, [view]);
+
+  return (
+    <div
+      ref={container}
+      className={view.pixelRatio ? "pixel-map h-full w-full" : "h-full w-full"}
+    />
+  );
 }

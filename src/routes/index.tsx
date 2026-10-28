@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { InvestorDetail } from "@/components/vc-map/InvestorDetail";
 import { PIPELINE, type PipelineStatus } from "@/components/vc-map/pipeline";
+import { MAP_VIEWS, type MapViewId } from "@/components/vc-map/map-styles";
 import { VcMap } from "@/components/vc-map/VcMap";
 import { dataset } from "@/data/source";
 import type { Sector, Stage } from "@/data/types";
@@ -16,7 +17,7 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "London VC Map" },
+      { title: "Raise" },
       {
         name: "description",
         content: "Every London investor on a map, with warm intro paths through your network.",
@@ -38,6 +39,7 @@ const SECTORS: Sector[] = [
   "deeptech",
 ];
 const PIPELINE_KEY = "lvm-pipeline";
+const VIEW_KEY = "lvm-map-view";
 
 function toggle<T>(list: T[], item: T): T[] {
   return list.includes(item) ? list.filter((x) => x !== item) : [...list, item];
@@ -67,6 +69,28 @@ function usePipeline() {
   return [pipeline, set] as const;
 }
 
+function useMapView() {
+  const [viewId, setViewId] = useState<MapViewId>("pixel");
+  useEffect(() => {
+    try {
+      const stored = window.localStorage.getItem(VIEW_KEY);
+      if (MAP_VIEWS.some((v) => v.id === stored)) setViewId(stored as MapViewId);
+    } catch {
+      // Storage can be blocked; fall back to the default view.
+    }
+  }, []);
+  const choose = (id: MapViewId) => {
+    setViewId(id);
+    try {
+      window.localStorage.setItem(VIEW_KEY, id);
+    } catch {
+      // See above.
+    }
+  };
+  const view = MAP_VIEWS.find((v) => v.id === viewId) ?? MAP_VIEWS[0]!;
+  return [view, choose] as const;
+}
+
 function Index() {
   const { investors, contacts, reviews } = dataset;
   const [q, setQ] = useState("");
@@ -75,6 +99,7 @@ function Index() {
   const [warmOnly, setWarmOnly] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [pipeline, setStatus] = usePipeline();
+  const [view, setView] = useMapView();
 
   const networkIds = useMemo(() => new Set(contacts.map((c) => c.id)), [contacts]);
   const pathsById = useMemo(
@@ -114,7 +139,7 @@ function Index() {
     <div className="flex h-dvh flex-col bg-background text-foreground">
       <header className="flex items-center justify-between gap-4 border-b px-4 py-3">
         <div>
-          <h1 className="font-pixel text-lg leading-none">London VC Map</h1>
+          <h1 className="font-pixel text-lg leading-none">Raise</h1>
           <p className="text-xs text-muted-foreground">
             {investors.length} investors · {warmIds.size} reachable through your network
           </p>
@@ -202,8 +227,29 @@ function Index() {
           </ul>
         </aside>
 
-        <main className="order-1 h-[42vh] md:order-2 md:h-auto md:flex-1">
+        <main className="relative order-1 h-[42vh] md:order-2 md:h-auto md:flex-1">
+          <div
+            role="radiogroup"
+            aria-label="Map view"
+            className="absolute left-3 top-3 z-[1] flex rounded-lg border bg-background/95 p-0.5 shadow-sm backdrop-blur"
+          >
+            {MAP_VIEWS.map((v) => (
+              <button
+                key={v.id}
+                role="radio"
+                aria-checked={view.id === v.id}
+                onClick={() => setView(v.id)}
+                className={cn(
+                  "rounded-md px-2.5 py-1 font-pixel text-[11px] uppercase",
+                  view.id === v.id ? "bg-primary text-primary-foreground" : "hover:bg-accent",
+                )}
+              >
+                {v.label}
+              </button>
+            ))}
+          </div>
           <VcMap
+            view={view}
             investors={filtered}
             selectedId={selectedId}
             warmIds={warmIds}
