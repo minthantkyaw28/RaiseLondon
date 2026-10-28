@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import type { Investor } from "@/data/types";
+import type { Investor as RaiseInvestor } from "@/lib/raise/types";
 import { matchInvestors, scoreTier, type Match } from "./match";
 import { extractProfile, parseRaise, type PitchProfile } from "./pitch-profile";
 
@@ -77,6 +78,37 @@ const investor = (over: Partial<Investor>): Investor => ({
   ...over,
 });
 
+// Min's Dealroom row for the investor with the same id; this is what the matcher scores.
+const row = (over: Partial<RaiseInvestor> & Pick<RaiseInvestor, "uuid">): RaiseInvestor => ({
+  name: over.uuid,
+  investorType: "venture_capital",
+  investorTypes: ["venture_capital"],
+  recordType: "organization",
+  tagline: null,
+  about: null,
+  website: null,
+  linkedin: null,
+  image: null,
+  dealroomUrl: null,
+  hqCity: "London",
+  hqCountry: "United Kingdom",
+  lat: 51.5,
+  lon: -0.12,
+  chequeMin: 250_000,
+  chequeMax: 1_000_000,
+  chequeCurrency: "GBP",
+  preferredRound: "SEED",
+  stages: ["Seed"],
+  stageMix: [],
+  sectors: ["Fintech"],
+  lastRoundDate: "2025-06",
+  investmentsCount: 10,
+  londonRoundsSince2024: 10,
+  isActive: true,
+  thesis: null,
+  ...over,
+});
+
 const empty: PitchProfile = {
   sectors: [],
   stage: null,
@@ -123,41 +155,79 @@ describe("extractProfile: neurotech and waitlists", () => {
 
 describe("matchInvestors", () => {
   it("ranks a perfect fit first with readable reasons", () => {
-    const perfect = investor({ id: "a", name: "Zed Perfect", dealsLast12m: 20 });
-    const off = investor({ id: "b", name: "Alpha Off", stages: ["growth"], sectors: ["climate"] });
-    const ranked = matchInvestors(seedFintech, [off, perfect]);
+    const ranked = matchInvestors(
+      seedFintech,
+      [investor({ id: "b", name: "Alpha Off" }), investor({ id: "a", name: "Zed Perfect" })],
+      [
+        row({ uuid: "b", preferredRound: "SERIES C", stages: ["Series C"], sectors: ["Music"] }),
+        row({ uuid: "a" }),
+      ],
+      "Payments for SMEs, £30k MRR, raising a £500k seed.",
+    );
     const first = nth(ranked, 0);
     const second = nth(ranked, 1);
     expect(first.investor.id).toBe("a");
+    expect(first.investor.name).toBe("Zed Perfect");
     expect(first.score).toBe(100);
     expect(first.reasons).toEqual([
-      "Invests at seed",
-      "Backs fintech",
-      "£500k fits their £250k–£1m cheque",
-      "20 deals in the last 12 months",
+      "Sector overlap on fintech.",
+      "Their recent rounds include Seed.",
+      "The raise sits inside the stated ticket (£250,000–£1,000,000 stated).",
+      "10 London VC rounds since 2024.",
+      "Traction band “seed” lines up with Seed.",
     ]);
     expect(first.misses).toEqual([]);
-    expect(second.misses).toContain("Doesn't invest at seed (growth)");
-    expect(second.misses).toContain("Doesn't back fintech");
+    expect(second.misses).toContain("Their recent rounds do not match Seed.");
+    expect(second.misses).toContain("No sector overlap with fintech.");
   });
 
-  it("gives partial credit for a raise within 2x of the cheque", () => {
-    const m = nth(matchInvestors({ ...empty, raiseGbp: 1_500_000 }, [investor({})]), 0);
-    expect(m.reasons).toContain("£1.5m is close to their £250k–£1m cheque");
-    expect(m.score).toBe(10 + 3);
+  it("gives partial credit for a stage next to the one asked for", () => {
+    const m = nth(
+      matchInvestors(
+        { ...empty, stage: "series-a" },
+        [investor({})],
+        [row({ uuid: "inv", londonRoundsSince2024: 0 })],
+      ),
+      0,
+    );
+    expect(m.reasons).toContain("They invest next to Series A, not exactly on it.");
+    expect(m.score).toBe(15 + 4);
   });
 
-  it("breaks ties by name", () => {
-    const ranked = matchInvestors(empty, [investor({ name: "B" }), investor({ name: "A" })]);
-    expect(ranked.map((m) => m.investor.name)).toEqual(["A", "B"]);
+  it("breaks ties by London activity, then by name", () => {
+    const ranked = matchInvestors(
+      empty,
+      [
+        investor({ id: "b", name: "B" }),
+        investor({ id: "a", name: "A" }),
+        investor({ id: "c", name: "C" }),
+      ],
+      [
+        row({ uuid: "b", name: "B" }),
+        row({ uuid: "a", name: "A" }),
+        row({ uuid: "c", name: "C", londonRoundsSince2024: 12 }),
+      ],
+    );
+    expect(ranked.map((m) => m.investor.name)).toEqual(["C", "A", "B"]);
   });
 
   it("handles an empty profile without misses it can't justify", () => {
-    const m = nth(matchInvestors(empty, [investor({ dealsLast12m: 0 })]), 0);
-    expect(m.score).toBe(0);
-    expect(m.reasons).toEqual([]);
-    expect(m.misses).toEqual(["No deals in the last 12 months"]);
-    expect(matchInvestors(empty, [])).toEqual([]);
+    const m = nth(
+      matchInvestors(
+        empty,
+        [investor({})],
+        [row({ uuid: "inv", preferredRound: "PRE-SEED", stages: [], londonRoundsSince2024: 0 })],
+      ),
+      0,
+    );
+    expect(m.score).toBe(10);
+    expect(m.reasons).toEqual(["Traction band “too early” lines up with Pre-Seed."]);
+    expect(m.misses).toEqual(["No London VC round in this dataset since 2024."]);
+    expect(matchInvestors(empty, [], [])).toEqual([]);
+  });
+
+  it("leaves out investors with no Dealroom row", () => {
+    expect(matchInvestors(seedFintech, [investor({ id: "x" })], [row({ uuid: "y" })])).toEqual([]);
   });
 });
 

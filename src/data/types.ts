@@ -1,3 +1,5 @@
+import type { Investor as RaiseInvestor } from "@/lib/raise/types";
+
 export type Stage = "pre-seed" | "seed" | "series-a" | "series-b" | "growth";
 
 export type Sector =
@@ -81,4 +83,6 @@ export interface Dataset {
   investors: Investor[];
   reviews: Review[];
   debriefs: Debrief[];
+  /** Min's Dealroom rows for the same investors, which the pitch matcher scores. */
+  scoring?: RaiseInvestor[];
 }
