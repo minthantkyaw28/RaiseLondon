@@ -1,4 +1,5 @@
 import type { Sector, Stage } from "@/data/types";
+import { SECTOR_TERMS, termsToRegex } from "./sector-keywords";
 
 export type CompanyStatus = "idea" | "building" | "waitlist" | "has-users" | "revenue";
 
@@ -11,22 +12,9 @@ export interface PitchProfile {
   technicalFounder: boolean | null;
 }
 
-const SECTOR_RULES: [Sector, RegExp][] = [
-  ["ai", /\b(ai|llms?|machine learning|ml|agents?|artificial intelligence|gpt|genai)\b/],
-  ["fintech", /\b(fintech|payments?|banking|bank|lending|loans?|neobank|insurtech|credit)\b/],
-  [
-    "healthtech",
-    /\b(healthtech|health ?care|health|medical|medtech|clinic(al|s)?|patients?|nhs|eeg|neuro\w*|brain|wearables?|mental health|sleep|wellbeing|diagnostics?)\b/,
-  ],
-  ["climate", /\b(climate|carbon|net zero|renewables?|solar|energy|emissions|sustainab\w*)\b/],
-  ["devtools", /\b(devtools|developer tools?|developers?|sdks?|apis?|open source|ci\/cd)\b/],
-  ["consumer", /\b(consumer|d2c|dtc|social app|shoppers|e-?commerce|creators?|gen z)\b/],
-  ["b2b-saas", /\b(saas|b2b|enterprise|smbs?|smes?|workflow software)\b/],
-  [
-    "deeptech",
-    /\b(deep ?tech|quantum|robotics?|semiconductors?|hardware|photonics|space ?tech|satellites?|neurotech|eeg|bci|brain[- ]computer|headbands?|headsets?|sensors?)\b/,
-  ],
-];
+const SECTOR_RULES = (Object.keys(SECTOR_TERMS) as Sector[]).map(
+  (sector) => [sector, termsToRegex(SECTOR_TERMS[sector])] as const,
+);
 
 const STAGE_RULES: [Stage, RegExp][] = [
   ["pre-seed", /\bpre[- ]?seed\b/],
