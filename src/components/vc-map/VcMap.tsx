@@ -9,6 +9,9 @@ import { buildStyle, type MapView } from "./map-styles";
 
 const LONDON: [number, number] = [-0.11, 51.515];
 const FONT = ["Noto Sans Bold"];
+const ANTIALIAS = { antialias: true };
+
+const baseRatio = (view: MapView) => window.devicePixelRatio * (view.pixelScale ?? 1);
 
 interface Props {
   investors: Investor[];
@@ -115,7 +118,8 @@ export function VcMap({ investors, selectedId, warmIds, view, onSelect }: Props)
         ...camera,
         container: baseContainer.current,
         style: buildStyle(viewRef.current, "base"),
-        pixelRatio: viewRef.current.pixelRatio ?? window.devicePixelRatio,
+        pixelRatio: baseRatio(viewRef.current),
+        canvasContextAttributes: ANTIALIAS,
         interactive: false,
         attributionControl: false,
       });
@@ -123,6 +127,7 @@ export function VcMap({ investors, selectedId, warmIds, view, onSelect }: Props)
         ...camera,
         container: container.current,
         style: buildStyle(viewRef.current, "labels"),
+        canvasContextAttributes: ANTIALIAS,
         attributionControl: { compact: true },
       });
       m.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
@@ -183,7 +188,7 @@ export function VcMap({ investors, selectedId, warmIds, view, onSelect }: Props)
   useEffect(() => {
     if (viewRef.current === view) return;
     viewRef.current = view;
-    baseMap.current?.setPixelRatio(view.pixelRatio ?? window.devicePixelRatio);
+    baseMap.current?.setPixelRatio(baseRatio(view));
     baseMap.current?.setStyle(buildStyle(view, "base"));
     map.current?.setStyle(buildStyle(view, "labels"));
   }, [view]);
@@ -191,7 +196,7 @@ export function VcMap({ investors, selectedId, warmIds, view, onSelect }: Props)
   // maplibre forces position: relative on its container, so each map sits inside its own layer.
   return (
     <div className="relative h-full w-full">
-      <div aria-hidden className={cn("absolute inset-0", view.pixelRatio && "pixel-map")}>
+      <div aria-hidden className={cn("absolute inset-0", view.pixelScale && "pixel-map")}>
         <div ref={baseContainer} className="h-full w-full" />
       </div>
       <div className="absolute inset-0">

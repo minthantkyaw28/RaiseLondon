@@ -40,8 +40,10 @@ Only London. Not a fundraising CRM, not live valuations.
   slippy map. We recreate the look ourselves:
   - our own bright style (the Pixel view in `src/components/vc-map/map-styles.ts`) on OpenFreeMap vector tiles;
   - a pitched, rotated camera (pitch 55, bearing -30) with 3D buildings from zoom 14.5;
-  - the map rendered at half resolution (`pixelRatio: 0.5`) and upscaled with
-    `image-rendering: pixelated`, which gives the chunky pixels.
+  - the city drawn at half the device resolution (`pixelScale: 0.5`, so 2×2 blocks on retina) on
+    a base map, upscaled with
+    `image-rendering: pixelated`. Labels and pins sit on a full-resolution map on top, so text
+    stays sharp. Both maps use WebGL antialiasing.
 - **Map views (toggle, top-left of the map, remembered per browser):** Pixel (default, bright
   pixel art), Chalk (a white architectural model, after the "chalk" look in owenb/mubit_hackathon)
   and Night (dark city with glowing cyan main roads, after its "night" look). That repo is a
