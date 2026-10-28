@@ -6,3 +6,6 @@ pnpm-lock.yaml
 package-lock.json
 bun.lock
 routeTree.gen.ts
+data
+supabase/seed.sql
+src/lib/raise/dataset.json

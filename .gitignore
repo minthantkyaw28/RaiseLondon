@@ -15,6 +15,11 @@ dist-ssr
 .tanstack/**
 .nitro
 *.local
+.env
+.env.*
+!.env.example
+dealroom api/
+.dealroom-token.json
 
 # Wrangler / Cloudflare
 .wrangler/

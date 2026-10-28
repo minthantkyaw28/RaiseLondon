@@ -10,33 +10,91 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as IntrosRouteImport } from './routes/intros'
+import { Route as MatchRouteImport } from './routes/match'
+import { Route as NewsRouteImport } from './routes/news'
+import { Route as InvestorsIndexRouteImport } from './routes/investors/index'
+import { Route as InvestorsIdRouteImport } from './routes/investors/$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IntrosRoute = IntrosRouteImport.update({
+  id: '/intros',
+  path: '/intros',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MatchRoute = MatchRouteImport.update({
+  id: '/match',
+  path: '/match',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InvestorsIndexRoute = InvestorsIndexRouteImport.update({
+  id: '/investors/',
+  path: '/investors/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InvestorsIdRoute = InvestorsIdRouteImport.update({
+  id: '/investors/$id',
+  path: '/investors/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/intros': typeof IntrosRoute
+  '/match': typeof MatchRoute
+  '/news': typeof NewsRoute
+  '/investors/$id': typeof InvestorsIdRoute
+  '/investors/': typeof InvestorsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/intros': typeof IntrosRoute
+  '/match': typeof MatchRoute
+  '/news': typeof NewsRoute
+  '/investors/$id': typeof InvestorsIdRoute
+  '/investors': typeof InvestorsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/intros': typeof IntrosRoute
+  '/match': typeof MatchRoute
+  '/news': typeof NewsRoute
+  '/investors/$id': typeof InvestorsIdRoute
+  '/investors/': typeof InvestorsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    '/' | '/intros' | '/match' | '/news' | '/investors/$id' | '/investors/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/intros' | '/match' | '/news' | '/investors/$id' | '/investors'
+  id:
+    | '__root__'
+    | '/'
+    | '/intros'
+    | '/match'
+    | '/news'
+    | '/investors/$id'
+    | '/investors/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  IntrosRoute: typeof IntrosRoute
+  MatchRoute: typeof MatchRoute
+  NewsRoute: typeof NewsRoute
+  InvestorsIdRoute: typeof InvestorsIdRoute
+  InvestorsIndexRoute: typeof InvestorsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +106,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/intros': {
+      id: '/intros'
+      path: '/intros'
+      fullPath: '/intros'
+      preLoaderRoute: typeof IntrosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/match': {
+      id: '/match'
+      path: '/match'
+      fullPath: '/match'
+      preLoaderRoute: typeof MatchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/investors/': {
+      id: '/investors/'
+      path: '/investors'
+      fullPath: '/investors/'
+      preLoaderRoute: typeof InvestorsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/investors/$id': {
+      id: '/investors/$id'
+      path: '/investors/$id'
+      fullPath: '/investors/$id'
+      preLoaderRoute: typeof InvestorsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  IntrosRoute: IntrosRoute,
+  MatchRoute: MatchRoute,
+  NewsRoute: NewsRoute,
+  InvestorsIdRoute: InvestorsIdRoute,
+  InvestorsIndexRoute: InvestorsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
