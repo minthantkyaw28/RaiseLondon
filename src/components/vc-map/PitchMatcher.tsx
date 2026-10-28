@@ -1,4 +1,5 @@
-import { Check, Flame, Mic, Sparkles, Square } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
+import { Check, Flame, Loader2, Mic, Sparkles, Square } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
@@ -15,39 +16,23 @@ import { Textarea } from "@/components/ui/textarea";
 import type { Investor } from "@/data/types";
 import { formatGbp, matchInvestors, type Match } from "@/lib/match";
 import { extractProfile, type PitchProfile } from "@/lib/pitch-profile";
+import {
+  NOTHING_HEARD,
+  RECORDING_UNSUPPORTED,
+  TRANSCRIBE_FAILED,
+  TRANSCRIBE_NOT_CONFIGURED,
+  appendTranscript,
+  fileNameFor,
+  formatElapsed,
+  micErrorMessage,
+  pickMimeType,
+} from "@/lib/recording";
+import { transcribePitch } from "@/lib/transcribe.functions";
 import { cn } from "@/lib/utils";
 
-interface RecognitionResult {
-  isFinal: boolean;
-  0: { transcript: string };
-}
-
-interface RecognitionEvent {
-  results: ArrayLike<RecognitionResult>;
-}
-
-interface Recognition {
-  continuous: boolean;
-  interimResults: boolean;
-  lang: string;
-  onresult: ((e: RecognitionEvent) => void) | null;
-  onerror: ((e: { error: string }) => void) | null;
-  onend: (() => void) | null;
-  start: () => void;
-  stop: () => void;
-}
-
-type RecognitionCtor = new () => Recognition;
-
-function getRecognition(): RecognitionCtor | null {
-  const w = window as unknown as {
-    SpeechRecognition?: RecognitionCtor;
-    webkitSpeechRecognition?: RecognitionCtor;
-  };
-  return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
-}
-
 const TOP_N = 8;
+
+type Phase = "idle" | "recording" | "transcribing";
 
 interface Props {
   investors: Investor[];
@@ -55,64 +40,122 @@ interface Props {
   onSelect: (id: string) => void;
 }
 
-// Browser speech recognition fails in ways users can't act on from the raw codes.
-function speechErrorMessage(code: string): string {
-  switch (code) {
-    case "not-allowed":
-    case "service-not-allowed":
-      return "Microphone access was blocked. Allow the microphone for this site, or paste your pitch.";
-    case "network":
-      return "Your browser's speech service couldn't be reached. This happens in Brave, Arc, embedded previews and behind some VPNs. Open the app in its own Chrome tab, or paste your pitch.";
-    case "no-speech":
-      return "Didn't catch anything. Check your microphone and try again.";
-    case "audio-capture":
-      return "No microphone found. Plug one in, or paste your pitch.";
-    default:
-      return "Recording stopped. Try again, or paste your pitch.";
-  }
-}
-
 export function PitchMatcher({ investors, warmIds, onSelect }: Props) {
   const [open, setOpen] = useState(false);
   const [transcript, setTranscript] = useState("");
-  const [recording, setRecording] = useState(false);
-  const [speechSupported, setSpeechSupported] = useState<boolean | null>(null);
+  const [phase, setPhase] = useState<Phase>("idle");
+  const [elapsedMs, setElapsedMs] = useState(0);
   const [micError, setMicError] = useState<string | null>(null);
   const [result, setResult] = useState<{ profile: PitchProfile; matches: Match[] } | null>(null);
-  const recognitionRef = useRef<Recognition | null>(null);
+  const recorderRef = useRef<MediaRecorder | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const discardRef = useRef(false);
+  const transcribe = useServerFn(transcribePitch);
 
-  useEffect(() => {
-    setSpeechSupported(getRecognition() !== null);
-    return () => recognitionRef.current?.stop();
-  }, []);
-
-  const stopRecording = () => {
-    recognitionRef.current?.stop();
-    recognitionRef.current = null;
-    setRecording(false);
+  const releaseMic = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = null;
+    streamRef.current?.getTracks().forEach((t) => t.stop());
+    streamRef.current = null;
   };
 
-  const startRecording = () => {
-    const Ctor = getRecognition();
-    if (!Ctor) return;
-    const base = transcript.trim();
-    const rec = new Ctor();
-    rec.continuous = true;
-    rec.interimResults = true;
-    rec.lang = "en-GB";
-    rec.onresult = (e) => {
-      const spoken = Array.from(e.results, (r) => r[0].transcript).join("");
-      setTranscript([base, spoken.trim()].filter(Boolean).join(" "));
-    };
-    rec.onerror = (e) => setMicError(speechErrorMessage(e.error));
-    rec.onend = () => {
-      recognitionRef.current = null;
-      setRecording(false);
-    };
-    recognitionRef.current = rec;
+  // Closing the dialog or leaving the page drops the recording without sending it.
+  const cancelRecording = () => {
+    discardRef.current = true;
+    if (recorderRef.current?.state === "recording") recorderRef.current.stop();
+    recorderRef.current = null;
+    releaseMic();
+    setPhase((p) => (p === "recording" ? "idle" : p));
+  };
+
+  // Only refs are touched on unmount, so the first render's function is enough.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => cancelRecording, []);
+
+  const sendForTranscription = async (audio: Blob, mimeType: string) => {
+    setPhase("transcribing");
+    try {
+      const form = new FormData();
+      form.append("audio", new File([audio], fileNameFor(mimeType), { type: mimeType }));
+      const res = await transcribe({ data: form });
+      if (!res.ok) {
+        setMicError(
+          res.reason === "not-configured" ? TRANSCRIBE_NOT_CONFIGURED : TRANSCRIBE_FAILED,
+        );
+      } else if (!res.text) {
+        setMicError(NOTHING_HEARD);
+      } else {
+        setTranscript((prev) => appendTranscript(prev, res.text));
+      }
+    } catch {
+      setMicError(TRANSCRIBE_FAILED);
+    } finally {
+      setPhase("idle");
+    }
+  };
+
+  const startRecording = async () => {
     setMicError(null);
-    setRecording(true);
-    rec.start();
+    if (typeof MediaRecorder === "undefined" || !navigator.mediaDevices?.getUserMedia) {
+      setMicError(RECORDING_UNSUPPORTED);
+      return;
+    }
+    let stream: MediaStream;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({
+        audio: { echoCancellation: true, noiseSuppression: true },
+      });
+    } catch (error) {
+      setMicError(micErrorMessage(error));
+      return;
+    }
+
+    const mimeType = pickMimeType((t) => MediaRecorder.isTypeSupported(t));
+    let recorder: MediaRecorder;
+    try {
+      recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+    } catch (error) {
+      stream.getTracks().forEach((t) => t.stop());
+      setMicError(micErrorMessage(error));
+      return;
+    }
+
+    const chunks: Blob[] = [];
+    discardRef.current = false;
+    recorder.ondataavailable = (e) => {
+      if (e.data.size > 0) chunks.push(e.data);
+    };
+    recorder.onstop = () => {
+      releaseMic();
+      if (discardRef.current) return;
+      const type = recorder.mimeType || mimeType || "audio/webm";
+      const audio = new Blob(chunks, { type });
+      if (audio.size === 0) {
+        setMicError(NOTHING_HEARD);
+        setPhase("idle");
+        return;
+      }
+      void sendForTranscription(audio, type);
+    };
+
+    streamRef.current = stream;
+    recorderRef.current = recorder;
+    const startedAt = Date.now();
+    setElapsedMs(0);
+    timerRef.current = setInterval(() => setElapsedMs(Date.now() - startedAt), 250);
+    recorder.start();
+    setPhase("recording");
+  };
+
+  const stopRecording = () => {
+    const recorder = recorderRef.current;
+    recorderRef.current = null;
+    if (recorder?.state === "recording") recorder.stop();
+    else {
+      releaseMic();
+      setPhase("idle");
+    }
   };
 
   const findMatches = () => {
@@ -121,7 +164,7 @@ export function PitchMatcher({ investors, warmIds, onSelect }: Props) {
   };
 
   const handleOpenChange = (next: boolean) => {
-    if (!next) stopRecording();
+    if (!next) cancelRecording();
     setOpen(next);
   };
 
@@ -147,21 +190,29 @@ export function PitchMatcher({ investors, warmIds, onSelect }: Props) {
         </DialogHeader>
 
         <div className="space-y-2">
-          {speechSupported && (
-            <Button
-              variant={recording ? "destructive" : "outline"}
-              size="sm"
-              onClick={recording ? stopRecording : startRecording}
-            >
-              {recording ? <Square className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-              {recording ? "Stop recording" : "Record pitch"}
-            </Button>
-          )}
-          {speechSupported === false && (
-            <p className="text-xs text-muted-foreground">
-              Voice recording isn't supported in this browser. Paste your pitch below instead.
-            </p>
-          )}
+          <Button
+            variant={phase === "recording" ? "destructive" : "outline"}
+            size="sm"
+            disabled={phase === "transcribing"}
+            onClick={phase === "recording" ? stopRecording : startRecording}
+          >
+            {phase === "recording" && (
+              <>
+                <Square className="h-4 w-4" /> Stop
+                <span className="tabular-nums">{formatElapsed(elapsedMs)}</span>
+              </>
+            )}
+            {phase === "transcribing" && (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" /> Transcribing…
+              </>
+            )}
+            {phase === "idle" && (
+              <>
+                <Mic className="h-4 w-4" /> Record pitch
+              </>
+            )}
+          </Button>
           {micError && <p className="text-xs text-destructive">{micError}</p>}
           <Textarea
             value={transcript}
@@ -171,7 +222,7 @@ export function PitchMatcher({ investors, warmIds, onSelect }: Props) {
           />
           <div className="flex items-center justify-between gap-3">
             <p className="text-xs text-muted-foreground">
-              Raise doesn't store or send your pitch. Recording uses your browser's speech service.
+              Raise doesn't store your pitch. Recordings are transcribed by ElevenLabs and not kept.
             </p>
             <Button size="sm" onClick={findMatches} disabled={!transcript.trim()}>
               Find my VCs
