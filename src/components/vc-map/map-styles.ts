@@ -25,7 +25,7 @@ export interface MapView {
   // Fraction of device resolution to draw the base at; upscaling with hard edges gives the
   // pixel look. Relative to the device, so retina screens get finer pixels than 1x screens.
   pixelScale?: number;
-  pin: { fill: string; cluster: string; stroke: string; label: string; halo: string };
+  pin: { fill: string; cluster: string; stroke: string };
   look: Look;
 }
 
@@ -38,8 +38,6 @@ export const MAP_VIEWS: MapView[] = [
       fill: "#ff5a36",
       cluster: "#3b2f4a",
       stroke: "#ffffff",
-      label: "#3b2f4a",
-      halo: "#ffffff",
     },
     look: {
       land: "#f6f1e4",
@@ -65,8 +63,6 @@ export const MAP_VIEWS: MapView[] = [
       fill: "#ff5a36",
       cluster: "#1f2937",
       stroke: "#ffffff",
-      label: "#1f2937",
-      halo: "#ffffff",
     },
     look: {
       land: "#efeee9",
@@ -91,8 +87,6 @@ export const MAP_VIEWS: MapView[] = [
       fill: "#ff8a3d",
       cluster: "#70f0d3",
       stroke: "#07121d",
-      label: "#e6fffa",
-      halo: "#07121d",
     },
     look: {
       land: "#07121d",
@@ -113,7 +107,7 @@ export const MAP_VIEWS: MapView[] = [
   },
 ];
 
-const FONT = ["Noto Sans Bold"];
+const FONT = ["Noto Sans Regular"];
 const MAJOR: ExpressionSpecification = [
   "in",
   ["get", "class"],
@@ -260,10 +254,15 @@ function buildFullStyle(view: MapView): StyleSpecification {
         layout: {
           "text-field": ["upcase", ["get", "name"]],
           "text-font": FONT,
-          "text-size": 11,
-          "text-letter-spacing": 0.12,
+          "text-size": 10,
+          "text-letter-spacing": 0.22,
         },
-        paint: { "text-color": look.label, "text-halo-color": look.halo, "text-halo-width": 2 },
+        paint: {
+          "text-color": look.label,
+          "text-opacity": 0.6,
+          "text-halo-color": look.halo,
+          "text-halo-width": 1.5,
+        },
       },
     ],
   };

@@ -13,6 +13,46 @@ const ANTIALIAS = { antialias: true };
 
 const baseRatio = (view: MapView) => window.devicePixelRatio * (view.pixelScale ?? 1);
 
+const PILL = "vc-pill";
+const PILL_SELECTED = "vc-pill-selected";
+const PILL_W = 32;
+const PILL_H = 24;
+const PILL_R = 8;
+
+// A stretchable rounded rectangle: icon-text-fit grows the straight middle around the firm name
+// while the corners keep their radius.
+function addPillImage(
+  m: MapLibreMap,
+  id: string,
+  fill: string,
+  stroke: string,
+  strokeWidth: number,
+) {
+  const ratio = Math.max(2, Math.ceil(window.devicePixelRatio));
+  const canvas = document.createElement("canvas");
+  canvas.width = PILL_W * ratio;
+  canvas.height = PILL_H * ratio;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+  ctx.scale(ratio, ratio);
+  const inset = strokeWidth / 2;
+  ctx.beginPath();
+  ctx.roundRect(inset, inset, PILL_W - strokeWidth, PILL_H - strokeWidth, PILL_R - inset);
+  ctx.fillStyle = fill;
+  ctx.fill();
+  ctx.lineWidth = strokeWidth;
+  ctx.strokeStyle = stroke;
+  ctx.stroke();
+  const px = (n: number) => n * ratio;
+  if (m.hasImage(id)) m.removeImage(id);
+  m.addImage(id, ctx.getImageData(0, 0, canvas.width, canvas.height), {
+    pixelRatio: ratio,
+    stretchX: [[px(PILL_R), px(PILL_W - PILL_R)]],
+    stretchY: [[px(PILL_R), px(PILL_H - PILL_R)]],
+    content: [px(PILL_R), px(PILL_R), px(PILL_W - PILL_R), px(PILL_H - PILL_R)],
+  });
+}
+
 interface Props {
   investors: Investor[];
   selectedId: string | null;
@@ -37,6 +77,8 @@ function toGeoJSON(investors: Investor[], selectedId: string | null) {
 
 function addInvestorLayers(m: MapLibreMap, data: ReturnType<typeof toGeoJSON>, view: MapView) {
   const { pin } = view;
+  addPillImage(m, PILL, pin.fill, pin.stroke, 1.5);
+  addPillImage(m, PILL_SELECTED, pin.cluster, pin.stroke, 2.5);
   m.addSource("investors", {
     type: "geojson",
     data,
@@ -76,21 +118,29 @@ function addInvestorLayers(m: MapLibreMap, data: ReturnType<typeof toGeoJSON>, v
       "circle-stroke-color": pin.stroke,
     },
   });
-  m.addLayer({
-    id: "labels",
-    type: "symbol",
-    source: "investors",
-    filter: ["!", ["has", "point_count"]],
-    minzoom: 13,
-    layout: {
-      "text-field": ["get", "name"],
-      "text-font": FONT,
-      "text-size": 13,
-      "text-offset": [0, 1.4],
-      "text-anchor": "top",
+  m.addLayer(
+    {
+      id: "labels",
+      type: "symbol",
+      source: "investors",
+      filter: ["!", ["has", "point_count"]],
+      minzoom: 13,
+      layout: {
+        "text-field": ["get", "name"],
+        "text-font": FONT,
+        "text-size": ["case", ["get", "selected"], 13, 12],
+        "text-offset": ["case", ["get", "selected"], ["literal", [0, 1.9]], ["literal", [0, 1.6]]],
+        "text-anchor": "top",
+        "icon-image": ["case", ["get", "selected"], PILL_SELECTED, PILL],
+        "icon-text-fit": "both",
+        "icon-text-fit-padding": [2, 7, 2, 7],
+        "symbol-sort-key": ["case", ["get", "selected"], 0, 1],
+      },
+      paint: { "text-color": pin.stroke },
     },
-    paint: { "text-color": pin.label, "text-halo-color": pin.halo, "text-halo-width": 2 },
-  });
+    // Below the pins so a pill never hides a neighbouring firm's pin.
+    "points",
+  );
 }
 
 // maplibre touches `window` on import, so it is loaded inside the effect to keep SSR happy.
