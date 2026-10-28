@@ -1,3 +1,5 @@
+import type { Investor as RaiseInvestor } from "@/lib/raise/types";
+
 export type Stage = "pre-seed" | "seed" | "series-a" | "series-b" | "growth";
 
 export type Sector =
@@ -40,6 +42,10 @@ export interface Investor {
   dealsLast12m: number;
   portfolio: string[];
   partners: Partner[];
+  /** The web enrichment says the firm backs any sector; the matcher gives partial sector credit. */
+  generalist?: boolean;
+  /** Source URLs for the values taken from the web enrichment (`src/data/enrichment.json`). */
+  sources?: { office?: string; stages?: string; cheque?: string };
 }
 
 export type RatingDimension = "responsiveness" | "valueAdd" | "fairTerms" | "founderFirst";
@@ -91,4 +97,6 @@ export interface Dataset {
   investors: Investor[];
   reviews: Review[];
   debriefs: Debrief[];
+  /** Min's Dealroom rows for the same investors, which the pitch matcher scores. */
+  scoring?: RaiseInvestor[];
 }

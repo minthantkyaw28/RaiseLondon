@@ -49,6 +49,7 @@ Only London. Not a fundraising CRM, not live valuations.
   passed to `buildStyle`.
 - **Palette:** cream land, sky-blue water, bright greens, yellow main roads, peach buildings.
   Investor pins are one colour per view: orange-red in Pixel and Chalk, orange in Night.
+- **Map labels, like Google Maps:** firm names are plain bold text right of the pin, the busiest 15 from zoom 11, the next 50 from 12.5, the rest from 14; neighbourhoods are small, muted italic capitals.
 - **Fonts:** Host Grotesk for the UI (clean, not widely used) and Silkscreen for pixel touches
   (wordmark, map labels). Loaded from Google Fonts in `__root.tsx`.
 - Keep it clean: no gradients, no glow, no emoji. Bright colour lives on the map; the panels stay
@@ -116,7 +117,8 @@ outside London (mostly the life-sciences add-on: Paris, Boston, Oxford…).
 | Dropped: Other (45), Media for Equity (2), Bridge (1), Debt (1)      |            |
 
 **Sectors** (matched lower-cased). Dealroom leaves sector tags empty on most of this cohort, so 207
-of 281 firms have no sector and the matcher's sector points only reach the rest.
+of 281 firms have none of our sectors. This table is for the map filters and profiles; the pitch
+matcher reads Dealroom's own tags instead (see Pitch matcher).
 
 | Dealroom                                                                                                                                                                                                                                                                    | Ours         |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
@@ -133,6 +135,35 @@ Dropped sector tags (they describe the investor, or fit no sector of ours): Tech
 Investors (29), B Corp (10), Automotive (8), Investing (5), Investing in Startups (3), Information
 Technology, Alternative Investments, Equity Research (2 each), Platform, Social Entrepreneurship,
 Crowdsourcing, Communication, Telecommunications, Capital Market, Partners (1 each).
+
+### Web enrichment (`src/data/enrichment.json`)
+
+Web research on 157 London VC firms, keyed by Dealroom uuid: office (address, postcode, lat/lng),
+sectors, stages and cheque (GBP), each with the source URL it came from, plus a confidence and
+notes. A sample was checked by hand against the firms' own sites. The file is committed unchanged
+so the provenance stays visible. `src/data/enrichment.ts` loads it and `applyEnrichment` fills our
+`Investor` in the adapter; `enrichScoringRow` does the same for Min's scoring rows. Enrichment only fills gaps or replaces clearly corrupt Dealroom values:
+
+- **Office:** when present, its pin and street address replace Dealroom's point (or the spiral).
+- **Sectors:** added to Dealroom's through the same `SECTOR_MAP` (extended with the enrichment's
+  names: insurtech → fintech, medtech → healthtech, energy → climate, defence → deep tech…;
+  edtech, proptech, logistics and the like fit none of ours and are dropped). For the scorer each
+  sector becomes one tag from `DEALROOM_TERMS` that no other sector's terms match ("artificial
+  intelligence", not "ai", which would match "retail"). "generalist" adds no sector: it flags the
+  firm, and the matcher gives it Min's partial sector credit (18 of 40, "Generalist investor.").
+- **Stages:** only when Dealroom maps to none.
+- **Cheque:** only when Dealroom's is missing or implausible. A single bound is completed as the
+  adapter does (floor = ceiling / 10, ceiling = floor x 10).
+- **Corrupt-cheque guard, with or without enrichment:** a Dealroom ticket with a ceiling over
+  £500m or under £1,000, or a floor above the ceiling, is discarded (the firm gets its type's
+  default; the scoring row gets no ticket). Earlier, a reversed floor and ceiling were swapped.
+- The profile shows a small "Source" link next to an office, cheque or stages that came from it.
+
+Counts on the 281 firms shown: 82 real office pins (the spiral drops from 161 to 144 pins), 100
+firms gained sectors (firms with none of our sectors: 207 → 135), 5 generalists, 23 cheques, 0
+stages (every firm already has Dealroom stages). 6 corrupt Dealroom cheques discarded: RTP
+Global, Blossom Capital, Simon Franks (£8.3bn ceilings), Crane Venture Partners (£4), Isomer
+Capital (£8), Hedosophia (£38); none has an enrichment cheque, so all six show the default.
 
 ### Dataset shape (`src/data/types.ts`)
 
@@ -271,7 +302,7 @@ an investor passed, and no other directory collects it. After a meeting the foun
 A per-user status for each firm: Target → Intro asked → Meeting → Passed. The prototype keeps it
 in the browser's localStorage. With accounts it moves into the database.
 
-## Pitch matcher (`src/lib/pitch-profile.ts`, `src/lib/match.ts`)
+## Pitch matcher (our reader → Min's scorer)
 
 "Match my pitch" in the header opens `PitchMatcher.tsx`:
 
@@ -280,11 +311,55 @@ in the browser's localStorage. With accounts it moves into the database.
    (`src/lib/transcribe.functions.ts`), which calls ElevenLabs Scribe (`scribe_v2`) with the
    connector's `ELEVENLABS_API_KEY`. The transcript is appended to the textarea, which is always
    editable.
-2. `extractProfile` turns the text into a profile: sectors, stage, company status, raise, solo or
-   co-founders, technical or not. If the stage isn't said, it's inferred from status and raise.
-3. `matchInvestors` scores every firm out of 100: stage 40, sector overlap 35, raise inside the
-   cheque range 20 (half within 2x), deals in the last 12 months 5. The top 8 show with reasons
-   and misses; clicking one selects it on the map.
+2. `extractProfile` (`src/lib/pitch-profile.ts`) turns the text into a profile: sectors, stage,
+   company status, raise, solo or co-founders, technical or not. If the stage isn't said, it's
+   inferred from status and raise.
+3. `pitchToStartup` (`src/lib/pitch-to-startup.ts`) turns the profile and the text into Min's
+   `StartupInput`: our stage → his stage names through his `canonicalStage` (`pre-seed` →
+   `Pre-Seed` … `growth` → `Growth`), the raise, MRR and ARR read from the text by `parseRevenue`
+   ("£20k MRR", "$1.2m ARR", "20k monthly revenue", "MRR of £40k"; dollars and euros converted
+   to pounds), and LOI and pre-order counts.
+4. `matchInvestors` (`src/lib/match.ts`) ranks with **Min's** `rankInvestors`
+   (`src/lib/raise/score.ts`) over his Dealroom rows, not our adapted ones. It only ranks firms on
+   the map (same uuid as our `Investor.id`) and returns our `Match`: his score, his reasons, and
+   the reasons that count against the fit ("No …", "outside …", "does not match …") split out as
+   misses. His "… is not scored" notes are dropped: they only mean the pitch didn't say it. The
+   top 8 show in the dialog and the sidebar; clicking one selects it on the map.
+
+**Weights are Min's:** sector 40 (18 for a partial word match), stage 30 (15 for the stage next
+to it), cheque 20 (8 when Dealroom states no ticket), London activity 10 (rounds since 2024: 6+
+→ 10, 3+ → 7, 1+ → 4), traction band 10 (his `rateStartup` band lined up with the stages they
+invest at), capped at 100.
+
+**Sectors.** His `sectorPoints` takes one sector string and matches it against Dealroom tag names
+by substring. `DEALROOM_TERMS` maps each of our 8 sectors to words that occur in the export's tags,
+for example `healthtech` → health, life sciences, medical, biotech, pharma, femtech, neurology,
+wearable. `rankPitch` runs his ranking once per term of every sector we read in the pitch and
+keeps each investor's best result, so a fintech + B2B SaaS pitch credits a firm tagged Insurance
+and one tagged SaaS alike. Terms avoid words that would trigger his partial match on unrelated
+tags ("deep tech" would partly match every "…tech" tag, so deep tech goes through hardware, space,
+semiconductor and the like). "Wellness" and "wearable" are not consumer terms: in this export they
+mostly come from health portfolios, and a dating app was matching health funds. A test checks that
+every term matches a tag in the real export.
+
+**Sector inference** (`src/lib/infer-sectors.ts`). An investor also gets the tags of the companies
+it backed (deals → companies): a tag carries over if at least 2 of its portfolio companies have it,
+or at least 25% of its portfolio does. The portfolio counts every company its deals name, including
+ones with no company profile, so one tagged company in forty doesn't label the firm. Tags under 3
+letters are skipped (Dealroom has junk tags such as "nt"). Min's data is not changed:
+`source.server.ts` builds copies.
+
+Coverage on the 281 firms on the map: 91 had any Dealroom tag, 99 do after inference. The gain is
+small because `companies` is a 100-company life-sciences pull covering 215 of 1,902 deals, so
+inference mostly adds health tags. It will widen when the export carries more companies.
+
+**How the rows reach the browser.** `source.server.ts` builds the scoring rows (Min's investors
+on the map, inferred sectors added, long text fields dropped: about 0.2 MB) and the home loader
+returns them as `Dataset.scoring`. `PitchMatcher` reads them with `useDataset()`. The full 2.4 MB
+export stays out of the home page bundle.
+
+**Known gap:** climate. Only two firms carry a climate tag (Climate Fintech, Agritech), so a climate
+pitch tops out with them and Dealroom's generalists. That is missing data, not mapping.
 
 Neither audio nor transcript is stored or logged anywhere: no database, no storage, no transcript
 in logs. Extraction is still keyword rules in the browser. The speech key lives only on the server.
@@ -308,6 +383,9 @@ Read-only markdown endpoints, rendered by `src/lib/agent-markdown.ts`, cached fo
 | `src/components/vc-map/InvestorDetail.tsx` | Firm profile, pipeline, ratings                                 |
 | `src/data/source.ts`                       | The single place the dataset is loaded (real Dealroom data)     |
 | `src/data/from-raise.ts`                   | Adapter: Min's Dealroom export → our `Dataset`                  |
+| `src/data/enrichment.ts`                   | Web enrichment: offices, sectors, stages, cheques, with sources |
+| `src/lib/pitch-to-startup.ts`              | Bridge: our pitch profile → Min's scorer, sector terms, MRR/ARR |
+| `src/lib/infer-sectors.ts`                 | Investor sectors inferred from portfolio companies              |
 | `src/lib/*.test.ts`                        | Tests for rating weights and the pitch matcher                  |
 
 ## Guidelines

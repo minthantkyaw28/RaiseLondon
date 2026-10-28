@@ -63,6 +63,9 @@ const SECTORS: Sector[] = [
 const PIPELINE_KEY = "lvm-pipeline";
 const VIEW_KEY = "lvm-map-view";
 
+// Individual angels are private people with no published office; a pin would imply where they are.
+const onMap = (v: Investor) => v.type !== "angel";
+
 function toggle<T>(list: T[], item: T): T[] {
   return list.includes(item) ? list.filter((x) => x !== item) : [...list, item];
 }
@@ -427,7 +430,9 @@ function Index() {
           </div>
           <VcMap
             view={view}
-            investors={pitchMatches ? pitchMatches.map((m) => m.investor) : filtered}
+            investors={(pitchMatches ? pitchMatches.map((m) => m.investor) : filtered).filter(
+              onMap,
+            )}
             selectedId={selectedId}
             hoveredId={hoveredId}
             ranks={ranks}

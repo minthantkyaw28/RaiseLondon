@@ -25,8 +25,9 @@ export interface MapView {
   // Fraction of device resolution to draw the base at; upscaling with hard edges gives the
   // pixel look. Relative to the device, so retina screens get finer pixels than 1x screens.
   pixelScale?: number;
-  // fill is VC funds; angel and network colour individual angels and angel networks.
-  pin: { fill: string; angel: string; network: string; cluster: string; stroke: string };
+  // The pin carries the colour; label is the firm name's text colour.
+  // network colours angel networks, so they stand apart from VC funds.
+  pin: { fill: string; network: string; label: string; stroke: string };
   look: Look;
 }
 
@@ -37,9 +38,8 @@ export const MAP_VIEWS: MapView[] = [
     pixelScale: 0.5,
     pin: {
       fill: "#ff5a36",
-      angel: "#7c3aed",
       network: "#0f766e",
-      cluster: "#3b2f4a",
+      label: "#2a2140",
       stroke: "#ffffff",
     },
     look: {
@@ -64,9 +64,8 @@ export const MAP_VIEWS: MapView[] = [
     label: "Chalk",
     pin: {
       fill: "#ff5a36",
-      angel: "#7c3aed",
       network: "#0f766e",
-      cluster: "#1f2937",
+      label: "#2a2140",
       stroke: "#ffffff",
     },
     look: {
@@ -90,10 +89,9 @@ export const MAP_VIEWS: MapView[] = [
     label: "Night",
     pin: {
       fill: "#ff8a3d",
-      angel: "#c4a1ff",
       network: "#f9e46b",
-      cluster: "#70f0d3",
-      stroke: "#07121d",
+      label: "#f2eeff",
+      stroke: "#f2eeff",
     },
     look: {
       land: "#07121d",
@@ -114,7 +112,7 @@ export const MAP_VIEWS: MapView[] = [
   },
 ];
 
-const FONT = ["Noto Sans Regular"];
+const PLACE_FONT = ["Noto Sans Italic"];
 const MAJOR: ExpressionSpecification = [
   "in",
   ["get", "class"],
@@ -252,25 +250,35 @@ function buildFullStyle(view: MapView): StyleSpecification {
           "fill-extrusion-base": ["coalesce", ["get", "render_min_height"], 0],
         },
       },
-      {
-        id: "place-labels",
-        type: "symbol",
-        source: "omt",
-        "source-layer": "place",
-        filter: ["in", ["get", "class"], ["literal", ["suburb", "neighbourhood", "quarter"]]],
-        layout: {
-          "text-field": ["upcase", ["get", "name"]],
-          "text-font": FONT,
-          "text-size": 10,
-          "text-letter-spacing": 0.22,
-        },
-        paint: {
-          "text-color": look.label,
-          "text-opacity": 0.6,
-          "text-halo-color": look.halo,
-          "text-halo-width": 1.5,
-        },
-      },
+      placeLabels("place-suburbs", ["suburb"], 11, look),
+      placeLabels("place-labels", ["neighbourhood", "quarter"], 12, look),
     ],
   };
+}
+
+// Places read as quiet backdrop: small italic capitals, muted, so bold firm pills always stand
+// out. Firm layers are added later and sit above, so they win every label collision.
+function placeLabels(id: string, classes: string[], minzoom: number, look: Look) {
+  return {
+    id,
+    type: "symbol",
+    source: "omt",
+    "source-layer": "place",
+    minzoom,
+    filter: ["in", ["get", "class"], ["literal", classes]],
+    layout: {
+      "text-field": ["upcase", ["get", "name"]],
+      "text-font": PLACE_FONT,
+      "text-size": ["interpolate", ["linear"], ["zoom"], 11, 9, 16, 11],
+      "text-letter-spacing": 0.2,
+      "text-padding": ["interpolate", ["linear"], ["zoom"], 11, 24, 15, 6],
+      "symbol-sort-key": ["coalesce", ["get", "rank"], 99],
+    },
+    paint: {
+      "text-color": look.label,
+      "text-opacity": 0.55,
+      "text-halo-color": look.halo,
+      "text-halo-width": 1.25,
+    },
+  } satisfies LayerSpecification;
 }

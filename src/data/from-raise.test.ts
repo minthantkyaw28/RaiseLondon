@@ -7,7 +7,7 @@ import type {
   Person as RaisePerson,
 } from "@/lib/raise/types";
 
-import { DEFAULT_CHEQUE_GBP, chequeGbp, fromRaise, slugify } from "./from-raise";
+import { DEFAULT_CHEQUE_GBP, fromRaise, slugify, statedChequeGbp } from "./from-raise";
 
 const raiseInvestor = (over: Partial<RaiseInvestor>): RaiseInvestor => ({
   uuid: "uuid-0000-a",
@@ -129,15 +129,6 @@ describe("fromRaise", () => {
     ]);
   });
 
-  it("never pins an individual angel at an exact point", () => {
-    const { dataset } = fromRaise(
-      raw({ investors: [raiseInvestor({ investorType: "angel", lat: 51.5246, lon: -0.0784 })] }),
-    );
-    const angel = dataset.investors[0]!;
-    expect(angel.approximateLocation).toBe(true);
-    expect([angel.lat, angel.lng]).not.toEqual([51.5246, -0.0784]);
-  });
-
   it("flags a cheque range that is the default for the investor type", () => {
     const { dataset } = fromRaise(
       raw({ investors: [raiseInvestor({ chequeMin: null, chequeMax: null })] }),
@@ -237,32 +228,35 @@ describe("fromRaise", () => {
   });
 });
 
-describe("chequeGbp", () => {
+describe("statedChequeGbp", () => {
   it("converts USD and EUR cheques at the fixed rates", () => {
     const usd = raiseInvestor({ chequeMin: 100_000, chequeMax: 1_000_000, chequeCurrency: "USD" });
     const eur = raiseInvestor({ chequeMin: 100_000, chequeMax: 1_000_000, chequeCurrency: "EUR" });
-    expect(chequeGbp(usd, "vc")).toEqual({ min: 79_000, max: 790_000 });
-    expect(chequeGbp(eur, "vc")).toEqual({ min: 85_000, max: 850_000 });
+    expect(statedChequeGbp(usd)).toEqual({ min: 79_000, max: 790_000 });
+    expect(statedChequeGbp(eur)).toEqual({ min: 85_000, max: 850_000 });
   });
 
   it("keeps GBP as is", () => {
-    expect(chequeGbp(raiseInvestor({}), "vc")).toEqual({ min: 250_000, max: 1_500_000 });
+    expect(statedChequeGbp(raiseInvestor({}))).toEqual({ min: 250_000, max: 1_500_000 });
   });
 
   it("treats a 0 or 1 floor as unknown and derives it from the ceiling", () => {
-    expect(chequeGbp(raiseInvestor({ chequeMin: 1, chequeMax: 15_151_509 }), "vc")).toEqual({
+    expect(statedChequeGbp(raiseInvestor({ chequeMin: 1, chequeMax: 15_151_509 }))).toEqual({
       min: 1_515_151,
       max: 15_151_509,
     });
-    expect(chequeGbp(raiseInvestor({ chequeMin: 0, chequeMax: 0 }), "vc")).toEqual(
-      DEFAULT_CHEQUE_GBP.vc,
-    );
+    expect(statedChequeGbp(raiseInvestor({ chequeMin: 0, chequeMax: 0 }))).toBeNull();
   });
 
-  it("falls back to the type's default range when the ticket or currency is missing", () => {
-    const none = raiseInvestor({ chequeMin: null, chequeMax: null });
-    expect(chequeGbp(none, "angel")).toEqual(DEFAULT_CHEQUE_GBP.angel);
+  it("returns null when the ticket or currency is missing", () => {
+    expect(statedChequeGbp(raiseInvestor({ chequeMin: null, chequeMax: null }))).toBeNull();
     const jpy = raiseInvestor({ chequeMin: 1e7, chequeMax: 1e8, chequeCurrency: "JPY" });
-    expect(chequeGbp(jpy, "vc")).toEqual(DEFAULT_CHEQUE_GBP.vc);
+    expect(statedChequeGbp(jpy)).toBeNull();
+  });
+
+  it("gives a firm with no stated ticket the default range for its type", () => {
+    const none = raiseInvestor({ investorType: "angel", chequeMin: null, chequeMax: null });
+    const { dataset } = fromRaise(raw({ investors: [none] }));
+    expect(dataset.investors[0]?.checkSizeGbp).toEqual(DEFAULT_CHEQUE_GBP.angel);
   });
 });
