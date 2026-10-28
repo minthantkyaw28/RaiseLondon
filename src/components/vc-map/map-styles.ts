@@ -25,7 +25,8 @@ export interface MapView {
   // Fraction of device resolution to draw the base at; upscaling with hard edges gives the
   // pixel look. Relative to the device, so retina screens get finer pixels than 1x screens.
   pixelScale?: number;
-  pin: { fill: string; cluster: string; stroke: string };
+  // fill is VC funds; angel and network colour individual angels and angel networks.
+  pin: { fill: string; angel: string; network: string; cluster: string; stroke: string };
   look: Look;
 }
 
@@ -36,6 +37,8 @@ export const MAP_VIEWS: MapView[] = [
     pixelScale: 0.5,
     pin: {
       fill: "#ff5a36",
+      angel: "#7c3aed",
+      network: "#0f766e",
       cluster: "#3b2f4a",
       stroke: "#ffffff",
     },
@@ -61,6 +64,8 @@ export const MAP_VIEWS: MapView[] = [
     label: "Chalk",
     pin: {
       fill: "#ff5a36",
+      angel: "#7c3aed",
+      network: "#0f766e",
       cluster: "#1f2937",
       stroke: "#ffffff",
     },
@@ -85,6 +90,8 @@ export const MAP_VIEWS: MapView[] = [
     label: "Night",
     pin: {
       fill: "#ff8a3d",
+      angel: "#c4a1ff",
+      network: "#f9e46b",
       cluster: "#70f0d3",
       stroke: "#07121d",
     },

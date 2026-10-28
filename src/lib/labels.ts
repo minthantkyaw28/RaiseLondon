@@ -1,4 +1,19 @@
-import type { DebriefReason, MeetingOutcome, PickyTopic, Sector, Stage } from "@/data/types";
+import type {
+  DebriefReason,
+  InvestorType,
+  MeetingOutcome,
+  PickyTopic,
+  Sector,
+  Stage,
+} from "@/data/types";
+
+export const TYPE_LABEL: Record<InvestorType, string> = {
+  vc: "VC fund",
+  cvc: "Corporate VC",
+  "angel-network": "Angel network",
+  angel: "Angel",
+  accelerator: "Accelerator",
+};
 
 export const STAGE_LABEL: Record<Stage, string> = {
   "pre-seed": "Pre-seed",

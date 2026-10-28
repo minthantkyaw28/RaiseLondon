@@ -280,6 +280,15 @@ function spreadPoint(i: number): { lat: number; lng: number } {
   };
 }
 
+function lastRoundOf(deals: RaiseDeal[]): { lastRound?: string } {
+  const dated = deals.filter((d) => d.roundYear != null);
+  if (!dated.length) return {};
+  const latest = dated.reduce((a, b) =>
+    monthIndex(b.roundYear!, b.roundMonth ?? 1) > monthIndex(a.roundYear!, a.roundMonth ?? 1) ? b : a,
+  );
+  return { lastRound: `${latest.roundYear}-${String(latest.roundMonth ?? 1).padStart(2, "0")}` };
+}
+
 function groupBy<T>(items: T[], key: (item: T) => string): Map<string, T[]> {
   const out = new Map<string, T[]>();
   for (const item of items) out.set(key(item), [...(out.get(key(item)) ?? []), item]);
@@ -304,13 +313,16 @@ export function fromRaise(raw: RaiseDataset): FromRaiseReport {
     else kept.push({ v, type, lat: v.lat, lng: v.lon });
   }
 
+  // Individual angels are always fanned out: an exact point for a person could be their home.
   const centred = kept
-    .filter((k) => cityLevel(k.lat, k.lng))
+    .filter((k) => k.type === "angel" || cityLevel(k.lat, k.lng))
     .sort((a, b) => a.v.uuid.localeCompare(b.v.uuid));
   centred.forEach((k, i) => Object.assign(k, spreadPoint(i)));
 
+  const approximate = new Set(centred.map((k) => k.v.uuid));
   const investors: Investor[] = kept.map(({ v, type, lat, lng }) => {
     const deals = dealsBy.get(v.uuid) ?? [];
+    const cheque = chequeGbp(v, type);
     return {
       id: v.uuid,
       slug: slugs.get(v.uuid) ?? v.uuid,
@@ -323,7 +335,12 @@ export function fromRaise(raw: RaiseDataset): FromRaiseReport {
       lng,
       stages: mapStages(v.stages, droppedStages),
       sectors: mapSectors(v.sectors, droppedSectors),
-      checkSizeGbp: chequeGbp(v, type),
+      checkSizeGbp: cheque,
+      chequeEstimated: cheque === DEFAULT_CHEQUE_GBP[type],
+      approximateLocation: approximate.has(v.uuid),
+      leadsRounds: deals.some((d) => d.isLead === true),
+      ...lastRoundOf(deals),
+      ...(v.dealroomUrl ? { sourceUrl: v.dealroomUrl } : {}),
       dealsLast12m: recentRoundCount(deals, raw.generatedAt),
       portfolio: portfolioFrom(deals),
       partners: (peopleBy.get(v.uuid) ?? []).map(partnerFrom),

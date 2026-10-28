@@ -43,7 +43,10 @@ function raiseFit(profile: PitchProfile, v: Investor): Part {
   const raise = profile.raiseGbp;
   if (raise === null) return { points: 0 };
   const { min, max } = v.checkSizeGbp;
-  const range = `${formatGbp(min)}–${formatGbp(max)}`;
+  // An estimated range is typical for the investor type, so never present it as theirs.
+  const range = v.chequeEstimated
+    ? `${formatGbp(min)}–${formatGbp(max)} (typical, not stated)`
+    : `${formatGbp(min)}–${formatGbp(max)}`;
   if (raise >= min && raise <= max)
     return { points: WEIGHTS.raise, reason: `${formatGbp(raise)} fits their ${range} cheque` };
   if (raise >= min / 2 && raise <= max * 2)

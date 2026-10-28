@@ -25,6 +25,26 @@ export function useAuth() {
   return { email, userId, configured: supabase != null };
 }
 
+// The database enforces admin-only edits; this only decides whether to show the edit form.
+export function useIsAdmin(userId: string | null) {
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (!supabase || !userId) {
+      setIsAdmin(false);
+      return;
+    }
+    void supabase
+      .from("raise_admins")
+      .select("user_id")
+      .eq("user_id", userId)
+      .maybeSingle()
+      .then(({ data, error }) => setIsAdmin(!error && data != null));
+  }, [userId]);
+
+  return isAdmin;
+}
+
 export function AuthPanel() {
   const { email, configured } = useAuth();
   const [address, setAddress] = useState("");

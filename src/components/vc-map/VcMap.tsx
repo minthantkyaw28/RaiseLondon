@@ -8,6 +8,12 @@ import { cn } from "@/lib/utils";
 import { buildStyle, type MapView } from "./map-styles";
 
 const LONDON: [number, number] = [-0.11, 51.515];
+// Greater London plus a margin: Raise is London only, so the map never pans off to the sea.
+const LONDON_BOUNDS: [[number, number], [number, number]] = [
+  [-0.75, 51.18],
+  [0.5, 51.8],
+];
+const MIN_ZOOM = 9.5;
 const FONT = ["Noto Sans Bold"];
 const ANTIALIAS = { antialias: true };
 
@@ -56,24 +62,55 @@ function addPillImage(
 interface Props {
   investors: Investor[];
   selectedId: string | null;
+  hoveredId?: string | null;
+  /** Match rank (1 = best) by investor id; ranked pins show their number. */
+  ranks?: Map<string, number> | undefined;
+  /** Changes whenever the visible set changes on purpose (filters, a new match), to refit. */
+  fitKey?: string;
   view: MapView;
   onSelect: (id: string) => void;
+  onHover?: (id: string | null) => void;
 }
 
-function toGeoJSON(investors: Investor[], selectedId: string | null) {
+function toGeoJSON(
+  investors: Investor[],
+  selectedId: string | null,
+  hoveredId: string | null,
+  ranks: Map<string, number> | undefined,
+) {
   return {
     type: "FeatureCollection" as const,
-    features: investors.map((v) => ({
-      type: "Feature" as const,
-      geometry: { type: "Point" as const, coordinates: [v.lng, v.lat] },
-      properties: {
-        id: v.id,
-        name: v.name,
-        selected: v.id === selectedId,
-      },
-    })),
+    features: investors.map((v) => {
+      const rank = ranks?.get(v.id);
+      return {
+        type: "Feature" as const,
+        geometry: { type: "Point" as const, coordinates: [v.lng, v.lat] },
+        properties: {
+          id: v.id,
+          name: rank ? `${rank}. ${v.name}` : v.name,
+          kind: v.type,
+          approximate: v.approximateLocation === true,
+          selected: v.id === selectedId,
+          // Selected, hovered and ranked pins always get a label, even when only near their office.
+          emphasised: v.id === selectedId || v.id === hoveredId || rank !== undefined,
+          rank: rank ?? 0,
+        },
+      };
+    }),
   };
 }
+
+// Pin colour by investor type, so a founder can tell funds from angels at a glance.
+const typeColour = (pin: MapView["pin"]) =>
+  [
+    "match",
+    ["get", "kind"],
+    "angel",
+    pin.angel,
+    "angel-network",
+    pin.network,
+    pin.fill,
+  ] as unknown as string;
 
 function addInvestorLayers(m: MapLibreMap, data: ReturnType<typeof toGeoJSON>, view: MapView) {
   const { pin } = view;
@@ -106,16 +143,17 @@ function addInvestorLayers(m: MapLibreMap, data: ReturnType<typeof toGeoJSON>, v
     layout: { "text-field": "{point_count_abbreviated}", "text-size": 12, "text-font": FONT },
     paint: { "text-color": pin.stroke },
   });
+  // Pins that are not at a known office are drawn hollow: the type colour shows as the ring.
   m.addLayer({
     id: "points",
     type: "circle",
     source: "investors",
     filter: ["!", ["has", "point_count"]],
     paint: {
-      "circle-color": pin.fill,
-      "circle-radius": ["case", ["get", "selected"], 13, 9],
-      "circle-stroke-width": ["case", ["get", "selected"], 4, 2],
-      "circle-stroke-color": pin.stroke,
+      "circle-color": ["case", ["get", "approximate"], pin.stroke, typeColour(pin)],
+      "circle-radius": ["case", ["get", "selected"], 13, ["get", "emphasised"], 11, 8],
+      "circle-stroke-width": ["case", ["get", "selected"], 4, ["get", "approximate"], 3, 2],
+      "circle-stroke-color": ["case", ["get", "approximate"], typeColour(pin), pin.stroke],
     },
   });
   m.addLayer(
@@ -123,18 +161,35 @@ function addInvestorLayers(m: MapLibreMap, data: ReturnType<typeof toGeoJSON>, v
       id: "labels",
       type: "symbol",
       source: "investors",
-      filter: ["!", ["has", "point_count"]],
-      minzoom: 13,
+      // Only pins at a known office get a name by default; the rest show it when picked.
+      filter: [
+        "all",
+        ["!", ["has", "point_count"]],
+        ["any", ["!", ["get", "approximate"]], ["get", "emphasised"]],
+      ],
+      minzoom: 12.5,
       layout: {
         "text-field": ["get", "name"],
         "text-font": FONT,
         "text-size": ["case", ["get", "selected"], 13, 12],
-        "text-offset": ["case", ["get", "selected"], ["literal", [0, 1.9]], ["literal", [0, 1.6]]],
-        "text-anchor": "top",
+        // Try below, then either side, then above, so neighbours stop covering each other.
+        "text-variable-anchor": ["top", "left", "right", "bottom"],
+        "text-radial-offset": ["case", ["get", "selected"], 1.6, 1.3],
+        "text-justify": "auto",
+        // Flat to the screen: on the tilted map, near labels would otherwise grow huge.
+        "text-pitch-alignment": "viewport",
+        "icon-pitch-alignment": "viewport",
         "icon-image": ["case", ["get", "selected"], PILL_SELECTED, PILL],
         "icon-text-fit": "both",
         "icon-text-fit-padding": [2, 7, 2, 7],
-        "symbol-sort-key": ["case", ["get", "selected"], 0, 1],
+        "symbol-sort-key": [
+          "case",
+          ["get", "selected"],
+          0,
+          ["get", "emphasised"],
+          ["+", 1, ["get", "rank"]],
+          1000,
+        ],
       },
       paint: { "text-color": pin.stroke },
     },
@@ -144,15 +199,28 @@ function addInvestorLayers(m: MapLibreMap, data: ReturnType<typeof toGeoJSON>, v
 }
 
 // maplibre touches `window` on import, so it is loaded inside the effect to keep SSR happy.
-export function VcMap({ investors, selectedId, view, onSelect }: Props) {
+export function VcMap({
+  investors,
+  selectedId,
+  hoveredId = null,
+  ranks,
+  fitKey,
+  view,
+  onSelect,
+  onHover,
+}: Props) {
   const baseContainer = useRef<HTMLDivElement>(null);
   const container = useRef<HTMLDivElement>(null);
   const baseMap = useRef<MapLibreMap | null>(null);
   const map = useRef<MapLibreMap | null>(null);
   const onSelectRef = useRef(onSelect);
   onSelectRef.current = onSelect;
-  const dataRef = useRef(toGeoJSON(investors, selectedId));
-  dataRef.current = toGeoJSON(investors, selectedId);
+  const onHoverRef = useRef(onHover);
+  onHoverRef.current = onHover;
+  const dataRef = useRef(toGeoJSON(investors, selectedId, hoveredId, ranks));
+  dataRef.current = toGeoJSON(investors, selectedId, hoveredId, ranks);
+  const investorsRef = useRef(investors);
+  investorsRef.current = investors;
   const viewRef = useRef(view);
 
   useEffect(() => {
@@ -161,7 +229,15 @@ export function VcMap({ investors, selectedId, view, onSelect }: Props) {
       if (cancelled || !container.current || !baseContainer.current) return;
       // Vite's dep pre-bundling moves maplibre away from its worker file, so point at it explicitly.
       maplibregl.setWorkerUrl(workerUrl);
-      const camera = { center: LONDON, zoom: 13.2, pitch: 55, bearing: -30, maxPitch: 60 };
+      const camera = {
+        center: LONDON,
+        zoom: 13.2,
+        pitch: 55,
+        bearing: -30,
+        maxPitch: 60,
+        minZoom: MIN_ZOOM,
+        maxBounds: LONDON_BOUNDS,
+      };
       const base = new maplibregl.Map({
         ...camera,
         container: baseContainer.current,
@@ -214,6 +290,11 @@ export function VcMap({ investors, selectedId, view, onSelect }: Props) {
           m.on("mouseenter", layer, () => (m.getCanvas().style.cursor = "pointer"));
           m.on("mouseleave", layer, () => (m.getCanvas().style.cursor = ""));
         }
+        m.on("mousemove", "points", (e: MapLayerMouseEvent) => {
+          const id = e.features?.[0]?.properties?.["id"];
+          if (typeof id === "string") onHoverRef.current?.(id);
+        });
+        m.on("mouseleave", "points", () => onHoverRef.current?.(null));
       });
     });
     return () => {
@@ -228,7 +309,31 @@ export function VcMap({ investors, selectedId, view, onSelect }: Props) {
   useEffect(() => {
     const source = map.current?.getSource("investors") as GeoJSONSource | undefined;
     source?.setData(dataRef.current);
-  }, [investors, selectedId]);
+  }, [investors, selectedId, hoveredId, ranks]);
+
+  // Zoom to fit what the founder asked for (a filter or a match), keeping the tilted camera.
+  useEffect(() => {
+    const m = map.current;
+    const shown = investorsRef.current;
+    if (!m || fitKey === undefined || shown.length === 0) return;
+    let west = Infinity;
+    let south = Infinity;
+    let east = -Infinity;
+    let north = -Infinity;
+    for (const v of shown) {
+      west = Math.min(west, v.lng);
+      east = Math.max(east, v.lng);
+      south = Math.min(south, v.lat);
+      north = Math.max(north, v.lat);
+    }
+    m.fitBounds(
+      [
+        [west, south],
+        [east, north],
+      ],
+      { padding: 60, maxZoom: 14.5, pitch: m.getPitch(), bearing: m.getBearing() },
+    );
+  }, [fitKey]);
 
   useEffect(() => {
     const v = investors.find((i) => i.id === selectedId);
@@ -254,6 +359,27 @@ export function VcMap({ investors, selectedId, view, onSelect }: Props) {
       <div className="absolute inset-0">
         <div ref={container} className="h-full w-full" />
       </div>
+      <MapKey pin={view.pin} />
+    </div>
+  );
+}
+
+function MapKey({ pin }: { pin: MapView["pin"] }) {
+  const solid = (colour: string) => ({ background: colour, borderColor: pin.stroke });
+  const rows = [
+    { label: "VC fund", style: solid(pin.fill) },
+    { label: "Angel network", style: solid(pin.network) },
+    { label: "Angel", style: solid(pin.angel) },
+    { label: "Office not known", style: { background: pin.stroke, borderColor: pin.fill } },
+  ];
+  return (
+    <div className="pointer-events-none absolute bottom-3 left-3 z-[1] space-y-1 rounded-lg border bg-background/95 px-2.5 py-2 text-[11px] shadow-sm backdrop-blur">
+      {rows.map((row) => (
+        <div key={row.label} className="flex items-center gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-full border-2" style={row.style} />
+          {row.label}
+        </div>
+      ))}
     </div>
   );
 }

@@ -1,13 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 
-import { AuthPanel, useAuth } from "@/components/raise/auth-panel";
 import { Shell } from "@/components/raise/shell";
 import { useRaiseData } from "@/components/raise/use-raise-data";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { matchIntros, parseConnectionsCsv } from "@/lib/raise/intros";
-import { supabase } from "@/lib/raise/supabase";
 import type { IntroMatch } from "@/lib/raise/types";
 
 export const Route = createFileRoute("/intros")({
@@ -16,7 +14,6 @@ export const Route = createFileRoute("/intros")({
 
 function IntrosPage() {
   const { dataset } = useRaiseData();
-  const { userId } = useAuth();
   const [matches, setMatches] = useState<IntroMatch[]>([]);
   const [message, setMessage] = useState<string | null>(null);
   const investors = new Map(dataset.investors.map((investor) => [investor.uuid, investor]));
@@ -28,7 +25,8 @@ function IntrosPage() {
           <h1 className="text-3xl font-semibold tracking-tight">Warm intros</h1>
           <p className="text-sm text-muted-foreground">
             Upload the connections CSV from LinkedIn. Raise matches profile URLs, then exact names
-            when only one person in this dataset has that name. It does not call LinkedIn.
+            when only one person in this dataset has that name. It does not call LinkedIn, and the
+            file never leaves your browser.
           </p>
         </div>
         <form
@@ -38,35 +36,14 @@ function IntrosPage() {
             const input = event.currentTarget.elements.namedItem("connections");
             const file = input instanceof HTMLInputElement ? input.files?.[0] : undefined;
             if (!file) return;
-            void file.text().then(async (text) => {
+            // Matching runs in the browser only. The file lists other people's contacts, so
+            // nothing from it is uploaded or stored.
+            void file.text().then((text) => {
               const connections = parseConnectionsCsv(text);
               const found = matchIntros(connections, dataset.people);
               setMatches(found);
-              if (!supabase || !userId) {
-                setMessage(
-                  `${found.length} matches from ${connections.length} connections. Sign in to store the import.`,
-                );
-                return;
-              }
-              const rows = connections.slice(0, 5000).map((connection) => ({
-                user_id: userId,
-                name: connection.name,
-                company: connection.company,
-                linkedin: connection.linkedin,
-              }));
-              const removed = await supabase
-                .from("connection_imports")
-                .delete()
-                .eq("user_id", userId);
-              if (removed.error) {
-                setMessage(removed.error.message);
-                return;
-              }
-              const inserted = await supabase.from("connection_imports").insert(rows);
               setMessage(
-                inserted.error
-                  ? inserted.error.message
-                  : `${found.length} matches. Stored ${rows.length} connections on your account.`,
+                `${found.length} matches from ${connections.length} connections. Matched on this device; nothing was uploaded.`,
               );
             });
           }}
@@ -83,7 +60,6 @@ function IntrosPage() {
           </div>
           <Button type="submit">Find overlaps</Button>
         </form>
-        <AuthPanel />
         {message ? <p className="text-sm text-muted-foreground">{message}</p> : null}
         <ul className="space-y-3">
           {matches.map((match) => {

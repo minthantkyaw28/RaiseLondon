@@ -26,6 +26,16 @@ export interface Investor {
   stages: Stage[];
   sectors: Sector[];
   checkSizeGbp: { min: number; max: number };
+  /** True when the cheque range is a typical range for the investor type, not the firm's own. */
+  chequeEstimated?: boolean;
+  /** True when the pin is not the real office: placed near central London so it can be clicked. */
+  approximateLocation?: boolean;
+  /** Led at least one round in the Dealroom export (not just followed). */
+  leadsRounds?: boolean;
+  /** Most recent round in the export, "YYYY-MM". */
+  lastRound?: string;
+  /** Where the record came from, so founders can check it themselves. */
+  sourceUrl?: string;
   fundSizeGbpM?: number;
   dealsLast12m: number;
   portfolio: string[];
