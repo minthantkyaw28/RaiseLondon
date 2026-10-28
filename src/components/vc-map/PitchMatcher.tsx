@@ -27,6 +27,7 @@ import {
   micErrorMessage,
   pickMimeType,
 } from "@/lib/recording";
+import { SECTOR_LABEL, STAGE_LABEL } from "@/lib/labels";
 import { transcribePitch } from "@/lib/transcribe.functions";
 
 import { ScoreBadge } from "./ScoreBadge";
@@ -272,14 +273,15 @@ export function PitchMatcher({ investors, onSelect, onResults }: Props) {
 const STATUS_LABEL: Record<NonNullable<PitchProfile["companyStatus"]>, string> = {
   idea: "Idea stage",
   building: "Building",
+  waitlist: "Waitlist",
   "has-users": "Has users",
   revenue: "Revenue",
 };
 
 function ProfileChips({ profile }: { profile: PitchProfile }) {
   const chips = [
-    profile.stage,
-    ...profile.sectors,
+    profile.stage ? STAGE_LABEL[profile.stage] : null,
+    ...profile.sectors.map((sector) => SECTOR_LABEL[sector]),
     profile.raiseGbp !== null ? `Raising ${formatGbp(profile.raiseGbp)}` : null,
     profile.companyStatus ? STATUS_LABEL[profile.companyStatus] : null,
     profile.founders === "solo" ? "Solo founder" : null,
